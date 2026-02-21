@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bakhtiersizhaev.github.io/openevidence-mcp/sitemap.xml
+

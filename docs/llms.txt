@@ -1,0 +1,33 @@
+# OpenEvidence MCP
+
+> Unofficial open-source MCP server for OpenEvidence.
+
+## Canonical
+- Site: https://bakhtiersizhaev.github.io/openevidence-mcp/
+- Repo: https://github.com/bakhtiersizhaev/openevidence-mcp
+- Human setup: https://github.com/bakhtiersizhaev/openevidence-mcp/blob/main/README.md
+- AI setup: https://github.com/bakhtiersizhaev/openevidence-mcp/blob/main/README.AI.md
+
+## Core Capabilities
+- Validate OpenEvidence auth (`oe_auth_status`)
+- List OpenEvidence history (`oe_history_list`)
+- Get full article payload (`oe_article_get`)
+- Ask and optionally wait (`oe_ask`)
+
+## Platforms
+- macOS
+- Windows
+- Ubuntu/Linux
+
+## Config Templates
+- Codex: `examples/codex-config.toml`
+- Codex full: `examples/codex-config-full.toml`
+- Claude: `examples/claude-desktop-config.json`
+- Claude full: `examples/claude-desktop-config-full.json`
+
+## Semantic Map
+- `docs/SEMANTIC_CORE.md`
+
+## Expanded Machine Context
+- `llms-full.txt`
+

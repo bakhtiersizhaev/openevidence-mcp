@@ -6,6 +6,9 @@ This guide is for AI agents (Codex, Claude Code, and similar) that set up OpenEv
 
 Install and validate OpenEvidence MCP end-to-end on macOS, Windows, or Ubuntu, with clear handoff steps for human login.
 
+Public docs entrypoint:
+- https://bakhtiersizhaev.github.io/openevidence-mcp/
+
 ## Scope
 
 - Agent checks runtime and MCP availability
@@ -165,3 +168,4 @@ Then MCP-side checks:
 - Do not commit `.env` with secrets
 - Keep `.gitignore` intact
 - Keep examples in `examples/` for reusable config snippets
+- Preserve parser files in `docs/` (`llms.txt`, `llms-full.txt`, `robots.txt`, `sitemap.xml`)

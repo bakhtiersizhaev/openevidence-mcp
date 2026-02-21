@@ -3,6 +3,9 @@
 OpenEvidence MCP server based on your own browser session.  
 No official OpenEvidence API token is required.
 
+Live docs page (retro dark scientific theme):  
+`https://bakhtiersizhaev.github.io/openevidence-mcp/`
+
 ## Features
 
 - `oe_auth_status` - checks auth via `/api/auth/me`
@@ -126,6 +129,14 @@ Use `README.AI.md` when setup is performed by Codex, Claude Code, or another AI 
 ## Semantic Core
 
 Semantic core and intent map: `docs/SEMANTIC_CORE.md`.
+
+## SEO / GEO / AI Parser Files
+
+- `docs/index.html` (semantic landing page)
+- `docs/robots.txt`
+- `docs/sitemap.xml`
+- `docs/llms.txt`
+- `docs/llms-full.txt`
 
 ## Environment Variables
 

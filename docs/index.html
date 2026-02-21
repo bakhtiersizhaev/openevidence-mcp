@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OpenEvidence MCP | Retro Scientific MCP Server</title>
+    <meta
+      name="description"
+      content="OpenEvidence MCP: open-source MCP server for OpenEvidence with browser-session auth, Codex/Claude setup, and AI-agent automation guides."
+    />
+    <meta
+      name="keywords"
+      content="OpenEvidence MCP, MCP server, Codex MCP, Claude MCP, medical AI workflow, evidence-based answers, AI agent setup, llms.txt"
+    />
+    <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+    <link rel="canonical" href="https://bakhtiersizhaev.github.io/openevidence-mcp/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="OpenEvidence MCP | Retro Scientific MCP Server" />
+    <meta
+      property="og:description"
+      content="Open-source OpenEvidence MCP server with human setup and AI-agent setup guides for macOS, Windows, and Ubuntu."
+    />
+    <meta property="og:url" content="https://bakhtiersizhaev.github.io/openevidence-mcp/" />
+    <meta property="og:site_name" content="OpenEvidence MCP" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="OpenEvidence MCP | Retro Scientific MCP Server" />
+    <meta
+      name="twitter:description"
+      content="Open-source OpenEvidence MCP server for Codex, Claude, and AI agents."
+    />
+    <meta name="theme-color" content="#0a0d14" />
+    <meta name="generator" content="hand-authored semantic HTML" />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareSourceCode",
+        "name": "OpenEvidence MCP",
+        "codeRepository": "https://github.com/bakhtiersizhaev/openevidence-mcp",
+        "license": "https://opensource.org/licenses/MIT",
+        "programmingLanguage": ["TypeScript", "JavaScript"],
+        "description": "Open-source MCP server for OpenEvidence with browser-session authentication and setup guides for humans and AI agents.",
+        "keywords": ["MCP", "OpenEvidence", "Codex", "Claude", "AI agent", "medical AI", "evidence-based medicine"],
+        "operatingSystem": ["macOS", "Windows", "Linux"],
+        "applicationCategory": "DeveloperApplication"
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="shell">
+      <p class="badge">OPEN SOURCE • MIT • MCP</p>
+      <h1>OpenEvidence MCP</h1>
+      <p class="subtitle">
+        Dark retro-scientific MCP server for evidence-backed medical workflows.<br />
+        Built for humans and autonomous AI agents.
+      </p>
+      <nav aria-label="Primary">
+        <ul class="nav">
+          <li><a href="https://github.com/bakhtiersizhaev/openevidence-mcp">Repository</a></li>
+          <li><a href="https://github.com/bakhtiersizhaev/openevidence-mcp/blob/main/README.md">Human Guide</a></li>
+          <li><a href="https://github.com/bakhtiersizhaev/openevidence-mcp/blob/main/README.AI.md">AI Guide</a></li>
+          <li><a href="./llms.txt">llms.txt</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="content" class="grid">
+      <section class="panel" aria-labelledby="overview-title">
+        <h2 id="overview-title">Overview</h2>
+        <p>
+          OpenEvidence MCP is an unofficial Model Context Protocol server that connects OpenEvidence via your own browser session.
+          It supports local auth status checks, history retrieval, article fetch by ID, and question execution with completion polling.
+        </p>
+      </section>
+
+      <section class="panel" aria-labelledby="tools-title">
+        <h2 id="tools-title">Tool Surface</h2>
+        <dl>
+          <dt><code>oe_auth_status</code></dt>
+          <dd>Validate account session through <code>/api/auth/me</code>.</dd>
+          <dt><code>oe_history_list</code></dt>
+          <dd>Read previous conversations through <code>/api/article/list</code>.</dd>
+          <dt><code>oe_article_get</code></dt>
+          <dd>Fetch full article payload by article ID.</dd>
+          <dt><code>oe_ask</code></dt>
+          <dd>Create a new question and optionally wait for completion.</dd>
+        </dl>
+      </section>
+
+      <section class="panel" aria-labelledby="install-title">
+        <h2 id="install-title">Install Targets</h2>
+        <ul>
+          <li>macOS</li>
+          <li>Windows</li>
+          <li>Ubuntu / Linux</li>
+          <li>Codex CLI / Claude Desktop / Claude Code</li>
+        </ul>
+      </section>
+
+      <section class="panel" aria-labelledby="semantics-title">
+        <h2 id="semantics-title">SEO / GEO / Parser Readiness</h2>
+        <ul>
+          <li>Static semantic HTML, no JS framework dependency</li>
+          <li>Canonical URL + OpenGraph + JSON-LD metadata</li>
+          <li><code>robots.txt</code> and <code>sitemap.xml</code> included</li>
+          <li><code>llms.txt</code> and <code>llms-full.txt</code> for AI parsers</li>
+          <li>Dedicated semantic map: <code>docs/SEMANTIC_CORE.md</code></li>
+        </ul>
+      </section>
+
+      <section class="panel" aria-labelledby="quick-links-title">
+        <h2 id="quick-links-title">Quick Links</h2>
+        <ul>
+          <li><a href="https://github.com/bakhtiersizhaev/openevidence-mcp/blob/main/README.md">README.md (Human setup)</a></li>
+          <li><a href="https://github.com/bakhtiersizhaev/openevidence-mcp/blob/main/README.AI.md">README.AI.md (Agent setup)</a></li>
+          <li><a href="https://github.com/bakhtiersizhaev/openevidence-mcp/tree/main/examples">examples/ config templates</a></li>
+          <li><a href="https://github.com/bakhtiersizhaev/openevidence-mcp/tree/main/docs">docs/ semantic and parser files</a></li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="shell footer">
+      <p>OpenEvidence MCP • MIT License • Public repository for humans and AI agents.</p>
+    </footer>
+  </body>
+</html>
+
