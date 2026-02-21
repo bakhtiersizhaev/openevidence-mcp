@@ -1,11 +1,10 @@
 {
   "name": "openevidence-mcp",
-  "version": "1.0.0",
-  "description": "MCP server for OpenEvidence (unofficial, browser-session based)",
+  "version": "0.1.0",
+  "description": "Open-source MCP server for OpenEvidence clinical platform. Browser-session auth, no API key required.",
   "main": "dist/server.js",
   "bin": {
-    "openevidence-mcp": "dist/server.js",
-    "openevidence-mcp-login": "dist/login.js"
+    "openevidence-mcp": "./dist/server.js"
   },
   "directories": {
     "example": "examples"
@@ -19,25 +18,39 @@
     "smoke": "tsx src/smoke.ts"
   },
   "files": [
-    "dist",
-    "README.md",
-    "README.AI.md",
+    "dist/",
+    "scripts/",
+    "examples/",
+    ".env.example",
     "LICENSE",
     "NOTICE",
-    "examples",
-    "docs"
+    "README.md",
+    "README.AI.md"
   ],
   "engines": {
     "node": ">=20"
   },
   "keywords": [
     "mcp",
+    "mcp-server",
     "openevidence",
+    "medical-ai",
+    "clinical-decision-support",
+    "evidence-based-medicine",
+    "healthcare",
     "playwright",
     "codex",
     "claude"
   ],
-  "author": "openevidence-mcp contributors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bakhtiersizhaev/openevidence-mcp.git"
+  },
+  "homepage": "https://bakhtiersizhaev.github.io/openevidence-mcp/",
+  "bugs": {
+    "url": "https://github.com/bakhtiersizhaev/openevidence-mcp/issues"
+  },
+  "author": "Bakhtier Sizhaev",
   "license": "Apache-2.0",
   "type": "module",
   "dependencies": {
