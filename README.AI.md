@@ -59,7 +59,7 @@ Clone repo and run platform setup.
 
 ```bash
 cd /path/where/repo/should/live
-git clone <REPO_URL> openevidence-mcp
+git clone https://github.com/bakhtiersizhaev/openevidence-mcp.git openevidence-mcp
 cd openevidence-mcp
 ./scripts/setup-macos.sh
 ```
@@ -68,7 +68,7 @@ cd openevidence-mcp
 
 ```bash
 cd /path/where/repo/should/live
-git clone <REPO_URL> openevidence-mcp
+git clone https://github.com/bakhtiersizhaev/openevidence-mcp.git openevidence-mcp
 cd openevidence-mcp
 ./scripts/setup-ubuntu.sh
 ```
@@ -77,7 +77,7 @@ cd openevidence-mcp
 
 ```powershell
 cd C:\path\where\repo\should\live
-git clone <REPO_URL> openevidence-mcp
+git clone https://github.com/bakhtiersizhaev/openevidence-mcp.git openevidence-mcp
 cd openevidence-mcp
 .\scripts\setup-windows.ps1
 ```
@@ -165,4 +165,3 @@ Then MCP-side checks:
 - Do not commit `.env` with secrets
 - Keep `.gitignore` intact
 - Keep examples in `examples/` for reusable config snippets
-
