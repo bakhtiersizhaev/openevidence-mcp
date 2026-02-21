@@ -1,0 +1,10 @@
+[mcp_servers.playwright]
+command = "npx"
+args = ["-y", "@playwright/mcp"]
+startup_timeout_sec = 60
+
+[mcp_servers.openevidence]
+command = "node"
+args = ["/ABSOLUTE/PATH/openevidence-mcp/dist/server.js"]
+startup_timeout_sec = 60
+

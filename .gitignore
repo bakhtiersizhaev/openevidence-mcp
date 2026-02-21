@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.env
+.env.local
+
+# local auth/session artifacts
+.openevidence-mcp/
+auth/
+browser-profile/
+storage-state.json
+
+# OS/editor
+.DS_Store
+Thumbs.db
+*.log
+
