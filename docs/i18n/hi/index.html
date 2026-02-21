@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>OpenEvidence MCP | मेडिकल वर्कफ़्लो MCP सर्वर</title>
+    <title>OpenEvidence MCP | डॉक्टरों के लिए मेडिकल MCP सर्वर</title>
     <meta
       name="description"
-      content="OpenEvidence MCP: OpenEvidence, Codex और Claude के लिए open-source MCP सर्वर, human और AI-agent setup guides के साथ।"
+      content="OpenEvidence MCP: open-source MCP सर्वर जो OpenEvidence को Codex CLI, Claude Code, OpenClaw, Cursor और अन्य MCP clients से जोड़ता है, ताकि डॉक्टर और clinical teams evidence-based workflows चला सकें।"
     />
     <meta
       name="keywords"
-      content="OpenEvidence MCP, MCP server, medical AI, Codex MCP, Claude MCP, OpenEvidence automation, llms.txt"
+      content="OpenEvidence MCP, doctors ke liye MCP, medical MCP server, OpenEvidence clinical integration, Codex CLI MCP, Claude Code MCP, OpenClaw MCP, Cursor MCP, cardiology MCP, endocrinology MCP, oncology MCP, emergency medicine MCP, clinical AI, evidence based medicine AI, OpenEvidence automation"
     />
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
     <link rel="canonical" href="https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/hi/" />
@@ -20,21 +20,35 @@
     <link rel="alternate" hreflang="zh-Hans" href="https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/zh/" />
     <link rel="alternate" hreflang="hi" href="https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/hi/" />
     <link rel="alternate" hreflang="x-default" href="https://bakhtiersizhaev.github.io/openevidence-mcp/" />
-    <meta name="theme-color" content="#0a0d14" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="OpenEvidence MCP | डॉक्टरों के लिए मेडिकल MCP सर्वर" />
+    <meta
+      property="og:description"
+      content="OpenEvidence के लिए open-source MCP server: browser auth, history, article-by-id और medical Q&A workflows."
+    />
+    <meta property="og:url" content="https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/hi/" />
+    <meta property="og:site_name" content="OpenEvidence MCP" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="OpenEvidence MCP | डॉक्टरों के लिए मेडिकल MCP सर्वर" />
+    <meta
+      name="twitter:description"
+      content="OpenEvidence ko Codex CLI, Claude Code, OpenClaw aur MCP clients ke saath connect karke clinical workflow banaiye."
+    />
+    <meta name="theme-color" content="#2d72d9" />
     <link rel="stylesheet" href="../../style.css" />
   </head>
   <body>
     <a class="skip-link" href="#content">सामग्री पर जाएँ</a>
     <ul class="desktop-icons" aria-label="Desktop icons">
-      <li><span class="icon"></span>Repository</li>
-      <li><span class="icon"></span>Guide</li>
-      <li><span class="icon"></span>AI Guide</li>
-      <li><span class="icon"></span>Semantic Core</li>
+      <li><span class="icon"></span>My Computer</li>
+      <li><span class="icon"></span>My Documents</li>
+      <li><span class="icon"></span>Network Places</li>
+      <li><span class="icon"></span>Recycle Bin</li>
     </ul>
-    <header class="shell">
+    <header class="shell" data-window="OpenEvidence MCP - Desktop Portal">
       <p class="badge">OPEN SOURCE • APACHE-2.0 • MCP</p>
       <h1>OpenEvidence MCP</h1>
-      <p class="subtitle">डार्क रेट्रो-साइंटिफिक थीम वाला MCP सर्वर, users और AI agents दोनों के लिए।</p>
+      <p class="subtitle">Windows XP/98 desktop शैली वाला MCP सर्वर, subtle scientific wallpaper layer के साथ।</p>
       <nav aria-label="Primary">
         <ul class="nav">
           <li><a href="https://github.com/bakhtiersizhaev/openevidence-mcp">Repository</a></li>
@@ -61,6 +75,13 @@
         </p>
       </section>
       <section class="panel">
+        <h2>OpenEvidence क्या है</h2>
+        <p>
+          OpenEvidence को doctors literature-backed clinical answers जल्दी देखने के लिए इस्तेमाल करते हैं।
+          यह repository MCP bridge देती है ताकि आपकी AI tools उसी workflow में OpenEvidence को query कर सकें।
+        </p>
+      </section>
+      <section class="panel">
         <h2>Tools</h2>
         <ul>
           <li><code>oe_auth_status</code></li>
@@ -70,12 +91,21 @@
         </ul>
       </section>
       <section class="panel">
-        <h2>Platforms</h2>
+        <h2>Doctors इसे कब use करते हैं</h2>
+        <ul>
+          <li>Treatment options compare करने और evidence verify करने के लिए</li>
+          <li>Differential diagnosis follow-up questions के लिए</li>
+          <li>Codex/Claude में long case context maintain करने के लिए</li>
+          <li>Team-wide clinical AI workflow standardize करने के लिए</li>
+        </ul>
+      </section>
+      <section class="panel">
+        <h2>Platforms और MCP Clients</h2>
         <ul>
           <li>macOS</li>
           <li>Windows</li>
           <li>Ubuntu / Linux</li>
-          <li>Codex / Claude / अन्य MCP clients</li>
+          <li>Codex CLI / Claude Code / OpenClaw / Cursor / Cline / Continue / अन्य MCP clients</li>
         </ul>
       </section>
       <section class="panel">
@@ -84,19 +114,57 @@
           <li>Semantic HTML + JSON-LD</li>
           <li><code>robots.txt</code> + <code>sitemap.xml</code></li>
           <li><code>llms.txt</code> + <code>llms-full.txt</code></li>
+          <li>Semantic core: <code>docs/SEMANTIC_CORE.md</code></li>
+        </ul>
+      </section>
+      <section class="panel">
+        <h2>People इसे कैसे search करते हैं</h2>
+        <ul>
+          <li>openevidence mcp</li>
+          <li>medical mcp server for doctors</li>
+          <li>open evidence codex cli claude code openclaw integration</li>
+          <li>openevidence mcp setup</li>
+          <li>evidence based medicine ai workflow mcp</li>
+        </ul>
+      </section>
+      <section class="panel">
+        <h2>Specialty search clusters</h2>
+        <ul>
+          <li>cardiology evidence based medicine mcp</li>
+          <li>endocrinology clinical workflow mcp</li>
+          <li>oncology literature review mcp server</li>
+          <li>emergency medicine quick evidence mcp</li>
+          <li>differential diagnosis support mcp doctors</li>
+        </ul>
+      </section>
+      <section class="panel">
+        <h2>AI agent & system terms</h2>
+        <ul>
+          <li>openevidence mcp codex cli</li>
+          <li>openevidence mcp claude code</li>
+          <li>openevidence mcp openclaw</li>
+          <li>medical mcp cursor cline continue</li>
+          <li>doctor ai agent mcp workflow</li>
         </ul>
       </section>
     </main>
-    <footer class="shell footer">
+    <footer class="shell footer" data-window="System Message">
       <p>OpenEvidence MCP • Apache-2.0 • Public repository</p>
     </footer>
     <div class="taskbar" role="contentinfo" aria-label="Desktop taskbar">
       <button class="start-button" type="button">Start</button>
+      <div class="quick-launch" aria-hidden="true"><span></span><span></span><span></span></div>
       <div class="task-items">
         <span class="task-item active">OpenEvidence MCP</span>
         <span class="task-item">README.md</span>
       </div>
-      <div class="clock">12:34</div>
+      <div class="task-tray">
+        <span class="tray-icon network" aria-hidden="true"></span>
+        <span class="tray-icon volume" aria-hidden="true"></span>
+        <span class="tray-icon sync" aria-hidden="true"></span>
+        <span class="tray-lang">EN</span>
+        <div class="clock">12:34</div>
+      </div>
     </div>
   </body>
 </html>

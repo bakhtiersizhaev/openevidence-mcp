@@ -2,6 +2,22 @@
 
 > Unofficial open-source MCP server for OpenEvidence.
 
+## What It Is
+- OpenEvidence is used by doctors and clinical teams for evidence-backed medical Q&A.
+- OpenEvidence MCP connects that workflow to MCP-compatible clients.
+
+## Who It Helps
+- Physicians
+- Clinical researchers
+- Medical AI operators
+- Teams using Codex CLI/Claude Code/OpenClaw/Cursor/Cline/Continue with MCP
+
+## Core Capabilities
+- Validate OpenEvidence auth (`oe_auth_status`)
+- List OpenEvidence history (`oe_history_list`)
+- Get full article payload (`oe_article_get`)
+- Ask and optionally wait (`oe_ask`)
+
 ## Canonical
 - Site: https://bakhtiersizhaev.github.io/openevidence-mcp/
 - Repo: https://github.com/bakhtiersizhaev/openevidence-mcp
@@ -12,32 +28,36 @@
 - ZH page: https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/zh/
 - HI page: https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/hi/
 
-## Core Capabilities
-- Validate OpenEvidence auth (`oe_auth_status`)
-- List OpenEvidence history (`oe_history_list`)
-- Get full article payload (`oe_article_get`)
-- Ask and optionally wait (`oe_ask`)
-
 ## Platforms
 - macOS
 - Windows
 - Ubuntu/Linux
 
-## Config Templates
-- Codex: `examples/codex-config.toml`
-- Codex full: `examples/codex-config-full.toml`
-- Claude: `examples/claude-desktop-config.json`
-- Claude full: `examples/claude-desktop-config-full.json`
+## MCP Client Keywords
+- Codex CLI
+- Claude Desktop
+- Claude Code
+- OpenClaw
+- Cursor
+- Cline
+- Continue
+
+## Multilingual Search Terms
+- EN: openevidence mcp, openevidence for doctors, medical mcp server, codex cli claude code openclaw, evidence based medicine ai workflow
+- RU: openevidence mcp, mcp сервер для врачей, медицинский mcp сервер, codex cli claude code openclaw, интеграция openevidence mcp
+- ES: openevidence mcp, servidor mcp para médicos, mcp médico open source, codex cli claude code openclaw, integración openevidence
+- ZH: openevidence mcp, 医疗 mcp 服务器, codex cli claude code openclaw, openevidence 集成, 循证医学 ai workflow mcp
+- HI: openevidence mcp, medical mcp server for doctors, codex cli claude code openclaw, evidence based medicine ai workflow
+
+## Specialty Search Terms
+- cardiology evidence assistant mcp
+- endocrinology clinical workflow mcp
+- oncology literature review mcp server
+- emergency medicine quick evidence mcp
+- differential diagnosis support mcp doctors
 
 ## Semantic Map
 - `docs/SEMANTIC_CORE.md`
 
 ## Expanded Machine Context
 - `llms-full.txt`
-
-## Multilingual Search Terms
-- EN: OpenEvidence MCP, medical MCP server, Codex Claude MCP
-- RU: OpenEvidence MCP, медицинский MCP сервер, AI агент медицина
-- ES: servidor MCP médico, OpenEvidence automatización, MCP para Claude
-- ZH: 医疗 MCP 服务器, OpenEvidence 自动化, Codex Claude 集成
-- HI: मेडिकल MCP सर्वर, OpenEvidence ऑटोमेशन, Codex Claude इंटीग्रेशन

@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>OpenEvidence MCP | 医疗工作流 MCP 服务器</title>
+    <title>OpenEvidence MCP | 面向医生的医疗 MCP 服务器</title>
     <meta
       name="description"
-      content="OpenEvidence MCP：面向 OpenEvidence、Codex、Claude 的开源 MCP 服务器，支持人工与 AI 代理安装流程。"
+      content="OpenEvidence MCP：开源 MCP 服务器，可将 OpenEvidence 接入 Codex CLI、Claude Code、OpenClaw、Cursor 等 MCP 客户端，服务于医生与临床团队的循证工作流。"
     />
     <meta
       name="keywords"
-      content="OpenEvidence MCP, MCP 服务器, 医疗 AI, Codex MCP, Claude MCP, OpenEvidence 自动化, llms.txt"
+      content="OpenEvidence MCP, 医生用 MCP, 医疗 MCP 服务器, OpenEvidence 临床集成, Codex CLI MCP, Claude Code MCP, OpenClaw MCP, Cursor MCP, 心内科 MCP, 内分泌 MCP, 肿瘤学 MCP, 急诊医学 MCP, 临床 AI, 循证医学 AI, OpenEvidence 自动化"
     />
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
     <link rel="canonical" href="https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/zh/" />
@@ -20,21 +20,35 @@
     <link rel="alternate" hreflang="zh-Hans" href="https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/zh/" />
     <link rel="alternate" hreflang="hi" href="https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/hi/" />
     <link rel="alternate" hreflang="x-default" href="https://bakhtiersizhaev.github.io/openevidence-mcp/" />
-    <meta name="theme-color" content="#0a0d14" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="OpenEvidence MCP | 面向医生的医疗 MCP 服务器" />
+    <meta
+      property="og:description"
+      content="OpenEvidence 开源 MCP 服务器：浏览器会话鉴权、历史检索、按 ID 取文、医疗问题提问，适配主流 MCP 客户端。"
+    />
+    <meta property="og:url" content="https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/zh/" />
+    <meta property="og:site_name" content="OpenEvidence MCP" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="OpenEvidence MCP | 面向医生的医疗 MCP 服务器" />
+    <meta
+      name="twitter:description"
+      content="把 OpenEvidence 连接到 Codex CLI、Claude Code、OpenClaw 等 MCP 客户端，构建循证临床问答流程。"
+    />
+    <meta name="theme-color" content="#2d72d9" />
     <link rel="stylesheet" href="../../style.css" />
   </head>
   <body>
     <a class="skip-link" href="#content">跳到内容</a>
     <ul class="desktop-icons" aria-label="Desktop icons">
-      <li><span class="icon"></span>仓库</li>
-      <li><span class="icon"></span>指南</li>
-      <li><span class="icon"></span>AI Guide</li>
-      <li><span class="icon"></span>Semantic Core</li>
+      <li><span class="icon"></span>My Computer</li>
+      <li><span class="icon"></span>My Documents</li>
+      <li><span class="icon"></span>Network Places</li>
+      <li><span class="icon"></span>Recycle Bin</li>
     </ul>
-    <header class="shell">
+    <header class="shell" data-window="OpenEvidence MCP - Desktop Portal">
       <p class="badge">OPEN SOURCE • APACHE-2.0 • MCP</p>
       <h1>OpenEvidence MCP</h1>
-      <p class="subtitle">深色复古科学风 MCP 服务器，面向开发者与 AI 代理。</p>
+      <p class="subtitle">Windows XP/98 桌面风格 MCP 服务器，叠加了克制的科学感背景层。</p>
       <nav aria-label="Primary">
         <ul class="nav">
           <li><a href="https://github.com/bakhtiersizhaev/openevidence-mcp">仓库</a></li>
@@ -61,6 +75,13 @@
         </p>
       </section>
       <section class="panel">
+        <h2>什么是 OpenEvidence</h2>
+        <p>
+          OpenEvidence 常被医生用于快速查看有文献依据的临床答案。
+          这个仓库提供 MCP 桥接层，让你的 AI 工具能够统一调用 OpenEvidence。
+        </p>
+      </section>
+      <section class="panel">
         <h2>工具</h2>
         <ul>
           <li><code>oe_auth_status</code></li>
@@ -70,12 +91,21 @@
         </ul>
       </section>
       <section class="panel">
-        <h2>平台</h2>
+        <h2>医生何时会用到</h2>
+        <ul>
+          <li>治疗方案比较与证据快速核对</li>
+          <li>鉴别诊断问题的连续追问</li>
+          <li>在 Codex/Claude 中做病例复盘并保留上下文</li>
+          <li>团队统一临床 AI 工作流</li>
+        </ul>
+      </section>
+      <section class="panel">
+        <h2>平台与 MCP 客户端</h2>
         <ul>
           <li>macOS</li>
           <li>Windows</li>
           <li>Ubuntu / Linux</li>
-          <li>Codex / Claude / 其他 MCP 客户端</li>
+          <li>Codex CLI / Claude Code / OpenClaw / Cursor / Cline / Continue / 其他 MCP 客户端</li>
         </ul>
       </section>
       <section class="panel">
@@ -84,19 +114,57 @@
           <li>语义 HTML + JSON-LD</li>
           <li><code>robots.txt</code> + <code>sitemap.xml</code></li>
           <li><code>llms.txt</code> + <code>llms-full.txt</code></li>
+          <li>语义核心：<code>docs/SEMANTIC_CORE.md</code></li>
+        </ul>
+      </section>
+      <section class="panel">
+        <h2>用户常见搜索词</h2>
+        <ul>
+          <li>openevidence mcp</li>
+          <li>医生 医疗 mcp 服务器</li>
+          <li>openevidence codex cli claude code openclaw 集成</li>
+          <li>open evidence mcp 接入</li>
+          <li>循证医学 ai workflow mcp</li>
+        </ul>
+      </section>
+      <section class="panel">
+        <h2>专科搜索词簇</h2>
+        <ul>
+          <li>心内科 循证医学 mcp</li>
+          <li>内分泌 临床 workflow mcp</li>
+          <li>肿瘤学 文献检索 mcp server</li>
+          <li>急诊医学 快速证据 mcp</li>
+          <li>鉴别诊断 支持 mcp 医生</li>
+        </ul>
+      </section>
+      <section class="panel">
+        <h2>AI 代理与系统关键词</h2>
+        <ul>
+          <li>openevidence mcp codex cli</li>
+          <li>openevidence mcp claude code</li>
+          <li>openevidence mcp openclaw</li>
+          <li>medical mcp cursor cline continue</li>
+          <li>医生 ai agent mcp workflow</li>
         </ul>
       </section>
     </main>
-    <footer class="shell footer">
+    <footer class="shell footer" data-window="System Message">
       <p>OpenEvidence MCP • Apache-2.0 • 公开仓库</p>
     </footer>
     <div class="taskbar" role="contentinfo" aria-label="Desktop taskbar">
       <button class="start-button" type="button">开始</button>
+      <div class="quick-launch" aria-hidden="true"><span></span><span></span><span></span></div>
       <div class="task-items">
         <span class="task-item active">OpenEvidence MCP</span>
         <span class="task-item">README.md</span>
       </div>
-      <div class="clock">12:34</div>
+      <div class="task-tray">
+        <span class="tray-icon network" aria-hidden="true"></span>
+        <span class="tray-icon volume" aria-hidden="true"></span>
+        <span class="tray-icon sync" aria-hidden="true"></span>
+        <span class="tray-lang">EN</span>
+        <div class="clock">12:34</div>
+      </div>
     </div>
   </body>
 </html>

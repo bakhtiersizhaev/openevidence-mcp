@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>OpenEvidence MCP | MCP-сервер для медицинского поиска</title>
+    <title>OpenEvidence MCP | MCP-сервер для врачей</title>
     <meta
       name="description"
-      content="OpenEvidence MCP: open-source MCP сервер для OpenEvidence, Codex и Claude. Установка для людей и AI-агентов на macOS, Windows и Ubuntu."
+      content="OpenEvidence MCP: open-source MCP-сервер, который подключает OpenEvidence к Codex CLI, Claude Code, OpenClaw, Cursor и другим MCP-клиентам для клинических и исследовательских медицинских задач."
     />
     <meta
       name="keywords"
-      content="OpenEvidence MCP, MCP сервер, медицинский ИИ, Codex MCP, Claude MCP, автоматизация OpenEvidence, llms.txt"
+      content="OpenEvidence MCP, MCP для врачей, медицинский MCP сервер, OpenEvidence для клиники, Codex CLI MCP, Claude Code MCP, OpenClaw MCP, Cursor MCP, кардиология MCP, эндокринология MCP, онкология MCP, emergency medicine MCP, клинический ИИ, доказательная медицина ИИ, интеграция OpenEvidence"
     />
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
     <link rel="canonical" href="https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/ru/" />
@@ -20,21 +20,35 @@
     <link rel="alternate" hreflang="zh-Hans" href="https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/zh/" />
     <link rel="alternate" hreflang="hi" href="https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/hi/" />
     <link rel="alternate" hreflang="x-default" href="https://bakhtiersizhaev.github.io/openevidence-mcp/" />
-    <meta name="theme-color" content="#0a0d14" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="OpenEvidence MCP | MCP-сервер для врачей" />
+    <meta
+      property="og:description"
+      content="Open-source MCP-сервер для OpenEvidence: авторизация через браузер, история, статьи по ID и запуск медицинских запросов в AI-клиентах."
+    />
+    <meta property="og:url" content="https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/ru/" />
+    <meta property="og:site_name" content="OpenEvidence MCP" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="OpenEvidence MCP | MCP-сервер для врачей" />
+    <meta
+      name="twitter:description"
+      content="Подключите OpenEvidence к Codex CLI, Claude Code, OpenClaw и другим MCP-клиентам для медицинских workflow."
+    />
+    <meta name="theme-color" content="#2d72d9" />
     <link rel="stylesheet" href="../../style.css" />
   </head>
   <body>
     <a class="skip-link" href="#content">Перейти к контенту</a>
     <ul class="desktop-icons" aria-label="Desktop icons">
-      <li><span class="icon"></span>Репозиторий</li>
-      <li><span class="icon"></span>Гайд</li>
-      <li><span class="icon"></span>AI Guide</li>
-      <li><span class="icon"></span>Semantic Core</li>
+      <li><span class="icon"></span>My Computer</li>
+      <li><span class="icon"></span>My Documents</li>
+      <li><span class="icon"></span>Network Places</li>
+      <li><span class="icon"></span>Recycle Bin</li>
     </ul>
-    <header class="shell">
+    <header class="shell" data-window="OpenEvidence MCP - Desktop Portal">
       <p class="badge">OPEN SOURCE • APACHE-2.0 • MCP</p>
       <h1>OpenEvidence MCP</h1>
-      <p class="subtitle">Тёмный ретро-научный MCP-сервер для OpenEvidence, удобный для людей и AI-агентов.</p>
+      <p class="subtitle">MCP-сервер в стиле рабочего стола Windows XP/98 с аккуратным научным фоном для OpenEvidence.</p>
       <nav aria-label="Primary">
         <ul class="nav">
           <li><a href="https://github.com/bakhtiersizhaev/openevidence-mcp">Репозиторий</a></li>
@@ -61,6 +75,13 @@
         </p>
       </section>
       <section class="panel">
+        <h2>Что такое OpenEvidence</h2>
+        <p>
+          OpenEvidence используют врачи и медкоманды для быстрого поиска ответов по клиническим вопросам на базе доказательной медицины.
+          Этот репозиторий даёт MCP-мост, чтобы обращаться к OpenEvidence из ваших AI-инструментов.
+        </p>
+      </section>
+      <section class="panel">
         <h2>Инструменты</h2>
         <ul>
           <li><code>oe_auth_status</code></li>
@@ -70,12 +91,21 @@
         </ul>
       </section>
       <section class="panel">
-        <h2>Платформы</h2>
+        <h2>Когда это нужно врачу</h2>
+        <ul>
+          <li>Сравнение вариантов лечения и проверка клинических аргументов</li>
+          <li>Дифференциальная диагностика с продолжением по контексту</li>
+          <li>Быстрый разбор кейсов в Codex/Claude с историей запросов</li>
+          <li>Единый медицинский workflow для команды через MCP</li>
+        </ul>
+      </section>
+      <section class="panel">
+        <h2>Платформы и MCP-клиенты</h2>
         <ul>
           <li>macOS</li>
           <li>Windows</li>
           <li>Ubuntu / Linux</li>
-          <li>Codex / Claude / другие MCP-клиенты</li>
+          <li>Codex CLI / Claude Code / OpenClaw / Cursor / Cline / Continue / другие MCP-клиенты</li>
         </ul>
       </section>
       <section class="panel">
@@ -87,17 +117,54 @@
           <li>Семантическое ядро: <code>docs/SEMANTIC_CORE.md</code></li>
         </ul>
       </section>
+      <section class="panel">
+        <h2>Как это обычно ищут</h2>
+        <ul>
+          <li>openevidence mcp</li>
+          <li>mcp сервер для врачей</li>
+          <li>open evidence для codex cli claude code openclaw</li>
+          <li>интеграция openevidence в mcp</li>
+          <li>медицинский ai workflow доказательная медицина</li>
+        </ul>
+      </section>
+      <section class="panel">
+        <h2>Поиск по специализациям</h2>
+        <ul>
+          <li>кардиология доказательная медицина mcp</li>
+          <li>эндокринология clinical workflow mcp</li>
+          <li>онкология обзор литературы mcp сервер</li>
+          <li>emergency medicine быстрый ответ mcp</li>
+          <li>дифференциальная диагностика поддержка mcp</li>
+        </ul>
+      </section>
+      <section class="panel">
+        <h2>Запросы для AI-агентов</h2>
+        <ul>
+          <li>openevidence mcp codex cli</li>
+          <li>openevidence mcp claude code</li>
+          <li>openevidence mcp openclaw</li>
+          <li>medical mcp cursor cline continue</li>
+          <li>врач ai агент mcp workflow</li>
+        </ul>
+      </section>
     </main>
-    <footer class="shell footer">
+    <footer class="shell footer" data-window="System Message">
       <p>OpenEvidence MCP • Apache-2.0 • Публичный репозиторий</p>
     </footer>
     <div class="taskbar" role="contentinfo" aria-label="Desktop taskbar">
       <button class="start-button" type="button">Пуск</button>
+      <div class="quick-launch" aria-hidden="true"><span></span><span></span><span></span></div>
       <div class="task-items">
         <span class="task-item active">OpenEvidence MCP</span>
         <span class="task-item">README.md</span>
       </div>
-      <div class="clock">12:34</div>
+      <div class="task-tray">
+        <span class="tray-icon network" aria-hidden="true"></span>
+        <span class="tray-icon volume" aria-hidden="true"></span>
+        <span class="tray-icon sync" aria-hidden="true"></span>
+        <span class="tray-lang">EN</span>
+        <div class="clock">12:34</div>
+      </div>
     </div>
   </body>
 </html>

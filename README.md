@@ -1,18 +1,46 @@
-# OpenEvidence MCP (Unofficial)
+<p align="center">
+  <img src="docs/assets/readme-hero.svg" alt="OpenEvidence MCP banner" width="100%" />
+</p>
 
-OpenEvidence MCP server based on your own browser session.  
+<h1 align="center">OpenEvidence MCP (Unofficial)</h1>
+
+<p align="center">
+  Open-source MCP server that connects OpenEvidence to Codex, Claude, Cursor, Cline, Continue, and other MCP clients.
+</p>
+
+<p align="center">
+  <a href="https://www.apache.org/licenses/LICENSE-2.0"><img alt="License: Apache-2.0" src="https://img.shields.io/badge/license-Apache--2.0-2d72d9"></a>
+  <a href="https://www.npmjs.com/package/@modelcontextprotocol/sdk"><img alt="MCP SDK" src="https://img.shields.io/badge/MCP%20SDK-1.26.0-1d9a5a"></a>
+  <a href="https://playwright.dev"><img alt="Playwright" src="https://img.shields.io/badge/Playwright-1.58.2-4f46e5"></a>
+  <a href="https://www.typescriptlang.org"><img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.9.3-3178c6"></a>
+</p>
+
+<p align="center">
+  <a href="https://bakhtiersizhaev.github.io/openevidence-mcp/">Live Docs</a> •
+  <a href="README.AI.md">AI Install Playbook</a> •
+  <a href="docs/SEMANTIC_CORE.md">Semantic Core</a>
+</p>
+
+## What Is OpenEvidence MCP
+
+OpenEvidence MCP is an unofficial Model Context Protocol server that uses your own OpenEvidence browser session.
 No official OpenEvidence API token is required.
 
-Live docs page (retro dark scientific theme):  
-`https://bakhtiersizhaev.github.io/openevidence-mcp/`
+This is usually used by:
+- physicians
+- clinical teams
+- medical researchers
+- AI operators building evidence-based medical workflows
 
-## Features
+## Feature Surface
 
-- `oe_auth_status` - checks auth via `/api/auth/me`
-- `oe_history_list` - reads history from `/api/article/list`
-- `oe_article_get` - gets full article payload by id
-- `oe_ask` - creates question and optionally waits for completion
-- `npm run login` - local login flow that stores reusable session state
+| Tool | Purpose |
+| --- | --- |
+| `oe_auth_status` | Check auth via `/api/auth/me` |
+| `oe_history_list` | Read history via `/api/article/list` |
+| `oe_article_get` | Fetch full article payload by id |
+| `oe_ask` | Ask a question and optionally wait for completion |
+| `npm run login` | Run local login flow and save reusable session state |
 
 ## Platform Support
 
@@ -63,7 +91,7 @@ Run:
 npm run login
 ```
 
-Browser opens, user signs in, then presses Enter in terminal.  
+Browser opens, user signs in, then presses Enter in terminal.
 The tool validates `/api/auth/me` and saves local state.
 
 Import existing state:
@@ -102,9 +130,9 @@ startup_timeout_sec = 60
 
 Templates:
 - `examples/codex-config.toml`
-- `examples/codex-config-full.toml` (includes Playwright MCP + OpenEvidence MCP)
+- `examples/codex-config-full.toml`
 - `examples/claude-desktop-config.json`
-- `examples/claude-desktop-config-full.json` (includes Playwright MCP + OpenEvidence MCP)
+- `examples/claude-desktop-config-full.json`
 
 ## Verify
 
@@ -119,24 +147,21 @@ Expected:
 
 ## Session Notes
 
-- Typical cookie expiry can be long, but session can still expire early.
+- Cookie/session lifetime can vary.
 - If auth fails, run `npm run login` again.
 
 ## AI-Agent Install Guide
 
 Use `README.AI.md` when setup is performed by Codex, Claude Code, or another AI agent.
 
-## Semantic Core
-
-Semantic core and intent map: `docs/SEMANTIC_CORE.md`.
-
 ## SEO / GEO / AI Parser Files
 
-- `docs/index.html` (semantic landing page)
-- `docs/i18n/ru/index.html` (Russian)
-- `docs/i18n/es/index.html` (Spanish)
-- `docs/i18n/zh/index.html` (Chinese Simplified)
-- `docs/i18n/hi/index.html` (Hindi)
+- `docs/index.html`
+- `docs/i18n/ru/index.html`
+- `docs/i18n/es/index.html`
+- `docs/i18n/zh/index.html`
+- `docs/i18n/hi/index.html`
+- `docs/SEMANTIC_CORE.md`
 - `docs/robots.txt`
 - `docs/sitemap.xml`
 - `docs/llms.txt`
@@ -165,4 +190,9 @@ If you redistribute, fork, or build derivative versions, keep attribution to:
 - Original author: Bakhtier Sizhaev
 - Original repository: `https://github.com/bakhtiersizhaev/openevidence-mcp`
 
-In practice: do not remove or alter `LICENSE` and `NOTICE` in redistributed copies.
+In practice:
+- do not remove `LICENSE`
+- do not remove `NOTICE`
+
+Suggested attribution line:
+`Based on OpenEvidence MCP by Bakhtier Sizhaev — https://github.com/bakhtiersizhaev/openevidence-mcp`

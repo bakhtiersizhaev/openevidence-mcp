@@ -1,31 +1,40 @@
-# OpenEvidence MCP - AI Agent Install Playbook
+<p align="center">
+  <img src="docs/assets/readme-hero.svg" alt="OpenEvidence MCP banner" width="100%" />
+</p>
 
-This guide is for AI agents (Codex, Claude Code, and similar) that set up OpenEvidence MCP for a human user.
+<h1 align="center">OpenEvidence MCP - AI Agent Install Playbook</h1>
+
+<p align="center">
+  Runbook for Codex, Claude Code, and similar agents to install and validate OpenEvidence MCP end-to-end.
+</p>
+
+<p align="center">
+  <a href="README.md">Human Guide</a> •
+  <a href="https://bakhtiersizhaev.github.io/openevidence-mcp/">Live Docs</a> •
+  <a href="docs/SEMANTIC_CORE.md">Semantic Core</a>
+</p>
 
 ## Goal
 
-Install and validate OpenEvidence MCP end-to-end on macOS, Windows, or Ubuntu, with clear handoff steps for human login.
-
-Public docs entrypoint:
-- https://bakhtiersizhaev.github.io/openevidence-mcp/
+Install and validate OpenEvidence MCP on macOS, Windows, or Ubuntu, with clear handoff for human login.
 
 ## Scope
 
 - Agent checks runtime and MCP availability
-- Agent installs missing MCP dependencies
+- Agent installs missing dependencies
 - Agent sets up OpenEvidence MCP
-- Human performs login in browser
+- Human performs OpenEvidence login
 - Agent verifies MCP tools are live
 
 ## Step 0: Detect Environment
 
-- Identify OS: macOS, Windows, Ubuntu/Linux
-- Identify host client:
+- OS: macOS, Windows, Ubuntu/Linux
+- Host client:
   - Codex CLI
   - Claude Desktop / Claude Code
   - Other MCP client
 
-## Step 1: Ensure Playwright MCP Exists (for agent browser automation workflows)
+## Step 1: Ensure Playwright MCP Exists
 
 If Playwright MCP is missing, install/configure first.
 
@@ -52,11 +61,9 @@ startup_timeout_sec = 60
 ```
 
 After config change:
-- Restart MCP client session/app if tools do not appear immediately.
+- restart MCP client session/app if tools do not appear immediately
 
 ## Step 2: Install OpenEvidence MCP Repo
-
-Clone repo and run platform setup.
 
 ### macOS
 
@@ -85,7 +92,7 @@ cd openevidence-mcp
 .\scripts\setup-windows.ps1
 ```
 
-## Step 3: Register OpenEvidence MCP in Client
+## Step 3: Register OpenEvidence MCP
 
 ### Codex (`~/.codex/config.toml`)
 
@@ -119,11 +126,11 @@ startup_timeout_sec = 60
 ```
 
 After config change:
-- Restart client session/app if MCP list does not refresh automatically.
+- restart client session/app if MCP list does not refresh automatically
 
 ## Step 4: Human Login Handoff
 
-Agent asks user to run:
+Ask user to run:
 
 ```bash
 cd /ABSOLUTE/PATH/openevidence-mcp
@@ -131,11 +138,11 @@ npm run login
 ```
 
 Human actions:
-- Complete OpenEvidence login in browser
-- Return to terminal
-- Press Enter
+- complete OpenEvidence login in browser
+- return to terminal
+- press Enter
 
-Agent can alternatively use imported state:
+Alternative import flow:
 
 ```bash
 cd /ABSOLUTE/PATH/openevidence-mcp
@@ -158,15 +165,15 @@ Then MCP-side checks:
 
 ## Step 6: Recovery Paths
 
-- If `oe_auth_status` is not authenticated: rerun `npm run login`
+- If `oe_auth_status` is unauthenticated: rerun `npm run login`
 - If MCP tool not visible: restart client session/app
-- If dependencies broken: rerun platform setup script
+- If dependencies break: rerun setup script
 
 ## Clean Repository Rules for Agents
 
 - Do not commit user session files
 - Do not commit `.env` with secrets
 - Keep `.gitignore` intact
-- Keep examples in `examples/` for reusable config snippets
-- Preserve parser files in `docs/` (`llms.txt`, `llms-full.txt`, `robots.txt`, `sitemap.xml`)
-- Preserve attribution: keep `LICENSE` and `NOTICE` with original author and original repository link
+- Keep reusable examples in `examples/`
+- Preserve parser files in `docs/`
+- Preserve attribution: keep `LICENSE` and `NOTICE`
