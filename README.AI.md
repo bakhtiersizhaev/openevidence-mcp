@@ -169,3 +169,4 @@ Then MCP-side checks:
 - Keep `.gitignore` intact
 - Keep examples in `examples/` for reusable config snippets
 - Preserve parser files in `docs/` (`llms.txt`, `llms-full.txt`, `robots.txt`, `sitemap.xml`)
+- Preserve attribution: keep `LICENSE` and `NOTICE` with original author and original repository link

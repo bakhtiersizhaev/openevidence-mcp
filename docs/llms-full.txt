@@ -2,7 +2,7 @@
 
 Project: OpenEvidence MCP  
 Repository: https://github.com/bakhtiersizhaev/openevidence-mcp  
-License: MIT
+License: Apache-2.0 + NOTICE
 
 ## Mission
 
@@ -60,4 +60,7 @@ Provide a robust MCP server that exposes OpenEvidence workflows via tool calls f
 - Do not commit user auth state
 - Do not commit `.env` secrets
 - Preserve `.gitignore`
-
+- Preserve `LICENSE` and `NOTICE`
+- Keep original attribution:
+  - Original author: Bakhtier Sizhaev
+  - Original repository: https://github.com/bakhtiersizhaev/openevidence-mcp

@@ -23,6 +23,7 @@
     "README.md",
     "README.AI.md",
     "LICENSE",
+    "NOTICE",
     "examples",
     "docs"
   ],
@@ -37,7 +38,7 @@
     "claude"
   ],
   "author": "openevidence-mcp contributors",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "type": "module",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.26.0",

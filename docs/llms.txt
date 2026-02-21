@@ -7,6 +7,10 @@
 - Repo: https://github.com/bakhtiersizhaev/openevidence-mcp
 - Human setup: https://github.com/bakhtiersizhaev/openevidence-mcp/blob/main/README.md
 - AI setup: https://github.com/bakhtiersizhaev/openevidence-mcp/blob/main/README.AI.md
+- RU page: https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/ru/
+- ES page: https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/es/
+- ZH page: https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/zh/
+- HI page: https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/hi/
 
 ## Core Capabilities
 - Validate OpenEvidence auth (`oe_auth_status`)
@@ -31,3 +35,9 @@
 ## Expanded Machine Context
 - `llms-full.txt`
 
+## Multilingual Search Terms
+- EN: OpenEvidence MCP, medical MCP server, Codex Claude MCP
+- RU: OpenEvidence MCP, медицинский MCP сервер, AI агент медицина
+- ES: servidor MCP médico, OpenEvidence automatización, MCP para Claude
+- ZH: 医疗 MCP 服务器, OpenEvidence 自动化, Codex Claude 集成
+- HI: मेडिकल MCP सर्वर, OpenEvidence ऑटोमेशन, Codex Claude इंटीग्रेशन

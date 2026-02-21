@@ -133,6 +133,10 @@ Semantic core and intent map: `docs/SEMANTIC_CORE.md`.
 ## SEO / GEO / AI Parser Files
 
 - `docs/index.html` (semantic landing page)
+- `docs/i18n/ru/index.html` (Russian)
+- `docs/i18n/es/index.html` (Spanish)
+- `docs/i18n/zh/index.html` (Chinese Simplified)
+- `docs/i18n/hi/index.html` (Hindi)
 - `docs/robots.txt`
 - `docs/sitemap.xml`
 - `docs/llms.txt`
@@ -151,4 +155,14 @@ Copy `.env.example` to `.env` if custom paths are needed.
 
 ## License
 
-MIT (`LICENSE`).
+Apache-2.0 (`LICENSE`) + `NOTICE`.
+
+## Attribution Requirement
+
+This repository uses Apache-2.0 with a `NOTICE` file.
+
+If you redistribute, fork, or build derivative versions, keep attribution to:
+- Original author: Bakhtier Sizhaev
+- Original repository: `https://github.com/bakhtiersizhaev/openevidence-mcp`
+
+In practice: do not remove or alter `LICENSE` and `NOTICE` in redistributed copies.
