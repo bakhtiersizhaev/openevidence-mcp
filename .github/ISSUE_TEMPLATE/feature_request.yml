@@ -1,0 +1,43 @@
+name: Feature request
+description: Suggest a focused improvement for OpenEvidence MCP.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not paste cookies, tokens, storage-state files, screenshots with private medical data, patient data, or account identifiers.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user or MCP workflow problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: Describe the smallest useful behavior change.
+    validations:
+      required: true
+  - type: input
+    id: mcp_client
+    attributes:
+      label: MCP client or use case
+      description: Example: Codex, Claude Desktop, Cursor, Cline, Continue, local automation.
+    validations:
+      required: false
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: false
+  - type: textarea
+    id: security
+    attributes:
+      label: Security or session-state impact
+      description: Note whether this changes auth, storage-state, local file handling, tool output, or user data exposure.
+    validations:
+      required: true

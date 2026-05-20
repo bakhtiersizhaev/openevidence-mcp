@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>OpenEvidence MCP | 面向医生的医疗 MCP 服务器</title>
+    <title>OpenEvidence MCP | 非官方 MCP 服务器</title>
     <meta
       name="description"
-      content="OpenEvidence MCP：开源 MCP 服务器，可将 OpenEvidence 接入 Codex CLI、Claude Code、OpenClaw、Cursor 等 MCP 客户端，服务于医生与临床团队的循证工作流。"
+      content="OpenEvidence MCP：非官方 MCP 服务器，通过你自己的已认证浏览器会话将 OpenEvidence 接入 Codex、Claude、Cursor、Cline、Continue 等 MCP 客户端。"
     />
     <meta
       name="keywords"
-      content="OpenEvidence MCP, 医生用 MCP, 医疗 MCP 服务器, OpenEvidence 临床集成, Codex CLI MCP, Claude Code MCP, OpenClaw MCP, Cursor MCP, 心内科 MCP, 内分泌 MCP, 肿瘤学 MCP, 急诊医学 MCP, 临床 AI, 循证医学 AI, OpenEvidence 自动化"
+      content="OpenEvidence MCP, 非官方 MCP 服务器, Model Context Protocol, OpenEvidence 集成, Codex MCP, Claude MCP, Cursor MCP, Cline MCP, Continue MCP, browser session auth, Playwright MCP"
     />
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
     <link rel="canonical" href="https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/zh/" />
@@ -21,18 +21,18 @@
     <link rel="alternate" hreflang="hi" href="https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/hi/" />
     <link rel="alternate" hreflang="x-default" href="https://bakhtiersizhaev.github.io/openevidence-mcp/" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="OpenEvidence MCP | 面向医生的医疗 MCP 服务器" />
+    <meta property="og:title" content="OpenEvidence MCP | 非官方 MCP 服务器" />
     <meta
       property="og:description"
-      content="OpenEvidence 开源 MCP 服务器：浏览器会话鉴权、历史检索、按 ID 取文、医疗问题提问，适配主流 MCP 客户端。"
+      content="OpenEvidence 非官方 MCP 服务器：浏览器会话鉴权、历史检索、按 ID 取文、研究问题提问，适配主流 MCP 客户端。"
     />
     <meta property="og:url" content="https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/zh/" />
     <meta property="og:site_name" content="OpenEvidence MCP" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="OpenEvidence MCP | 面向医生的医疗 MCP 服务器" />
+    <meta name="twitter:title" content="OpenEvidence MCP | 非官方 MCP 服务器" />
     <meta
       name="twitter:description"
-      content="把 OpenEvidence 连接到 Codex CLI、Claude Code、OpenClaw 等 MCP 客户端，构建循证临床问答流程。"
+      content="通过你自己的已认证浏览器会话，把 OpenEvidence 连接到 Codex、Claude、Cursor、Cline、Continue 等 MCP 客户端。"
     />
     <meta name="theme-color" content="#2d72d9" />
     <link rel="stylesheet" href="../../style.css" />
@@ -48,7 +48,7 @@
     <header class="shell" data-window="OpenEvidence MCP - Desktop Portal">
       <p class="badge">OPEN SOURCE • APACHE-2.0 • MCP</p>
       <h1>OpenEvidence MCP</h1>
-      <p class="subtitle">面向 OpenEvidence 的开源 MCP 桥接服务，基于浏览器会话鉴权。</p>
+      <p class="subtitle">面向 OpenEvidence 的非官方 MCP 桥接服务，基于你的浏览器会话鉴权。</p>
       <nav aria-label="Primary">
         <ul class="nav">
           <li><a href="https://github.com/bakhtiersizhaev/openevidence-mcp">仓库</a></li>
@@ -72,13 +72,13 @@
         <p>
           OpenEvidence MCP 是非官方 MCP 服务器，通过你的浏览器会话连接 OpenEvidence。
           支持认证检查、历史列表、按 ID 获取文章，以及提问并轮询完成状态。
+          本项目不隶属于 OpenEvidence，不提供医疗建议，也不绕过访问控制。
         </p>
       </section>
       <section class="panel">
         <h2>什么是 OpenEvidence</h2>
         <p>
-          OpenEvidence 常被医生用于快速查看有文献依据的临床答案。
-          这个仓库提供 MCP 桥接层，让你的 AI 工具能够统一调用 OpenEvidence。
+          这个仓库为已经拥有自己 OpenEvidence 账号的用户提供非官方 MCP 桥接层。
         </p>
       </section>
       <section class="panel">
@@ -91,12 +91,12 @@
         </ul>
       </section>
       <section class="panel">
-        <h2>医生何时会用到</h2>
+        <h2>常见工作流</h2>
         <ul>
-          <li>治疗方案比较与证据快速核对</li>
-          <li>鉴别诊断问题的连续追问</li>
-          <li>在 Codex/Claude 中做病例复盘并保留上下文</li>
-          <li>团队统一临床 AI 工作流</li>
+          <li>文献比较与论点核对</li>
+          <li>基于历史上下文继续研究问题</li>
+          <li>在 Codex/Claude 中保留查询上下文</li>
+          <li>通过自己的 OpenEvidence 账号使用 MCP 工作流</li>
         </ul>
       </section>
       <section class="panel">
@@ -121,20 +121,20 @@
         <h2>用户常见搜索词</h2>
         <ul>
           <li>openevidence mcp</li>
-          <li>医生 医疗 mcp 服务器</li>
+          <li>非官方 mcp 服务器</li>
           <li>openevidence codex cli claude code openclaw 集成</li>
           <li>open evidence mcp 接入</li>
-          <li>循证医学 ai workflow mcp</li>
+          <li>openevidence ai workflow mcp</li>
         </ul>
       </section>
       <section class="panel">
-        <h2>专科搜索词簇</h2>
+        <h2>其他搜索词</h2>
         <ul>
-          <li>心内科 循证医学 mcp</li>
-          <li>内分泌 临床 workflow mcp</li>
-          <li>肿瘤学 文献检索 mcp server</li>
-          <li>急诊医学 快速证据 mcp</li>
-          <li>鉴别诊断 支持 mcp 医生</li>
+          <li>openevidence browser session mcp</li>
+          <li>openevidence codex mcp</li>
+          <li>openevidence claude mcp</li>
+          <li>openevidence cursor mcp</li>
+          <li>openevidence playwright mcp</li>
         </ul>
       </section>
       <section class="panel">

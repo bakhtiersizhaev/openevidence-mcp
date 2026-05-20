@@ -4,12 +4,14 @@ Purpose: intent map for humans, search engines, and AI agents using OpenEvidence
 
 ## What Is OpenEvidence (Semantic Definition)
 
-OpenEvidence is a clinical evidence assistant used by physicians and medical teams to ask medical questions and review literature-backed answers.
-OpenEvidence MCP is an open-source bridge that connects OpenEvidence to MCP clients.
+OpenEvidence is a medical research product. OpenEvidence MCP is an unofficial open-source bridge that connects a user's own authenticated OpenEvidence browser session to MCP clients.
+
+This project is not affiliated with OpenEvidence, does not provide medical advice, and does not bypass authentication or access controls.
 
 ## Core Audience
 
-- physicians
+- users with their own OpenEvidence account
+- clinicians
 - residents and fellows
 - clinical researchers
 - hospital/clinic AI enablement teams
@@ -17,7 +19,7 @@ OpenEvidence MCP is an open-source bridge that connects OpenEvidence to MCP clie
 
 ## Core Intents
 
-- clinical question lookup with evidence-backed context
+- research question lookup with evidence-backed context
 - medical follow-up continuation via `original_article_id`
 - article payload extraction by `article_id`
 - medical conversation history browsing
@@ -52,7 +54,7 @@ OpenEvidence MCP is an open-source bridge that connects OpenEvidence to MCP clie
 - openevidence cursor mcp
 - evidence based medicine ai workflow
 - clinical ai mcp server
-- openevidence api alternative
+- openevidence mcp browser session
 - medical research mcp tools
 
 ## Search Intent Clusters (RU)
@@ -100,7 +102,7 @@ OpenEvidence MCP is an open-source bridge that connects OpenEvidence to MCP clie
 - openevidence cursor mcp
 - evidence based medicine ai workflow mcp
 - clinical research mcp tools
-- openevidence api alternative
+- openevidence mcp browser session
 
 ## Specialty Query Clusters (EN)
 
@@ -108,7 +110,7 @@ OpenEvidence MCP is an open-source bridge that connects OpenEvidence to MCP clie
 - endocrinology clinical workflow mcp
 - oncology literature review mcp server
 - emergency medicine quick evidence mcp
-- differential diagnosis support mcp doctors
+- openevidence research workflow mcp
 
 ## Specialty Query Clusters (RU)
 
@@ -140,7 +142,7 @@ OpenEvidence MCP is an open-source bridge that connects OpenEvidence to MCP clie
 - endocrinology clinical workflow mcp
 - oncology literature review mcp server
 - emergency medicine quick evidence mcp
-- differential diagnosis support mcp doctors
+- openevidence research workflow mcp
 
 ## MCP Client Query Variants
 

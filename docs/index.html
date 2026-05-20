@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>OpenEvidence MCP for Doctors | Medical MCP Server</title>
+    <title>OpenEvidence MCP | Unofficial MCP Server</title>
     <meta
       name="description"
-      content="OpenEvidence MCP: open-source MCP server that connects OpenEvidence to Codex CLI, Claude Code, OpenClaw, Cursor, and other MCP clients for evidence-based medical workflows used by doctors and clinical teams."
+      content="OpenEvidence MCP: unofficial MCP server that connects OpenEvidence to Codex, Claude, Cursor, Cline, Continue, and other MCP clients through the user's authenticated browser session."
     />
     <meta
       name="keywords"
-      content="OpenEvidence MCP, OpenEvidence for doctors, medical MCP server, clinical AI workflow, evidence based medicine AI, Codex CLI MCP, Claude Code MCP, OpenClaw MCP, Cursor MCP, Cline MCP, cardiology MCP, endocrinology MCP, oncology MCP, emergency medicine MCP, OpenEvidence integration"
+      content="OpenEvidence MCP, unofficial MCP server, Model Context Protocol, Codex MCP, Claude MCP, Cursor MCP, Cline MCP, Continue MCP, OpenEvidence integration, browser session auth, Playwright MCP, TypeScript MCP"
     />
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
     <link rel="canonical" href="https://bakhtiersizhaev.github.io/openevidence-mcp/" />
@@ -21,18 +21,18 @@
     <link rel="alternate" hreflang="hi" href="https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/hi/" />
     <link rel="alternate" hreflang="x-default" href="https://bakhtiersizhaev.github.io/openevidence-mcp/" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="OpenEvidence MCP for Doctors | Medical MCP Server" />
+    <meta property="og:title" content="OpenEvidence MCP | Unofficial MCP Server" />
     <meta
       property="og:description"
-      content="Open-source OpenEvidence MCP server for doctors and clinical teams: browser-session auth, question history, article retrieval, and AI-agent setup guides."
+      content="Unofficial OpenEvidence MCP server with browser-session auth, history, article retrieval, question tools, and AI-agent setup guides."
     />
     <meta property="og:url" content="https://bakhtiersizhaev.github.io/openevidence-mcp/" />
     <meta property="og:site_name" content="OpenEvidence MCP" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="OpenEvidence MCP for Doctors | Medical MCP Server" />
+    <meta name="twitter:title" content="OpenEvidence MCP | Unofficial MCP Server" />
     <meta
       name="twitter:description"
-      content="Connect OpenEvidence to Codex CLI, Claude Code, OpenClaw, Cursor, and other MCP clients for evidence-based clinical Q&A workflows."
+      content="Connect OpenEvidence to Codex, Claude, Cursor, Cline, Continue, and other MCP clients through your own authenticated browser session."
     />
     <meta name="theme-color" content="#2d72d9" />
     <meta name="generator" content="hand-authored semantic HTML" />
@@ -45,23 +45,19 @@
         "codeRepository": "https://github.com/bakhtiersizhaev/openevidence-mcp",
         "license": "https://www.apache.org/licenses/LICENSE-2.0",
         "programmingLanguage": ["TypeScript", "JavaScript"],
-        "description": "Open-source MCP server for OpenEvidence that helps doctors and clinical teams run evidence-based medical workflows through Codex CLI, Claude Code, OpenClaw, and other MCP clients.",
+        "description": "Unofficial MCP server for OpenEvidence that connects the user's authenticated browser session to Codex, Claude, Cursor, Cline, Continue, and other MCP clients.",
         "keywords": [
           "MCP",
           "OpenEvidence",
-          "OpenEvidence for doctors",
-          "medical MCP server",
-          "Codex CLI",
-          "Claude Code",
-          "OpenClaw",
+          "unofficial MCP server",
+          "browser session auth",
+          "Codex",
+          "Claude",
           "Cursor",
           "Cline",
-          "clinical AI",
-          "evidence-based medicine",
-          "cardiology",
-          "endocrinology",
-          "oncology",
-          "emergency medicine"
+          "Continue",
+          "Playwright",
+          "TypeScript"
         ],
         "operatingSystem": ["macOS", "Windows", "Linux"],
         "applicationCategory": "DeveloperApplication"
@@ -85,7 +81,7 @@
             "name": "Who uses it?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Doctors, medical researchers, and clinical teams use it to run evidence-backed questions inside Codex, Claude, and other MCP-compatible clients."
+              "text": "Users with their own OpenEvidence account can connect OpenEvidence to Codex, Claude, Cursor, Cline, Continue, and other MCP-compatible clients."
             }
           },
           {
@@ -112,7 +108,7 @@
       <p class="badge">OPEN SOURCE • APACHE-2.0 • MCP</p>
       <h1>OpenEvidence MCP</h1>
       <p class="subtitle">
-        Open-source MCP bridge for OpenEvidence with browser-session authentication.<br />
+        Unofficial MCP bridge for OpenEvidence with browser-session authentication.<br />
         Built for humans and autonomous AI agents.
       </p>
       <nav aria-label="Primary">
@@ -140,14 +136,14 @@
         <p>
           OpenEvidence MCP is an unofficial Model Context Protocol server that connects OpenEvidence via your own browser session.
           It supports local auth status checks, history retrieval, article fetch by ID, and question execution with completion polling.
+          It is not affiliated with OpenEvidence, does not provide medical advice, and does not bypass access controls.
         </p>
       </section>
 
       <section class="panel" aria-labelledby="openevidence-title">
         <h2 id="openevidence-title">What Is OpenEvidence?</h2>
         <p>
-          OpenEvidence is a clinical evidence assistant used by physicians to quickly review literature-backed answers.
-          This repository provides the MCP bridge so your AI workflow can query OpenEvidence from one place.
+          OpenEvidence is a medical research product. This repository provides an unofficial MCP bridge for users who already have their own OpenEvidence account.
         </p>
       </section>
 
@@ -166,12 +162,12 @@
       </section>
 
       <section class="panel" aria-labelledby="when-title">
-        <h2 id="when-title">When Doctors Use It</h2>
+        <h2 id="when-title">Common Workflows</h2>
         <ul>
-          <li>Differential diagnosis follow-ups with source-backed context</li>
-          <li>Treatment option comparisons and quick evidence checks</li>
-          <li>Long case threads where history and follow-up continuity matter</li>
-          <li>Clinical knowledge workflows shared across team AI tools</li>
+          <li>Research-question follow-ups with source-backed context</li>
+          <li>Treatment literature comparisons and quick evidence checks</li>
+          <li>Long research threads where history and follow-up continuity matter</li>
+          <li>AI-agent workflows that need OpenEvidence account context</li>
         </ul>
       </section>
 
@@ -199,14 +195,14 @@
       <section class="panel" aria-labelledby="workflows-title">
         <h2 id="workflows-title">Example Workflows</h2>
         <dl>
-          <dt>Differential Diagnosis Follow-up</dt>
-          <dd>Ask OpenEvidence about a complex case, get source-backed answers with citations, then follow up in the same thread - all from your Claude Desktop or Codex CLI session.</dd>
+          <dt>Research Follow-up</dt>
+          <dd>Ask OpenEvidence a research question, get source-backed answers with citations, then follow up in the same thread from your MCP client.</dd>
           <dt>Treatment Comparison</dt>
           <dd>Query two treatment approaches side by side. The MCP server preserves conversation context so follow-up questions refine the answer.</dd>
           <dt>Journal Club Prep</dt>
           <dd>Pull recent articles on a topic via oe_history_list and oe_article_get. Feed them into your AI workflow for summary and discussion points.</dd>
           <dt>Team Knowledge Base</dt>
-          <dd>Multiple clinicians can run their own sessions. Each authenticates with their own OpenEvidence account - no shared credentials needed.</dd>
+          <dd>Multiple users can run their own local sessions. Each authenticates with their own OpenEvidence account - no shared credentials needed.</dd>
         </dl>
       </section>
 

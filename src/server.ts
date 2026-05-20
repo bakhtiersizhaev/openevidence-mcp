@@ -21,7 +21,8 @@ server.registerTool(
   "oe_auth_status",
   {
     title: "OpenEvidence Auth Status",
-    description: "Check if the local OpenEvidence session is valid.",
+    description:
+      "Check whether the saved OpenEvidence browser session is authenticated. Use before history/article/ask tools when auth state is unknown. Returns authenticated=true/false and basic account metadata when available. Requires local session state. No side effects. Can fail if session state is missing, expired, or network access fails.",
   },
   async () =>
     withClient(async (client) => {
@@ -34,7 +35,8 @@ server.registerTool(
   "oe_history_list",
   {
     title: "OpenEvidence History List",
-    description: "List question history from OpenEvidence account.",
+    description:
+      "List prior OpenEvidence articles/questions from the authenticated account. Use to find recent research threads or article IDs. Inputs: limit, offset, optional search. Returns the OpenEvidence history payload. Requires authenticated session. No side effects. Can fail on expired auth, network errors, or OpenEvidence endpoint changes.",
     inputSchema: z.object({
       limit: z.number().int().min(1).max(100).default(20).optional(),
       offset: z.number().int().min(0).default(0).optional(),
@@ -52,7 +54,8 @@ server.registerTool(
   "oe_article_get",
   {
     title: "OpenEvidence Article Get",
-    description: "Fetch article payload by article id.",
+    description:
+      "Fetch a full OpenEvidence article payload by article_id. Use after history lookup or oe_ask returns an article ID. Input: article_id UUID. Returns article data plus extracted_answer_raw when available. Requires authenticated session. No side effects. Can fail on expired auth, network errors, invalid/unknown ID, or endpoint changes.",
     inputSchema: z.object({
       article_id: z.string().uuid(),
     }),
@@ -72,7 +75,7 @@ server.registerTool(
   {
     title: "OpenEvidence Ask",
     description:
-      "Create a question and optionally wait for completion. For follow-up question pass original_article_id.",
+      "Create an OpenEvidence research question, not medical advice or patient-specific diagnosis. Use for evidence-research questions with the user's own authenticated session. Inputs include question, optional original_article_id, wait/polling controls, and OpenEvidence article options. Returns created article data, article_id, and optionally completed article/extracted answer; may return pending result when not waiting or on timeout. Side effect: creates a question/article in the user's OpenEvidence account. Can fail on expired auth, network timeout, invalid follow-up ID, or endpoint changes.",
     inputSchema: z.object({
       question: z.string().min(3).max(6000),
       original_article_id: z.string().uuid().optional(),

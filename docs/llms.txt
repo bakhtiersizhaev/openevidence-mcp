@@ -2,12 +2,15 @@
 
 > Unofficial open-source MCP server for OpenEvidence.
 
+Important: this project is not affiliated with OpenEvidence, does not provide medical advice, and does not bypass authentication or access controls. It uses the user's own authenticated browser session.
+
 ## What It Is
-- OpenEvidence is used by doctors and clinical teams for evidence-backed medical Q&A.
-- OpenEvidence MCP connects that workflow to MCP-compatible clients.
+- OpenEvidence MCP connects a user's own authenticated OpenEvidence browser session to MCP-compatible clients.
+- It provides local tools for auth checks, history, article retrieval, and research questions.
 
 ## Who It Helps
-- Physicians
+- Users with their own OpenEvidence account
+- Clinicians
 - Clinical researchers
 - Medical AI operators
 - Teams using Codex CLI/Claude Code/OpenClaw/Cursor/Cline/Continue with MCP
@@ -54,7 +57,7 @@
 - endocrinology clinical workflow mcp
 - oncology literature review mcp server
 - emergency medicine quick evidence mcp
-- differential diagnosis support mcp doctors
+- openevidence research workflow mcp
 
 ## Semantic Map
 - `docs/SEMANTIC_CORE.md`

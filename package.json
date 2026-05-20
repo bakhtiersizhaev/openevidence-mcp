@@ -1,7 +1,7 @@
 {
   "name": "openevidence-mcp",
   "version": "0.1.0",
-  "description": "Open-source MCP server for OpenEvidence clinical platform. Browser-session auth, no API key required.",
+  "description": "Unofficial MCP server that connects OpenEvidence to AI agents via the user's authenticated browser session",
   "main": "dist/server.js",
   "bin": {
     "openevidence-mcp": "./dist/server.js"
@@ -21,7 +21,11 @@
     "dist/",
     "scripts/",
     "examples/",
+    "docs/DIRECTORY_COPY.md",
+    "docs/TROUBLESHOOTING.md",
     ".env.example",
+    "SECURITY.md",
+    "CONTRIBUTING.md",
     "LICENSE",
     "NOTICE",
     "README.md",
@@ -32,15 +36,17 @@
   },
   "keywords": [
     "mcp",
-    "mcp-server",
+    "model-context-protocol",
     "openevidence",
     "medical-ai",
-    "clinical-decision-support",
-    "evidence-based-medicine",
-    "healthcare",
-    "playwright",
+    "clinical-research",
+    "healthcare-ai",
+    "ai-agents",
     "codex",
-    "claude"
+    "claude",
+    "cursor",
+    "playwright",
+    "typescript"
   ],
   "repository": {
     "type": "git",
