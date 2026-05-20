@@ -7,6 +7,8 @@ OpenEvidence MCP - неофициальный MCP-сервер, который �
 
 Canonical README: [English](README.md)
 
+Если вы используете Codex или Claude Code, можно скопировать prompt из [`docs/AGENT_INSTALL_PROMPT.md`](docs/AGENT_INSTALL_PROMPT.md) и попросить агента установить проект, прописать MCP config, провести через авторизацию и проверить `npm run smoke`.
+
 ## Что делает проект
 
 - проверяет, активна ли сохранённая OpenEvidence session;
@@ -55,6 +57,14 @@ npm run smoke
 ```
 
 Session state хранится локально. Не публикуйте `storage-state.json`, cookies, screenshots с private account data или patient-identifiable information.
+
+Если Google пишет, что browser/app небезопасен, используйте system-browser flow:
+
+```bash
+npm run login:browser
+```
+
+Он откроет Chrome или Edge, попросит завершить OpenEvidence login и сохранит local auth state после Enter в терминале.
 
 ## Codex config
 

@@ -23,6 +23,35 @@ npm run login
 
 The browser opens, you sign in with your own account, then press Enter in the terminal to save a fresh local state file.
 
+## Google Says the Browser or App Is Not Secure
+
+Google sign-in may block automation-controlled Chromium during `npm run login`. This can happen on Windows, macOS, or Linux and is a Google OAuth security behavior, not a password or OpenEvidence MCP error.
+
+Use the system-browser login flow:
+
+```bash
+npm run login:browser
+```
+
+The script opens Chrome or Edge with a local OpenEvidence MCP profile. Complete OpenEvidence login in the opened browser, return to the terminal, and press Enter. It saves local session state and verifies `/api/auth/me`.
+
+If auto-detection chooses the wrong browser, set one of:
+
+```bash
+OE_MCP_BROWSER=edge npm run login:browser
+OE_MCP_BROWSER=chrome npm run login:browser
+OE_MCP_BROWSER_PATH=/absolute/path/to/browser npm run login:browser
+```
+
+PowerShell example:
+
+```powershell
+$env:OE_MCP_BROWSER = "edge"
+npm run login:browser
+```
+
+Do not use stealth flags, cookie-copying browser extensions, or instructions that bypass Google, OpenEvidence, institution, regional, or account controls.
+
 ## Playwright Browser Install Error
 
 Install Chromium for Playwright:

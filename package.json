@@ -14,6 +14,7 @@
     "dev": "tsx src/server.ts",
     "start": "node dist/server.js",
     "login": "tsx src/login.ts",
+    "login:browser": "tsx src/login-browser.ts",
     "check": "tsc -p tsconfig.json --noEmit",
     "smoke": "tsx src/smoke.ts"
   },
@@ -21,6 +22,7 @@
     "dist/",
     "scripts/",
     "examples/",
+    "docs/AGENT_INSTALL_PROMPT.md",
     "docs/DIRECTORY_COPY.md",
     "docs/LANGUAGE_STRATEGY.md",
     "docs/TROUBLESHOOTING.md",
