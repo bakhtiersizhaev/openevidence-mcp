@@ -20,6 +20,10 @@ Public materials in May 2026 indicate verified U.S. HCP/NPI-centered OpenEvidenc
 
 `mcp`, `model-context-protocol`, `openevidence`, `medical-ai`, `healthcare-ai`, `clinical-research`, `ai-agents`, `codex`, `codex-cli`, `claude-code`, `claude-desktop`, `cursor`, `cline`, `continue`, `github-copilot`, `playwright`, `typescript`
 
+## Language Scope
+
+Primary documentation is English-first. Short README translations are maintained for Russian, Spanish, Simplified Chinese, Traditional Chinese (Taiwan), Korean, and Hindi. Canadian and Indian professional audiences are also covered by the English README; separate regional-English copies are avoided unless they add real setup value.
+
 ## GitHub About
 
 Unofficial MCP server connecting OpenEvidence to Codex, Claude, Cursor, Cline, Continue, and other AI agents via authenticated browser session.
@@ -41,6 +45,14 @@ Servidor MCP no oficial para conectar OpenEvidence con Codex, Claude, Cursor, Cl
 ## 中文
 
 非官方 MCP 服务器，通过你自己的已认证浏览器会话将 OpenEvidence 连接到 Codex、Claude、Cursor、Cline、Continue 和其他 MCP 客户端。不提供医疗建议，也不绕过访问控制。
+
+## 繁體中文（台灣）
+
+非官方 MCP 伺服器，透過你自己的已驗證瀏覽器工作階段，將 OpenEvidence 連接到 Codex、Claude、Cursor、Cline、Continue 和其他 MCP 用戶端。不提供醫療建議，也不繞過存取控制。
+
+## 한국어
+
+사용자의 인증된 브라우저 세션으로 OpenEvidence를 Codex, Claude, Cursor, Cline, Continue 및 기타 MCP 클라이언트에 연결하는 비공식 MCP 서버입니다. 의료 조언을 제공하지 않으며 접근 제어를 우회하지 않습니다.
 
 ## हिन्दी
 

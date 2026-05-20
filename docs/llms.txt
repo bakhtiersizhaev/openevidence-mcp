@@ -28,6 +28,12 @@ Availability note: OpenEvidence availability may depend on region, account eligi
 - Repo: https://github.com/bakhtiersizhaev/openevidence-mcp
 - Human setup: https://github.com/bakhtiersizhaev/openevidence-mcp/blob/main/README.md
 - AI setup: https://github.com/bakhtiersizhaev/openevidence-mcp/blob/main/README.AI.md
+- RU README: https://github.com/bakhtiersizhaev/openevidence-mcp/blob/main/README.ru.md
+- ES README: https://github.com/bakhtiersizhaev/openevidence-mcp/blob/main/README.es.md
+- ZH-Hans README: https://github.com/bakhtiersizhaev/openevidence-mcp/blob/main/README.zh-Hans.md
+- ZH-Hant-TW README: https://github.com/bakhtiersizhaev/openevidence-mcp/blob/main/README.zh-Hant-TW.md
+- KO README: https://github.com/bakhtiersizhaev/openevidence-mcp/blob/main/README.ko.md
+- HI README: https://github.com/bakhtiersizhaev/openevidence-mcp/blob/main/README.hi.md
 - RU page: https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/ru/
 - ES page: https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/es/
 - ZH page: https://bakhtiersizhaev.github.io/openevidence-mcp/i18n/zh/
@@ -62,6 +68,8 @@ Availability note: OpenEvidence availability may depend on region, account eligi
 - RU: openevidence mcp, mcp сервер для врачей, медицинский mcp сервер, codex cli claude code openclaw, интеграция openevidence mcp
 - ES: openevidence mcp, servidor mcp para médicos, mcp médico open source, codex cli claude code openclaw, integración openevidence
 - ZH: openevidence mcp, 医疗 mcp 服务器, codex cli claude code openclaw, openevidence 集成, 循证医学 ai workflow mcp
+- ZH-Hant-TW: openevidence mcp, 醫療 mcp 伺服器, codex claude cursor cline continue, openevidence 整合, 實證醫學 ai workflow
+- KO: openevidence mcp, 의료 mcp 서버, codex claude cursor cline continue, openevidence 통합, 근거 기반 의학 ai workflow
 - HI: openevidence mcp, medical mcp server for doctors, codex cli claude code openclaw, evidence based medicine ai workflow
 
 ## Specialty Search Terms
