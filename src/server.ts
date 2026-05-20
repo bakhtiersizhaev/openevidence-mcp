@@ -5,6 +5,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
+import { normalizeArticleResult } from "./article.js";
 import { ensureConfigDirs, resolveConfig } from "./config.js";
 import { extractAnswerText, OpenEvidenceClient } from "./openevidence-client.js";
 import type { OpenEvidenceAskRequest } from "./types.js";
@@ -15,7 +16,48 @@ ensureConfigDirs(config);
 const server = new McpServer({
   name: "openevidence-mcp",
   version: "1.0.0",
+}, {
+  instructions: [
+    "OpenEvidence MCP is an unofficial local stdio bridge to the user's own authenticated OpenEvidence browser session.",
+    "Use oe_auth_status first when authentication state is unknown.",
+    "Use oe_history_list to find recent OpenEvidence article IDs, and oe_article_get to fetch an existing article.",
+    "Use oe_ask only for OpenEvidence evidence-research questions. Do not present outputs as medical advice, diagnosis, or clinical orders.",
+    "For long research questions, prefer oe_ask with wait_for_completion=false, then call oe_article_wait or oe_article_get with the returned article_id. Some MCP hosts time out long blocking calls.",
+    "Use original_article_id only when the user explicitly wants follow-up continuity in that OpenEvidence thread. For fresh questions, omit original_article_id to avoid stale thread context.",
+    "Never ask for or expose passwords, cookies, storage-state files, session tokens, account identifiers, screenshots with private account data, or patient-identifiable information.",
+  ].join(" "),
 });
+
+server.registerPrompt(
+  "openevidence_research_workflow",
+  {
+    title: "OpenEvidence Research Workflow",
+    description:
+      "Guide an AI agent through safe OpenEvidence MCP usage: auth check, history lookup, fresh question vs follow-up, non-blocking ask, polling, and privacy constraints.",
+  },
+  () => ({
+    messages: [
+      {
+        role: "user" as const,
+        content: {
+          type: "text" as const,
+          text: [
+            "Use OpenEvidence MCP safely with the user's own authenticated OpenEvidence session.",
+            "",
+            "Workflow:",
+            "1. Call oe_auth_status if auth state is unknown.",
+            "2. Call oe_history_list only when the user asks to inspect prior OpenEvidence work or needs an article_id.",
+            "3. Call oe_article_get when you already have an article_id and need the current status or answer_text.",
+            "4. For a new evidence-research question, call oe_ask. For long questions, set wait_for_completion=false and then call oe_article_wait with the returned article_id.",
+            "5. Use original_article_id only for a true follow-up in the same OpenEvidence thread. Omit it for fresh questions or when prior thread context may be stale.",
+            "6. Treat OpenEvidence output as research context, not medical advice, diagnosis, or a clinical order.",
+            "7. Never expose passwords, cookies, storage-state files, session tokens, account identifiers, screenshots with private data, or patient-identifiable information.",
+          ].join("\n"),
+        },
+      },
+    ],
+  }),
+);
 
 server.registerTool(
   "oe_auth_status",
@@ -23,6 +65,10 @@ server.registerTool(
     title: "OpenEvidence Auth Status",
     description:
       "Check whether the saved OpenEvidence browser session is authenticated. Use before history/article/ask tools when auth state is unknown. Returns authenticated=true/false and basic account metadata when available. Requires local session state. No side effects. Can fail if session state is missing, expired, or network access fails.",
+    annotations: {
+      readOnlyHint: true,
+      idempotentHint: true,
+    },
   },
   async () =>
     withClient(async (client) => {
@@ -37,6 +83,10 @@ server.registerTool(
     title: "OpenEvidence History List",
     description:
       "List prior OpenEvidence articles/questions from the authenticated account. Use to find recent research threads or article IDs. Inputs: limit, offset, optional search. Returns the OpenEvidence history payload. Requires authenticated session. No side effects. Can fail on expired auth, network errors, or OpenEvidence endpoint changes.",
+    annotations: {
+      readOnlyHint: true,
+      idempotentHint: true,
+    },
     inputSchema: z.object({
       limit: z.number().int().min(1).max(100).default(20).optional(),
       offset: z.number().int().min(0).default(0).optional(),
@@ -55,7 +105,11 @@ server.registerTool(
   {
     title: "OpenEvidence Article Get",
     description:
-      "Fetch a full OpenEvidence article payload by article_id. Use after history lookup or oe_ask returns an article ID. Input: article_id UUID. Returns article data plus extracted_answer_raw when available. Requires authenticated session. No side effects. Can fail on expired auth, network errors, invalid/unknown ID, or endpoint changes.",
+      "Fetch a full OpenEvidence article payload by article_id. Use after history lookup or oe_ask returns an article ID. Input: article_id UUID. Returns normalized fields including status, is_complete, question, answer_text, answer_source, plus raw article data. Requires authenticated session. No side effects. Can fail on expired auth, network errors, invalid/unknown ID, or endpoint changes.",
+    annotations: {
+      readOnlyHint: true,
+      idempotentHint: true,
+    },
     inputSchema: z.object({
       article_id: z.string().uuid(),
     }),
@@ -64,7 +118,36 @@ server.registerTool(
     withClient(async (client) => {
       const article = await client.getArticle(args.article_id);
       return ok({
-        article,
+        ...normalizeArticleResult(article),
+        extracted_answer_raw: extractAnswerText(article),
+      });
+    }),
+);
+
+server.registerTool(
+  "oe_article_wait",
+  {
+    title: "OpenEvidence Article Wait",
+    description:
+      "Wait for an existing OpenEvidence article_id to finish, then return normalized article fields and raw article data. Use after oe_ask with wait_for_completion=false, especially for long research questions that may exceed MCP host timeouts. Inputs: article_id UUID, optional timeout_sec and poll_interval_ms. Requires authenticated session. No side effects. Can return is_complete=false on timeout.",
+    annotations: {
+      readOnlyHint: true,
+      idempotentHint: true,
+    },
+    inputSchema: z.object({
+      article_id: z.string().uuid(),
+      timeout_sec: z.number().int().min(5).max(900).default(180).optional(),
+      poll_interval_ms: z.number().int().min(300).max(10000).default(1200).optional(),
+    }),
+  },
+  async (args) =>
+    withClient(async (client) => {
+      const article = await client.waitForArticle(args.article_id, {
+        timeoutMs: (args.timeout_sec ?? 180) * 1000,
+        intervalMs: args.poll_interval_ms ?? config.pollIntervalMs,
+      });
+      return ok({
+        ...normalizeArticleResult(article),
         extracted_answer_raw: extractAnswerText(article),
       });
     }),
@@ -75,7 +158,11 @@ server.registerTool(
   {
     title: "OpenEvidence Ask",
     description:
-      "Create an OpenEvidence research question, not medical advice or patient-specific diagnosis. Use for evidence-research questions with the user's own authenticated session. Inputs include question, optional original_article_id, wait/polling controls, and OpenEvidence article options. Returns created article data, article_id, and optionally completed article/extracted answer; may return pending result when not waiting or on timeout. Side effect: creates a question/article in the user's OpenEvidence account. Can fail on expired auth, network timeout, invalid follow-up ID, or endpoint changes.",
+      "Create an OpenEvidence research question, not medical advice or patient-specific diagnosis. For long questions, prefer wait_for_completion=false and then call oe_article_wait with the returned article_id. Use original_article_id only for true follow-up continuity; omit it for fresh questions. Returns created article data, article_id, and optionally normalized completed article fields. Side effect: creates a question/article in the user's OpenEvidence account. Can fail on expired auth, network timeout, invalid follow-up ID, or endpoint changes.",
+    annotations: {
+      readOnlyHint: false,
+      idempotentHint: false,
+    },
     inputSchema: z.object({
       question: z.string().min(3).max(6000),
       original_article_id: z.string().uuid().optional(),
@@ -121,7 +208,7 @@ server.registerTool(
 
       return ok({
         created,
-        article,
+        ...normalizeArticleResult(article),
         article_id: articleId,
         extracted_answer_raw: extractAnswerText(article),
       });

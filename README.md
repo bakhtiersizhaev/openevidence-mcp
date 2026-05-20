@@ -42,7 +42,8 @@ OpenEvidence MCP runs a local stdio MCP server that lets MCP clients use your ex
 - checking whether the saved session is authenticated;
 - listing your OpenEvidence question/article history;
 - fetching a full article payload by ID;
-- asking an OpenEvidence research question and optionally waiting for completion.
+- asking an OpenEvidence research question and optionally waiting for completion;
+- polling an existing OpenEvidence article until it completes.
 
 No official OpenEvidence API token is required.
 
@@ -86,8 +87,22 @@ Other MCP-compatible hosts may work as well, but the examples in this repository
 | --- | --- | --- | --- |
 | `oe_auth_status` | Checks whether the saved OpenEvidence browser session is authenticated. | Yes, saved session file must exist. | None. |
 | `oe_history_list` | Lists prior OpenEvidence articles/questions with optional pagination and search. | Yes. | None. |
-| `oe_article_get` | Fetches a full OpenEvidence article payload by article ID. | Yes. | None. |
+| `oe_article_get` | Fetches an article by ID and returns normalized fields (`status`, `is_complete`, `question`, `answer_text`) plus the raw payload. | Yes. | None. |
+| `oe_article_wait` | Waits for an existing article ID to complete; useful after non-blocking `oe_ask`. | Yes. | None. |
 | `oe_ask` | Creates an OpenEvidence research question and optionally waits for the article to complete. | Yes. | Creates a question/article in your OpenEvidence account. |
+
+## Agent Tool-Calling Notes
+
+The MCP server includes built-in instructions and a prompt named `openevidence_research_workflow` for clients that expose MCP prompts.
+
+Recommended agent workflow:
+
+1. Call `oe_auth_status` when auth state is unknown.
+2. Use `oe_history_list` only when the user wants prior OpenEvidence work or an article ID.
+3. Use `oe_article_get` when you already have an article ID.
+4. For long research questions, call `oe_ask` with `wait_for_completion=false`, then call `oe_article_wait` with the returned `article_id`.
+5. Use `original_article_id` only for true follow-up continuity. Omit it for fresh questions to avoid stale thread context.
+6. Treat outputs as evidence-research context, not medical advice, diagnosis, or clinical orders.
 
 Related commands:
 
@@ -249,6 +264,14 @@ Expected result with a valid session:
 If smoke fails with an auth error, run `npm run login` again. Smoke requires a real OpenEvidence account session and will not pass in a clean CI environment unless session state is provided securely.
 
 By default, smoke output redacts account and history content. Use `npm run smoke -- --verbose` only in a private terminal if raw account/history payloads are needed for debugging.
+
+Developer checks:
+
+```bash
+npm test
+npm run build
+npm run check
+```
 
 ## Security Notes
 
