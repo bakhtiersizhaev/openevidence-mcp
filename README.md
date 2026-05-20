@@ -1,6 +1,6 @@
 # OpenEvidence MCP (Unofficial)
 
-OpenEvidence MCP is an unofficial Model Context Protocol server that connects OpenEvidence to Codex, Claude, Cursor, Cline, Continue, and other MCP-compatible clients through your own authenticated browser session.
+OpenEvidence MCP is an unofficial Model Context Protocol server that connects OpenEvidence to Codex, Claude Code, Claude Desktop, Cursor, Cline, Continue, and other MCP-compatible clients through your own authenticated browser session.
 
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-2d72d9)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Node.js 20+](https://img.shields.io/badge/node-%3E%3D20-339933)](https://nodejs.org/)
@@ -10,6 +10,8 @@ OpenEvidence MCP is an unofficial Model Context Protocol server that connects Op
 
 > [!IMPORTANT]
 > This project is unofficial and is not affiliated with OpenEvidence. It does not provide medical advice, does not bypass access controls, and should only be used with your own OpenEvidence account in compliance with applicable terms, privacy rules, and clinical governance requirements.
+
+Translations: [Русский](README.ru.md) | [Español](README.es.md) | [中文](README.zh-Hans.md) | [हिन्दी](README.hi.md)
 
 ## What it does
 
@@ -38,6 +40,24 @@ No official OpenEvidence API token is required.
 - AI operators building evidence-research workflows;
 - MCP developers integrating local tools with Codex, Claude, Cursor, Cline, Continue, or similar clients.
 
+## Tested / Target Clients
+
+This project is designed for MCP-compatible clients and local agent workflows. Only Codex and Claude-style local configuration examples are maintained in this repository unless otherwise noted.
+
+| Client | Status | Notes |
+| --- | --- | --- |
+| OpenAI Codex / Codex CLI / Codex app | Target | Recommended local MCP workflow. |
+| Claude Code | Target | Recommended agent workflow. |
+| Claude Desktop / Claude app with MCP support | Target | Local MCP server configuration. |
+| Cursor | Compatible | MCP-compatible IDE workflow. |
+| Cline | Compatible | VS Code agent workflow. |
+| Continue | Compatible | Open-source IDE assistant workflow. |
+| VS Code / GitHub Copilot environments with MCP support | Experimental | Depends on local MCP support and client configuration. |
+| Windsurf / Zed / Replit / Sourcegraph-style MCP hosts | Experimental | Not guaranteed unless tested. |
+| Gemini CLI / Google Antigravity-style agent environments | Experimental | Watchlist/ecosystem target, not a maintained example. |
+
+Other MCP-compatible hosts may work as well, but the examples in this repository focus on Codex and Claude-style local MCP configuration.
+
 ## Features
 
 | Tool | Purpose | Auth required | Side effects |
@@ -61,6 +81,16 @@ Related commands:
 - OpenEvidence account
 - macOS, Windows, or Linux
 - Chromium installed by Playwright (`npx playwright install chromium`)
+
+## Availability Note
+
+OpenEvidence availability may depend on region, account eligibility, and OpenEvidence policy. Public materials in May 2026 indicate verified U.S. HCP/NPI-centered access and EU/U.K. unavailability; this project does not bypass those restrictions.
+
+Useful references:
+
+- [OpenEvidence homepage](https://www.openevidence.com/)
+- [OpenEvidence API/product page](https://www.openevidence.com/product/api)
+- [OpenEvidence Privacy Policy](https://www.openevidence.com/policies/privacy)
 
 ## Quick Start
 
