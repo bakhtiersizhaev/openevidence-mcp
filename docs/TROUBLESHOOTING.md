@@ -13,6 +13,8 @@ npm run smoke
 
 If you use a custom path, confirm `OE_MCP_AUTH_STATE_PATH` points to the intended `storage-state.json`.
 
+`npm run smoke` redacts account and history content by default. Use `npm run smoke -- --verbose` only in a private terminal when raw payloads are needed for debugging.
+
 ## Expired Session
 
 OpenEvidence session lifetime can vary. Rerun the login flow:
