@@ -244,9 +244,11 @@ Expected result with a valid session:
 
 - `ok: true`
 - `authenticated: true`
-- a small history preview
+- a redacted history preview
 
 If smoke fails with an auth error, run `npm run login` again. Smoke requires a real OpenEvidence account session and will not pass in a clean CI environment unless session state is provided securely.
+
+By default, smoke output redacts account and history content. Use `npm run smoke -- --verbose` only in a private terminal if raw account/history payloads are needed for debugging.
 
 ## Security Notes
 
