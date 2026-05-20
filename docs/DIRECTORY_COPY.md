@@ -6,7 +6,7 @@ Connect OpenEvidence to AI agents through your own authenticated browser session
 
 ## Short description
 
-OpenEvidence MCP is an unofficial Model Context Protocol server for Codex, Claude, Cursor, Cline, Continue, and other MCP-compatible clients. It uses the user's own authenticated OpenEvidence browser session and does not require an official API token.
+OpenEvidence MCP is an unofficial Model Context Protocol server for OpenAI Codex, Codex CLI, Claude Code, Claude Desktop, Cursor, Cline, Continue, and other MCP-compatible clients. It uses the user's own authenticated OpenEvidence browser session and does not require an official API token.
 
 ## Long description
 
@@ -14,9 +14,11 @@ OpenEvidence MCP provides a local stdio MCP server with tools for checking auth 
 
 This project is unofficial and is not affiliated with OpenEvidence. It does not provide medical advice, does not bypass authentication or access controls, and does not collect credentials. Users are responsible for protecting local session state and following applicable terms, privacy rules, and clinical governance requirements.
 
+Public materials in May 2026 indicate verified U.S. HCP/NPI-centered OpenEvidence access and EU/U.K. unavailability. This project does not bypass regional, account, or policy restrictions.
+
 ## Keywords
 
-`mcp`, `model-context-protocol`, `openevidence`, `medical-ai`, `healthcare-ai`, `clinical-research`, `ai-agents`, `codex`, `claude`, `cursor`, `cline`, `continue`, `playwright`, `typescript`
+`mcp`, `model-context-protocol`, `openevidence`, `medical-ai`, `healthcare-ai`, `clinical-research`, `ai-agents`, `codex`, `codex-cli`, `claude-code`, `claude-desktop`, `cursor`, `cline`, `continue`, `github-copilot`, `playwright`, `typescript`
 
 ## GitHub About
 

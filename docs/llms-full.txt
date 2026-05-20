@@ -10,14 +10,16 @@ OpenEvidence MCP is an unofficial open-source Model Context Protocol (MCP) serve
 
 Important: this project is not affiliated with OpenEvidence, does not provide medical advice, and does not bypass authentication or access controls.
 
+Availability note: OpenEvidence availability may depend on region, account eligibility, and OpenEvidence policy. Public materials in May 2026 indicate verified U.S. HCP/NPI-centered access and EU/U.K. unavailability. This project does not bypass regional, account, or policy restrictions.
+
 ### OpenEvidence Context
 
-OpenEvidence is commonly used by physicians and clinical teams to ask medical questions and review evidence-backed responses.  
-This MCP server makes that workflow callable from external AI tools.
+OpenEvidence is a medical research product. This MCP server lets users connect their own authenticated OpenEvidence browser session to external AI tools.
 
 ## Primary Users
 
-- doctors (attendings, residents, fellows)
+- users with their own OpenEvidence account
+- clinicians
 - clinical researchers
 - medical knowledge teams
 - AI operators integrating clinical Q&A into MCP stacks
@@ -55,33 +57,36 @@ This MCP server makes that workflow callable from external AI tools.
 
 ## MCP Clients and Integrations
 
+- OpenAI Codex
 - Codex CLI
-- Claude Desktop
+- Codex app
 - Claude Code
-- OpenClaw
+- Claude Desktop / Claude app with MCP support
+- Claude Code
 - Cursor
 - Cline
 - Continue
-- any MCP-compatible client that supports stdio/http MCP servers
+- VS Code / GitHub Copilot environments with MCP support
+- experimental: Windsurf, Zed, Replit, Sourcegraph-style hosts, Gemini CLI / Google Antigravity-style hosts
+- any MCP-compatible client that supports local stdio server command/args
 
 ## Search Intent Matrix (SEO/GEO)
 
 ### EN
 - openevidence mcp
-- openevidence for doctors
-- medical mcp server
+- unofficial mcp server
+- openevidence browser session mcp
 - openevidence codex integration
 - openevidence claude integration
-- openevidence openclaw integration
-- evidence based medicine ai workflow mcp
-- openevidence mcp browser session
+- openevidence cursor cline continue mcp
+- github copilot mcp environment
 
 ### RU
 - openevidence mcp
 - mcp сервер для врачей
 - медицинский mcp сервер
 - openevidence для codex и claude
-- openevidence для openclaw
+- openevidence для cursor cline continue
 - интеграция openevidence mcp
 - ai workflow доказательная медицина
 
@@ -90,22 +95,22 @@ This MCP server makes that workflow callable from external AI tools.
 - servidor mcp para médicos
 - integración openevidence codex
 - integración openevidence claude
-- integración openevidence openclaw
+- integración openevidence cursor cline continue
 - ia clínica basada en evidencia mcp
 
 ### ZH
 - openevidence mcp
 - 医生 医疗 mcp 服务器
 - openevidence codex claude 集成
-- openevidence openclaw 集成
+- openevidence cursor cline continue 集成
 - 循证医学 ai workflow mcp
-- openevidence api 替代
+- openevidence browser session mcp
 
 ### HI
 - openevidence mcp
 - medical mcp server for doctors
 - openevidence codex claude integration
-- openevidence openclaw integration
+- openevidence cursor cline continue integration
 - evidence based medicine ai workflow mcp
 - openevidence mcp browser session
 

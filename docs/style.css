@@ -375,6 +375,14 @@ h1 {
   border-radius: 2px;
 }
 
+.wide-panel {
+  grid-column: 1 / -1;
+}
+
+.notice-panel {
+  background: linear-gradient(180deg, #fffdf1 0%, #fff2b8 58%, #f5dd83 100%);
+}
+
 .panel h2 {
   position: relative;
   margin: 0 -10px 10px;
@@ -402,6 +410,221 @@ h1 {
   color: #12418f;
   background: linear-gradient(180deg, #fefefe, #d3e2ff);
   border: 1px solid #7da2e0;
+}
+
+.panel-icon,
+.mini-icon {
+  display: inline-block;
+  position: relative;
+  vertical-align: -3px;
+  margin-right: 6px;
+}
+
+.panel-icon {
+  width: 18px;
+  height: 18px;
+  border: 1px solid #123c86;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #ffffff, #9fc5ff);
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.82), 1px 1px 0 rgba(0, 0, 0, 0.24);
+}
+
+.panel-icon::before,
+.panel-icon::after,
+.mini-icon::before,
+.mini-icon::after {
+  content: "";
+  position: absolute;
+}
+
+.panel-icon.globe {
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f8ffff 0 18%, #8ed6ff 42%, #3571c8 100%);
+}
+
+.panel-icon.globe::before {
+  left: 3px;
+  top: 7px;
+  width: 10px;
+  height: 2px;
+  border-top: 1px solid rgba(255, 255, 255, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.68);
+}
+
+.panel-icon.tools::before {
+  left: 4px;
+  top: 8px;
+  width: 10px;
+  height: 3px;
+  background: #204d99;
+  transform: rotate(-38deg);
+}
+
+.panel-icon.tools::after {
+  right: 3px;
+  bottom: 3px;
+  width: 5px;
+  height: 5px;
+  border: 2px solid #204d99;
+  border-radius: 50%;
+}
+
+.panel-icon.clients::before {
+  left: 3px;
+  top: 4px;
+  width: 12px;
+  height: 8px;
+  border: 1px solid #174385;
+  background: linear-gradient(180deg, #eaf7ff, #77a6e8);
+}
+
+.panel-icon.clients::after {
+  left: 6px;
+  bottom: 3px;
+  width: 7px;
+  height: 3px;
+  background: #174385;
+}
+
+.mini-icon {
+  width: 14px;
+  height: 14px;
+  border: 1px solid #16468d;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #f7fcff, #8ab7ef);
+  flex: 0 0 auto;
+}
+
+.mini-icon.auth::before {
+  left: 4px;
+  top: 2px;
+  width: 5px;
+  height: 4px;
+  border: 1px solid #16468d;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+}
+
+.mini-icon.auth::after {
+  left: 3px;
+  bottom: 2px;
+  width: 7px;
+  height: 5px;
+  background: #245edc;
+}
+
+.mini-icon.history::before {
+  left: 3px;
+  top: 3px;
+  width: 8px;
+  height: 8px;
+  border: 1px solid #245edc;
+  border-radius: 50%;
+}
+
+.mini-icon.history::after {
+  left: 6px;
+  top: 4px;
+  width: 1px;
+  height: 5px;
+  background: #245edc;
+  transform-origin: bottom;
+  transform: rotate(45deg);
+}
+
+.mini-icon.article::before {
+  left: 3px;
+  top: 2px;
+  width: 7px;
+  height: 9px;
+  border: 1px solid #245edc;
+  background: #fff;
+}
+
+.mini-icon.article::after {
+  left: 5px;
+  top: 5px;
+  width: 5px;
+  height: 1px;
+  background: #245edc;
+  box-shadow: 0 3px 0 #245edc;
+}
+
+.mini-icon.ask::before {
+  left: 3px;
+  top: 3px;
+  width: 8px;
+  height: 6px;
+  border-radius: 5px;
+  background: #245edc;
+}
+
+.mini-icon.ask::after {
+  left: 7px;
+  top: 8px;
+  width: 4px;
+  height: 4px;
+  background: #245edc;
+  transform: skew(-28deg);
+}
+
+.icon-list dt {
+  display: flex;
+  align-items: center;
+}
+
+.client-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(214px, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.client-card {
+  min-height: 58px;
+  padding: 8px;
+  border: 1px solid #315fa4;
+  background: linear-gradient(180deg, #ffffff, #dfeaff);
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.82);
+}
+
+.client-card strong,
+.client-card span {
+  display: block;
+}
+
+.client-card strong {
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.client-card span {
+  width: max-content;
+  margin-top: 6px;
+  padding: 2px 6px;
+  border: 1px solid #245edc;
+  border-radius: 2px;
+  background: #edf4ff;
+  color: #123c86;
+  font-weight: 700;
+}
+
+.client-card.target span {
+  border-color: #2f8d31;
+  background: #e9ffe3;
+  color: #226420;
+}
+
+.client-card.experimental span {
+  border-color: #a36b00;
+  background: #fff4d5;
+  color: #7a4d00;
+}
+
+.fine-print {
+  margin: 10px 0 0;
+  font-size: 11px;
+  color: #28436f;
 }
 
 .panel p,

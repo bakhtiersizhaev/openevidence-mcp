@@ -29,6 +29,10 @@
     "LICENSE",
     "NOTICE",
     "README.md",
+    "README.ru.md",
+    "README.es.md",
+    "README.zh-Hans.md",
+    "README.hi.md",
     "README.AI.md"
   ],
   "engines": {
@@ -43,8 +47,14 @@
     "healthcare-ai",
     "ai-agents",
     "codex",
+    "codex-cli",
+    "claude-code",
+    "claude-desktop",
     "claude",
     "cursor",
+    "cline",
+    "continue",
+    "github-copilot",
     "playwright",
     "typescript"
   ],

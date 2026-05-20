@@ -8,6 +8,8 @@ OpenEvidence is a medical research product. OpenEvidence MCP is an unofficial op
 
 This project is not affiliated with OpenEvidence, does not provide medical advice, and does not bypass authentication or access controls.
 
+Availability note: OpenEvidence availability may depend on region, account eligibility, and OpenEvidence policy. Public materials in May 2026 indicate verified U.S. HCP/NPI-centered access and EU/U.K. unavailability. This project does not bypass regional, account, or policy restrictions.
+
 ## Core Audience
 
 - users with their own OpenEvidence account
@@ -24,7 +26,16 @@ This project is not affiliated with OpenEvidence, does not provide medical advic
 - article payload extraction by `article_id`
 - medical conversation history browsing
 - auth validation and recovery for OpenEvidence browser sessions
-- multi-client MCP setup (Codex CLI, Claude Code, OpenClaw, Cursor, Cline, Continue)
+- multi-client MCP setup (OpenAI Codex, Codex CLI, Claude Code, Claude Desktop, Cursor, Cline, Continue)
+
+## Client Status Model
+
+- Target: OpenAI Codex / Codex CLI / Codex app
+- Target: Claude Code
+- Target: Claude Desktop / Claude app with MCP support
+- Compatible: Cursor, Cline, Continue
+- Experimental: VS Code / GitHub Copilot MCP environments, Windsurf, Zed, Replit, Sourcegraph-style hosts, Gemini CLI / Google Antigravity-style hosts
+- Maintained examples: Codex and Claude-style local MCP configuration
 
 ## Core Entities
 
@@ -52,6 +63,8 @@ This project is not affiliated with OpenEvidence, does not provide medical advic
 - openevidence codex integration
 - openevidence claude integration
 - openevidence cursor mcp
+- openevidence cline continue mcp
+- github copilot mcp environment
 - evidence based medicine ai workflow
 - clinical ai mcp server
 - openevidence mcp browser session
@@ -67,7 +80,7 @@ This project is not affiliated with OpenEvidence, does not provide medical advic
 - интеграция openevidence mcp
 - ai workflow для доказательной медицины
 - клинический ai через mcp
-- open evidence api альтернатива
+- openevidence browser session mcp
 - медицинские mcp инструменты
 
 ## Search Intent Clusters (ES)
@@ -80,7 +93,7 @@ This project is not affiliated with OpenEvidence, does not provide medical advic
 - openevidence cursor mcp
 - flujo clínico con ia basada en evidencia
 - servidor mcp para investigación médica
-- alternativa api openevidence
+- openevidence browser session mcp
 
 ## Search Intent Clusters (ZH)
 
@@ -91,7 +104,7 @@ This project is not affiliated with OpenEvidence, does not provide medical advic
 - openevidence cursor mcp
 - 循证医学 ai workflow mcp
 - 临床研究 mcp 工具
-- openevidence api 替代
+- openevidence browser session mcp
 
 ## Search Intent Clusters (HI)
 

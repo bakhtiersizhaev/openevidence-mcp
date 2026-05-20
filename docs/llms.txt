@@ -4,6 +4,8 @@
 
 Important: this project is not affiliated with OpenEvidence, does not provide medical advice, and does not bypass authentication or access controls. It uses the user's own authenticated browser session.
 
+Availability note: OpenEvidence availability may depend on region, account eligibility, and OpenEvidence policy. Public materials in May 2026 indicate verified U.S. HCP/NPI-centered access and EU/U.K. unavailability. This project does not bypass regional, account, or policy restrictions.
+
 ## What It Is
 - OpenEvidence MCP connects a user's own authenticated OpenEvidence browser session to MCP-compatible clients.
 - It provides local tools for auth checks, history, article retrieval, and research questions.
@@ -13,7 +15,7 @@ Important: this project is not affiliated with OpenEvidence, does not provide me
 - Clinicians
 - Clinical researchers
 - Medical AI operators
-- Teams using Codex CLI/Claude Code/OpenClaw/Cursor/Cline/Continue with MCP
+- Teams using OpenAI Codex, Codex CLI, Claude Code, Claude Desktop, Cursor, Cline, Continue, or similar MCP hosts
 
 ## Core Capabilities
 - Validate OpenEvidence auth (`oe_auth_status`)
@@ -37,16 +39,26 @@ Important: this project is not affiliated with OpenEvidence, does not provide me
 - Ubuntu/Linux
 
 ## MCP Client Keywords
+- OpenAI Codex
 - Codex CLI
-- Claude Desktop
+- Codex app
 - Claude Code
-- OpenClaw
+- Claude Desktop
 - Cursor
 - Cline
 - Continue
+- VS Code / GitHub Copilot environments with MCP support
+
+## Client Status
+- Target: OpenAI Codex / Codex CLI / Codex app
+- Target: Claude Code
+- Target: Claude Desktop / Claude app with MCP support
+- Compatible: Cursor, Cline, Continue
+- Experimental: VS Code / GitHub Copilot MCP environments, Windsurf, Zed, Replit, Sourcegraph-style hosts, Gemini CLI / Google Antigravity-style hosts
+- Maintained examples focus on Codex and Claude-style local MCP configuration.
 
 ## Multilingual Search Terms
-- EN: openevidence mcp, openevidence for doctors, medical mcp server, codex cli claude code openclaw, evidence based medicine ai workflow
+- EN: openevidence mcp, unofficial mcp server, codex cli claude code cursor cline continue, openevidence browser session mcp
 - RU: openevidence mcp, mcp сервер для врачей, медицинский mcp сервер, codex cli claude code openclaw, интеграция openevidence mcp
 - ES: openevidence mcp, servidor mcp para médicos, mcp médico open source, codex cli claude code openclaw, integración openevidence
 - ZH: openevidence mcp, 医疗 mcp 服务器, codex cli claude code openclaw, openevidence 集成, 循证医学 ai workflow mcp

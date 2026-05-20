@@ -10,7 +10,7 @@
     />
     <meta
       name="keywords"
-      content="OpenEvidence MCP, unofficial MCP server, Model Context Protocol, Codex MCP, Claude MCP, Cursor MCP, Cline MCP, Continue MCP, OpenEvidence integration, browser session auth, Playwright MCP, TypeScript MCP"
+      content="OpenEvidence MCP, unofficial MCP server, Model Context Protocol, OpenAI Codex, Codex CLI, Claude Code, Claude Desktop, Cursor MCP, Cline MCP, Continue MCP, GitHub Copilot MCP, OpenEvidence integration, browser session auth, Playwright MCP, TypeScript MCP"
     />
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
     <link rel="canonical" href="https://bakhtiersizhaev.github.io/openevidence-mcp/" />
@@ -45,17 +45,21 @@
         "codeRepository": "https://github.com/bakhtiersizhaev/openevidence-mcp",
         "license": "https://www.apache.org/licenses/LICENSE-2.0",
         "programmingLanguage": ["TypeScript", "JavaScript"],
-        "description": "Unofficial MCP server for OpenEvidence that connects the user's authenticated browser session to Codex, Claude, Cursor, Cline, Continue, and other MCP clients.",
+        "description": "Unofficial MCP server for OpenEvidence that connects the user's authenticated browser session to Codex, Claude Code, Claude Desktop, Cursor, Cline, Continue, and other MCP clients.",
         "keywords": [
           "MCP",
           "OpenEvidence",
           "unofficial MCP server",
           "browser session auth",
           "Codex",
+          "Codex CLI",
+          "Claude Code",
+          "Claude Desktop",
           "Claude",
           "Cursor",
           "Cline",
           "Continue",
+          "GitHub Copilot",
           "Playwright",
           "TypeScript"
         ],
@@ -89,7 +93,7 @@
             "name": "Which MCP clients are supported?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Any client that supports standard MCP servers, including Codex CLI, Claude Desktop, Claude Code, OpenClaw, Cursor, Cline, Continue, and similar tools."
+              "text": "Any client that supports local stdio MCP servers may work. Maintained examples focus on Codex and Claude-style configuration; Cursor, Cline, Continue, and compatible IDE hosts can use the same command/args pattern."
             }
           }
         ]
@@ -140,6 +144,15 @@
         </p>
       </section>
 
+      <section class="panel notice-panel" aria-labelledby="availability-title">
+        <h2 id="availability-title"><span class="panel-icon globe" aria-hidden="true"></span>Availability Note</h2>
+        <p>
+          OpenEvidence availability may depend on region, account eligibility, and OpenEvidence policy.
+          Public materials in May 2026 indicate verified U.S. HCP/NPI-centered access and EU/U.K. unavailability.
+          This project does not bypass regional, account, or policy restrictions.
+        </p>
+      </section>
+
       <section class="panel" aria-labelledby="openevidence-title">
         <h2 id="openevidence-title">What Is OpenEvidence?</h2>
         <p>
@@ -148,17 +161,34 @@
       </section>
 
       <section class="panel" aria-labelledby="tools-title">
-        <h2 id="tools-title">Tool Surface</h2>
-        <dl>
-          <dt><code>oe_auth_status</code></dt>
+        <h2 id="tools-title"><span class="panel-icon tools" aria-hidden="true"></span>Tool Surface</h2>
+        <dl class="icon-list">
+          <dt><span class="mini-icon auth" aria-hidden="true"></span><code>oe_auth_status</code></dt>
           <dd>Validate account session through <code>/api/auth/me</code>.</dd>
-          <dt><code>oe_history_list</code></dt>
+          <dt><span class="mini-icon history" aria-hidden="true"></span><code>oe_history_list</code></dt>
           <dd>Read previous conversations through <code>/api/article/list</code>.</dd>
-          <dt><code>oe_article_get</code></dt>
+          <dt><span class="mini-icon article" aria-hidden="true"></span><code>oe_article_get</code></dt>
           <dd>Fetch full article payload by article ID.</dd>
-          <dt><code>oe_ask</code></dt>
+          <dt><span class="mini-icon ask" aria-hidden="true"></span><code>oe_ask</code></dt>
           <dd>Create a new question and optionally wait for completion.</dd>
         </dl>
+      </section>
+
+      <section class="panel wide-panel" aria-labelledby="clients-title">
+        <h2 id="clients-title"><span class="panel-icon clients" aria-hidden="true"></span>Tested / Target MCP Clients</h2>
+        <div class="client-grid" role="list">
+          <article class="client-card target" role="listitem"><strong>OpenAI Codex / Codex CLI</strong><span>Target</span></article>
+          <article class="client-card target" role="listitem"><strong>Claude Code</strong><span>Target</span></article>
+          <article class="client-card target" role="listitem"><strong>Claude Desktop / Claude app</strong><span>Target</span></article>
+          <article class="client-card compatible" role="listitem"><strong>Cursor</strong><span>Compatible</span></article>
+          <article class="client-card compatible" role="listitem"><strong>Cline</strong><span>Compatible</span></article>
+          <article class="client-card compatible" role="listitem"><strong>Continue</strong><span>Compatible</span></article>
+          <article class="client-card experimental" role="listitem"><strong>VS Code / GitHub Copilot MCP environments</strong><span>Experimental</span></article>
+          <article class="client-card experimental" role="listitem"><strong>Windsurf / Zed / Replit / Gemini-style hosts</strong><span>Experimental</span></article>
+        </div>
+        <p class="fine-print">
+          Maintained examples focus on Codex and Claude-style local MCP configuration. Other MCP-compatible hosts may work when they support local stdio server command/args.
+        </p>
       </section>
 
       <section class="panel" aria-labelledby="when-title">
