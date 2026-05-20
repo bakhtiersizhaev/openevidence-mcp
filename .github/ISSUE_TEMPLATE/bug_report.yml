@@ -1,0 +1,101 @@
+name: Bug report
+description: Report a reproducible OpenEvidence MCP bug with sanitized details.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not paste cookies, tokens, storage-state files, screenshots with private medical data, patient data, or account identifiers.
+  - type: input
+    id: os
+    attributes:
+      label: OS
+      description: Example: Windows 11, macOS 15, Ubuntu 24.04.
+    validations:
+      required: true
+  - type: input
+    id: node_npm
+    attributes:
+      label: Node.js and npm versions
+      description: Output of `node --version` and `npm --version`.
+    validations:
+      required: true
+  - type: dropdown
+    id: mcp_client
+    attributes:
+      label: MCP client
+      options:
+        - Codex
+        - Claude Desktop
+        - Cursor
+        - Cline
+        - Continue
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: install_method
+    attributes:
+      label: Install method
+      description: Example: git clone, npm package, local checkout.
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command used
+      description: Paste the command or MCP config shape. Use sanitized absolute paths if needed.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized logs
+      description: Remove cookies, tokens, account identifiers, patient data, and private paths if needed.
+      render: text
+    validations:
+      required: false
+  - type: dropdown
+    id: auth_status
+    attributes:
+      label: Auth status
+      options:
+        - authenticated true
+        - authenticated false
+        - unknown
+    validations:
+      required: true
+  - type: dropdown
+    id: storage_state
+    attributes:
+      label: Does storage state exist locally?
+      options:
+        - "yes"
+        - "no"
+        - unknown
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      placeholder: |
+        1. Run ...
+        2. Configure ...
+        3. Call ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true

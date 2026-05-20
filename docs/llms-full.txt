@@ -6,7 +6,9 @@ License: Apache-2.0 + NOTICE
 
 ## Product Definition
 
-OpenEvidence MCP is an unofficial open-source Model Context Protocol (MCP) server that connects OpenEvidence browser sessions to MCP-compatible AI clients.
+OpenEvidence MCP is an unofficial open-source Model Context Protocol (MCP) server that connects a user's own authenticated OpenEvidence browser session to MCP-compatible AI clients.
+
+Important: this project is not affiliated with OpenEvidence, does not provide medical advice, and does not bypass authentication or access controls.
 
 ### OpenEvidence Context
 
@@ -72,7 +74,7 @@ This MCP server makes that workflow callable from external AI tools.
 - openevidence claude integration
 - openevidence openclaw integration
 - evidence based medicine ai workflow mcp
-- openevidence api alternative
+- openevidence mcp browser session
 
 ### RU
 - openevidence mcp
@@ -105,7 +107,7 @@ This MCP server makes that workflow callable from external AI tools.
 - openevidence codex claude integration
 - openevidence openclaw integration
 - evidence based medicine ai workflow mcp
-- openevidence api alternative
+- openevidence mcp browser session
 
 ## Specialty Intent Matrix
 
@@ -114,7 +116,7 @@ This MCP server makes that workflow callable from external AI tools.
 - endocrinology clinical workflow mcp
 - oncology literature review mcp server
 - emergency medicine quick evidence mcp
-- differential diagnosis support mcp doctors
+- openevidence research workflow mcp
 
 ### RU
 - кардиология доказательная медицина mcp
@@ -142,7 +144,7 @@ This MCP server makes that workflow callable from external AI tools.
 - endocrinology clinical workflow mcp
 - oncology literature review mcp server
 - emergency medicine quick evidence mcp
-- differential diagnosis support mcp doctors
+- openevidence research workflow mcp
 
 ## AI Agent/System Search Terms
 

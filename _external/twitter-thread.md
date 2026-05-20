@@ -1,33 +1,16 @@
-## Tweet 1
-I built an open-source MCP server for OpenEvidence - the clinical AI platform used by 40%+ of US doctors.
+OpenEvidence MCP is an unofficial MCP server that connects OpenEvidence to Codex, Claude, Cursor, Cline, Continue, and other MCP-compatible clients through your own authenticated browser session.
 
-Now you can query medical evidence directly from Claude Desktop, Codex CLI, or Cursor.
+Tools:
 
-No API key needed. Browser-session auth via Playwright.
+- `oe_auth_status`
+- `oe_history_list`
+- `oe_article_get`
+- `oe_ask`
 
-🔗 https://github.com/bakhtiersizhaev/openevidence-mcp
+No official API token required. You sign in locally and the Playwright storage state stays on your machine.
 
-🧵
+Security boundaries matter: treat session state as secret, use your own account, do not paste private account or patient data into issues.
 
-## Tweet 2
-4 tools:
-• oe_auth_status - check session
-• oe_history_list - browse past queries
-• oe_article_get - fetch full articles
-• oe_ask - ask clinical questions with auto-polling
+Not affiliated with OpenEvidence. Not medical advice. Does not bypass authentication or access controls.
 
-Works on macOS, Windows, Linux.
-
-## Tweet 3
-Use case: you're reviewing a case in Claude Desktop.
-
-Instead of switching tabs, ask OpenEvidence right there. Get cited answers from NEJM, JAMA, NCCN - without leaving your AI workflow.
-
-## Tweet 4
-Stack: TypeScript, MCP SDK 1.26.0, Playwright 1.58.2
-
-Apache-2.0 licensed. PRs welcome.
-
-Next up: npm package, Docker support, streaming responses.
-
-#MCP #MedicalAI #OpenEvidence #Claude #OpenSource
+Repo: https://github.com/bakhtiersizhaev/openevidence-mcp
