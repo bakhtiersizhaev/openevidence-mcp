@@ -106,6 +106,22 @@ OpenEvidence is a medical research product. This MCP server lets users connect t
 - 循证医学 ai workflow mcp
 - openevidence browser session mcp
 
+### ZH-Hant-TW
+- openevidence mcp
+- 醫療 mcp 伺服器
+- openevidence codex claude 整合
+- openevidence cursor cline continue 整合
+- 實證醫學 ai workflow mcp
+- openevidence browser session mcp
+
+### KO
+- openevidence mcp
+- 의료 mcp 서버
+- openevidence codex claude 통합
+- openevidence cursor cline continue 통합
+- 근거 기반 의학 ai workflow mcp
+- openevidence browser session mcp
+
 ### HI
 - openevidence mcp
 - medical mcp server for doctors
@@ -128,21 +144,35 @@ OpenEvidence is a medical research product. This MCP server lets users connect t
 - эндокринология clinical workflow mcp
 - онкология обзор литературы mcp сервер
 - emergency medicine быстрый ответ mcp
-- дифференциальная диагностика поддержка mcp
+- медицинский research workflow mcp
 
 ### ES
 - cardiología medicina basada en evidencia mcp
 - endocrinología flujo clínico mcp
 - oncología revisión de literatura mcp server
 - medicina de emergencia respuesta rápida mcp
-- apoyo diagnóstico diferencial mcp médicos
+- flujo de investigación médica mcp
 
 ### ZH
 - 心内科 循证医学 mcp
 - 内分泌 临床 workflow mcp
 - 肿瘤学 文献检索 mcp server
 - 急诊医学 快速证据 mcp
-- 鉴别诊断 支持 mcp 医生
+- 医学研究 workflow mcp
+
+### ZH-Hant-TW
+- 心臟科 實證醫學 mcp
+- 內分泌 research workflow mcp
+- 腫瘤學 文獻檢索 mcp server
+- 急診醫學 evidence review mcp
+- 醫學研究 workflow mcp
+
+### KO
+- 심장학 근거 기반 의학 mcp
+- 내분비학 research workflow mcp
+- 종양학 문헌 검토 mcp server
+- 응급의학 evidence review mcp
+- 의학 연구 workflow mcp
 
 ### HI
 - cardiology evidence based medicine mcp
@@ -163,6 +193,7 @@ OpenEvidence is a medical research product. This MCP server lets users connect t
 
 ### Human-first setup
 - `README.md`
+- short localized READMEs: `README.ru.md`, `README.es.md`, `README.zh-Hans.md`, `README.zh-Hant-TW.md`, `README.ko.md`, `README.hi.md`
 - platform scripts in `scripts/`
 
 ### Agent-first setup
@@ -172,6 +203,7 @@ OpenEvidence is a medical research product. This MCP server lets users connect t
 ## SEO / GEO Artifacts
 
 - static semantic landing pages in `docs/` and `docs/i18n/*/`
+- language strategy: `docs/LANGUAGE_STRATEGY.md`
 - canonical URL + hreflang links
 - robots: `docs/robots.txt`
 - sitemap: `docs/sitemap.xml`

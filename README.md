@@ -11,7 +11,7 @@ OpenEvidence MCP is an unofficial Model Context Protocol server that connects Op
 > [!IMPORTANT]
 > This project is unofficial and is not affiliated with OpenEvidence. It does not provide medical advice, does not bypass access controls, and should only be used with your own OpenEvidence account in compliance with applicable terms, privacy rules, and clinical governance requirements.
 
-Translations: [Русский](README.ru.md) | [Español](README.es.md) | [中文](README.zh-Hans.md) | [हिन्दी](README.hi.md)
+Translations: [Русский](README.ru.md) | [Español](README.es.md) | [简体中文](README.zh-Hans.md) | [繁體中文（台灣）](README.zh-Hant-TW.md) | [한국어](README.ko.md) | [हिन्दी](README.hi.md)
 
 ## What it does
 

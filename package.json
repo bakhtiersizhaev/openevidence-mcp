@@ -22,6 +22,7 @@
     "scripts/",
     "examples/",
     "docs/DIRECTORY_COPY.md",
+    "docs/LANGUAGE_STRATEGY.md",
     "docs/TROUBLESHOOTING.md",
     ".env.example",
     "SECURITY.md",
@@ -32,6 +33,8 @@
     "README.ru.md",
     "README.es.md",
     "README.zh-Hans.md",
+    "README.zh-Hant-TW.md",
+    "README.ko.md",
     "README.hi.md",
     "README.AI.md"
   ],
