@@ -13,6 +13,8 @@ OpenEvidence MCP is an unofficial Model Context Protocol server that connects Op
 
 Translations: [Русский](README.ru.md) | [Español](README.es.md) | [简体中文](README.zh-Hans.md) | [繁體中文（台灣）](README.zh-Hant-TW.md) | [한국어](README.ko.md) | [हिन्दी](README.hi.md)
 
+Using Codex or Claude Code? Copy the prompt in [`docs/AGENT_INSTALL_PROMPT.md`](docs/AGENT_INSTALL_PROMPT.md) and let your agent handle setup, config, login guidance, and verification.
+
 ## What it does
 
 OpenEvidence MCP runs a local stdio MCP server that lets MCP clients use your existing OpenEvidence browser session for:
@@ -72,6 +74,7 @@ Related commands:
 | Command | Purpose |
 | --- | --- |
 | `npm run login` | Opens a local browser so you can sign in and save reusable session state. |
+| `npm run login:browser` | Opens system Chrome/Edge for Google SSO cases where Playwright login is blocked as unsafe. |
 | `npm run smoke` | Verifies auth and basic OpenEvidence connectivity. |
 
 ## Requirements
@@ -144,6 +147,14 @@ You can import an existing Playwright storage state file:
 ```bash
 npm run login -- --import /absolute/path/storage-state.json
 ```
+
+If Google sign-in says the browser or app may not be secure, use the system-browser login flow:
+
+```bash
+npm run login:browser
+```
+
+This opens Chrome or Edge with a local OpenEvidence MCP profile. Complete login in that browser, return to the terminal, and press Enter. The script saves local session state and verifies `/api/auth/me`.
 
 Do not share storage-state files, cookies, screenshots with private account data, or patient-identifiable information.
 
@@ -233,6 +244,7 @@ See `docs/TROUBLESHOOTING.md` for detailed recovery steps.
 Common fixes:
 
 - `authenticated: false`: rerun `npm run login`.
+- Google says browser is not secure: run `npm run login:browser`.
 - Browser install errors: run `npx playwright install chromium`.
 - MCP client cannot start server: confirm `npm run build` succeeded and use an absolute path to `dist/server.js`.
 - Windows path issues: escape backslashes in JSON/TOML or use full absolute paths.

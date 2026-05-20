@@ -18,6 +18,8 @@
 
 Install and validate OpenEvidence MCP on macOS, Windows, or Ubuntu, with clear handoff for human login.
 
+For a user-facing copy/paste prompt, use `docs/AGENT_INSTALL_PROMPT.md`.
+
 ## Scope
 
 - Agent checks runtime and MCP availability
@@ -141,6 +143,15 @@ Human actions:
 - complete OpenEvidence login in browser
 - return to terminal
 - press Enter
+
+If Google sign-in reports "This browser or app may not be secure", stop the Playwright login flow and run:
+
+```bash
+cd /ABSOLUTE/PATH/openevidence-mcp
+npm run login:browser
+```
+
+This launches system Chrome/Edge with a local profile, waits for the human to complete login, then captures and verifies local session state. Do not suggest stealth/evasion flags or any access-control bypass.
 
 Alternative import flow:
 
