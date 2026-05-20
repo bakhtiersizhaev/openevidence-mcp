@@ -2,6 +2,7 @@ import { access } from "node:fs/promises";
 import { constants } from "node:fs";
 import { request, type APIRequestContext } from "playwright";
 
+import { extractAnswerText as extractArticleAnswerText } from "./article.js";
 import type { AppConfig } from "./config.js";
 import type { AuthStatusResult, OpenEvidenceAskRequest, WaitOptions } from "./types.js";
 
@@ -39,7 +40,16 @@ export class OpenEvidenceClient {
       };
     }
 
-    const user = (await res.json()) as Record<string, unknown>;
+    const user = await readJsonObject(res);
+    if (!user) {
+      return {
+        authenticated: false,
+        statusCode,
+        message:
+          "OpenEvidence auth endpoint did not return JSON. Session may be expired, redirected, or blocked. Run login flow.",
+      };
+    }
+
     return {
       authenticated: true,
       statusCode,
@@ -157,21 +167,28 @@ async function assertJsonResponse(status: number, url: string): Promise<void> {
   throw new Error(`GET ${url} failed with status ${status}`);
 }
 
+async function readJsonObject(res: { headers(): Record<string, string>; json(): Promise<unknown> }) {
+  const contentType = res.headers()["content-type"] ?? "";
+  if (!contentType.toLowerCase().includes("application/json")) {
+    return null;
+  }
+
+  try {
+    const data = await res.json();
+    if (data && typeof data === "object" && !Array.isArray(data)) {
+      return data as Record<string, unknown>;
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+}
+
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export function extractAnswerText(article: Record<string, unknown>): string | null {
-  const history = article.inputs as Record<string, unknown> | undefined;
-  const historyItems = Array.isArray(history?.history) ? history.history : [];
-  if (historyItems.length === 0) {
-    return null;
-  }
-
-  const last = historyItems[historyItems.length - 1] as Record<string, unknown>;
-  const raw = typeof last.outputText === "string" ? last.outputText : null;
-  if (!raw) {
-    return null;
-  }
-  return raw;
+  return extractArticleAnswerText(article)?.text ?? null;
 }

@@ -113,11 +113,21 @@ Upgrade Node if `node --version` reports a version below 20.
 
 OpenEvidence requests can fail because of network issues, VPN/proxy behavior, account state, or service changes. Retry after confirming you can access OpenEvidence in a normal browser with your own account.
 
-For `oe_ask`, you can lower or raise wait behavior from the MCP call parameters:
+For long `oe_ask` calls, prefer the non-blocking flow:
+
+1. Call `oe_ask` with `wait_for_completion=false`.
+2. Copy the returned `article_id`.
+3. Call `oe_article_wait` with that `article_id`.
+
+This avoids MCP host/client timeouts while OpenEvidence finishes the article.
+
+You can tune wait behavior from the MCP call parameters:
 
 - `wait_for_completion`
 - `timeout_sec`
 - `poll_interval_ms`
+
+If a follow-up unexpectedly returns stale context from a large prior thread, ask a fresh question without `original_article_id`.
 
 ## OpenEvidence UI or API Changed
 

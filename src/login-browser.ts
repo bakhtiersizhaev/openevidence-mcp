@@ -9,7 +9,7 @@ import path from "node:path";
 import { createInterface } from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 
-import { chromium, request } from "playwright";
+import { chromium, type BrowserContext } from "playwright";
 
 import { ensureConfigDirs, resolveConfig } from "./config.js";
 
@@ -47,10 +47,16 @@ async function main() {
     );
 
     await waitForEnter("Press Enter when OpenEvidence login is done...");
-    await saveStorageStateFromBrowser(port, config.authStatePath);
-    await verifyStateFile(config.baseUrl, config.authStatePath);
+    const verified = await saveStorageStateFromBrowser(port, config.authStatePath);
     output.write(`[openevidence-mcp] auth state saved: ${config.authStatePath}\n`);
-    output.write(`[openevidence-mcp] success. You can now run: npm run smoke\n`);
+    if (verified) {
+      output.write(`[openevidence-mcp] browser session looked authenticated.\n`);
+    } else {
+      output.write(
+        `[openevidence-mcp] warning: browser-side auth verification did not complete. Run npm run smoke next.\n`,
+      );
+    }
+    output.write(`[openevidence-mcp] next: npm run smoke\n`);
   } finally {
     child.kill();
   }
@@ -164,7 +170,10 @@ function launchBrowser(
   });
 }
 
-async function saveStorageStateFromBrowser(port: number, authStatePath: string): Promise<void> {
+async function saveStorageStateFromBrowser(
+  port: number,
+  authStatePath: string,
+): Promise<boolean> {
   const browser = await chromium.connectOverCDP(`http://127.0.0.1:${port}`);
   try {
     const context = browser.contexts()[0];
@@ -172,8 +181,10 @@ async function saveStorageStateFromBrowser(port: number, authStatePath: string):
       throw new Error("No browser context found. Keep the launched browser window open before pressing Enter.");
     }
 
+    const verified = await looksLoggedIn(context);
     await mkdir(path.dirname(authStatePath), { recursive: true });
     await context.storageState({ path: authStatePath });
+    return verified;
   } finally {
     await browser.close();
   }
@@ -188,24 +199,22 @@ async function waitForEnter(prompt: string): Promise<void> {
   }
 }
 
-async function verifyStateFile(baseUrl: string, statePath: string): Promise<void> {
-  const ctx = await request.newContext({
-    baseURL: baseUrl,
-    storageState: statePath,
-  });
-  try {
-    const check = await ctx.get("/api/auth/me");
-    if (check.status() !== 200) {
-      const body = await check.text();
-      throw new Error(`Auth check failed (${check.status()}): ${body.slice(0, 300)}`);
-    }
-  } finally {
-    await ctx.dispose();
-  }
+async function looksLoggedIn(context: BrowserContext): Promise<boolean> {
+  const cookies = await context.cookies();
+  return cookies.some((cookie) => cookie.name.startsWith("appSession"));
+}
+
+function sanitizeErrorMessage(message: string): string {
+  const firstLine = message.split(/\r?\n/)[0]?.trim() ?? "";
+  return firstLine
+    .replace(/cookie:\s*.*/i, "cookie: [redacted]")
+    .replace(/authorization:\s*.*/i, "authorization: [redacted]")
+    .replace(/bearer\s+[A-Za-z0-9._~+/=-]+/gi, "bearer [redacted]")
+    .slice(0, 300);
 }
 
 main().catch((error) => {
-  const message = error instanceof Error ? error.stack ?? error.message : String(error);
+  const message = error instanceof Error ? sanitizeErrorMessage(error.message) : "Unknown error.";
   output.write(`[openevidence-mcp] failed: ${message}\n`);
   output.write(
     [

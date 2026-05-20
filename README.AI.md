@@ -166,13 +166,24 @@ Run:
 
 ```bash
 cd /ABSOLUTE/PATH/openevidence-mcp
+npm test
+npm run build
+npm run check
 npm run smoke
 ```
 
 Then MCP-side checks:
 - `oe_auth_status`
 - `oe_history_list`
-- `oe_ask`
+- `oe_article_get` when an article ID is available
+- `oe_ask` with `wait_for_completion=false` for long questions
+- `oe_article_wait` with the returned `article_id`
+
+Agent workflow notes:
+- Use `oe_auth_status` before other tools when auth state is unknown.
+- Use `original_article_id` only for true follow-up continuity; omit it for fresh questions.
+- Treat OpenEvidence output as evidence-research context, not medical advice, diagnosis, or clinical orders.
+- Never expose cookies, storage-state files, tokens, account identifiers, screenshots with private data, or patient-identifiable information.
 
 ## Step 6: Recovery Paths
 

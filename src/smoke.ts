@@ -14,7 +14,8 @@ async function main() {
     await client.init();
     const auth = await client.getAuthStatus();
     if (!auth.authenticated) {
-      throw new Error(`Not authenticated. Status=${auth.statusCode}`);
+      const detail = auth.message ? ` ${auth.message}` : "";
+      throw new Error(`Not authenticated. Status=${auth.statusCode}.${detail}`);
     }
 
     const history = await client.listHistory(3, 0);
@@ -71,7 +72,7 @@ function redactHistoryItem(item: unknown) {
   };
 
   return {
-    id: typeof record.id === "string" ? record.id : undefined,
+    id_present: typeof record.id === "string" && record.id.length > 0,
     status: typeof record.status === "string" ? record.status : undefined,
     article_type: typeof record.article_type === "string" ? record.article_type : undefined,
     title_present: typeof record.title === "string" && record.title.length > 0,

@@ -16,6 +16,7 @@
     "login": "tsx src/login.ts",
     "login:browser": "tsx src/login-browser.ts",
     "check": "tsc -p tsconfig.json --noEmit",
+    "test": "node --import tsx --test \"tests/**/*.test.ts\"",
     "smoke": "tsx src/smoke.ts"
   },
   "files": [
