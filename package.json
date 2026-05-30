@@ -15,12 +15,14 @@
     "start": "node dist/server.js",
     "login": "tsx src/login.ts",
     "login:browser": "tsx src/login-browser.ts",
+    "login:companion": "tsx src/login-companion.ts",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "node --import tsx --test \"tests/**/*.test.ts\"",
     "smoke": "tsx src/smoke.ts"
   },
   "files": [
     "dist/",
+    "extension/",
     "scripts/",
     "examples/",
     "docs/AGENT_INSTALL_PROMPT.md",

@@ -53,7 +53,7 @@ No official OpenEvidence API token is required.
 - It does not provide medical advice or replace clinical judgment.
 - It does not bypass authentication, paywalls, or access controls.
 - It does not collect credentials.
-- It does not send your browser session state anywhere except to OpenEvidence through local Playwright requests.
+- It does not send your browser session state anywhere except to OpenEvidence through local requests from your machine.
 - It should not be used for patient-specific diagnosis or treatment decisions without appropriate human review.
 
 ## Who it is for
@@ -86,8 +86,8 @@ Other MCP-compatible hosts may work as well, but the examples in this repository
 | Tool | Purpose | Auth required | Side effects |
 | --- | --- | --- | --- |
 | `oe_auth_status` | Checks whether the saved OpenEvidence browser session is authenticated. | Yes, saved session file must exist. | None. |
-| `oe_history_list` | Lists prior OpenEvidence articles/questions with optional pagination and search. | Yes. | None. |
-| `oe_article_get` | Fetches an article by ID and returns normalized fields (`status`, `is_complete`, `question`, `answer_text`) plus the raw payload. | Yes. | None. |
+| `oe_history_list` | Lists prior OpenEvidence articles with optional pagination and search. Returns a privacy-reduced list unless `include_raw=true` is explicitly requested. | Yes. | None. |
+| `oe_article_get` | Fetches an article by ID and returns normalized fields (`status`, `is_complete`, `question`, `answer_text`). Raw payload is opt-in with `include_raw=true`. | Yes. | None. |
 | `oe_article_wait` | Waits for an existing article ID to complete; useful after non-blocking `oe_ask`. | Yes. | None. |
 | `oe_ask` | Creates an OpenEvidence research question and optionally waits for the article to complete. | Yes. | Creates a question/article in your OpenEvidence account. |
 
@@ -110,6 +110,7 @@ Related commands:
 | --- | --- |
 | `npm run login` | Opens a local browser so you can sign in and save reusable session state. |
 | `npm run login:browser` | Opens system Chrome/Edge for Google SSO cases where Playwright login is blocked as unsafe. |
+| `npm run login:companion` | Opens a normal Chrome/Edge profile for the experimental local companion write path used by `oe_ask`. |
 | `npm run smoke` | Verifies auth and basic OpenEvidence connectivity. |
 
 ## Requirements
@@ -189,7 +190,23 @@ If Google sign-in says the browser or app may not be secure, use the system-brow
 npm run login:browser
 ```
 
-This opens Chrome or Edge with a local OpenEvidence MCP profile. Complete login in that browser, return to the terminal, and press Enter. The script saves local session state and verifies `/api/auth/me`.
+This opens Chrome or Edge with a local OpenEvidence MCP profile. Complete login in that browser, return to the terminal, and press Enter. The script saves local session state and checks for an authenticated browser cookie. Run `npm run smoke` afterward for the API connectivity check.
+
+The browser window is only for the manual login flow. Read-only MCP tool calls run as local stdio requests. The experimental `oe_ask` companion path may start a minimized local browser using the saved companion profile; it does not expose a public network service.
+
+### Experimental companion flow for `oe_ask`
+
+OpenEvidence may reject direct article-creation requests from a Node.js HTTP client even when read-only requests succeed. The current development branch includes a local browser companion for testing `oe_ask` through the normal authenticated OpenEvidence web interface.
+
+During development, load the unpacked companion extension and create its local browser profile:
+
+```powershell
+$env:OE_MCP_COMPANION_BROWSER = "edge"
+$env:OE_MCP_COMPANION_DEV_EXTENSION = "true"
+npm run login:companion
+```
+
+On macOS, use `chrome` or `edge` for `OE_MCP_COMPANION_BROWSER`. The unpacked-extension flow is intended for local UAT until a stable installation path is packaged. See [`docs/COMPANION_UAT.md`](docs/COMPANION_UAT.md).
 
 Do not share storage-state files, cookies, screenshots with private account data, or patient-identifiable information.
 
@@ -295,6 +312,7 @@ Common fixes:
 - Windows path issues: escape backslashes in JSON/TOML or use full absolute paths.
 - Node errors: confirm `node --version` is 20 or newer.
 - OpenEvidence UI/API changed: open an issue with sanitized logs and no private account or patient data.
+- `oe_ask` returns an upstream browser-protection `403`: read-only tools may still work. Test the experimental local companion path described above and include sanitized results when filing an issue.
 
 ## Roadmap
 

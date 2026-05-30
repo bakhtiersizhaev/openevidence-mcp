@@ -3,7 +3,9 @@ import { constants } from "node:fs";
 import { request, type APIRequestContext } from "playwright";
 
 import { extractAnswerText as extractArticleAnswerText } from "./article.js";
+import { CompanionBridge } from "./companion-bridge.js";
 import type { AppConfig } from "./config.js";
+import { classifyWriteFailure } from "./errors.js";
 import type { AuthStatusResult, OpenEvidenceAskRequest, WaitOptions } from "./types.js";
 
 const DEFAULT_ARTICLE_TYPE = "Ask OpenEvidence Light with citations";
@@ -11,6 +13,7 @@ const PENDING_STATUSES = new Set(["queued", "pending", "processing", "running", 
 
 export class OpenEvidenceClient {
   private ctx: APIRequestContext | null = null;
+  private companion: CompanionBridge | null = null;
 
   constructor(private readonly config: AppConfig) {}
 
@@ -26,6 +29,10 @@ export class OpenEvidenceClient {
     if (this.ctx) {
       await this.ctx.dispose();
       this.ctx = null;
+    }
+    if (this.companion) {
+      await this.companion.close();
+      this.companion = null;
     }
   }
 
@@ -73,23 +80,16 @@ export class OpenEvidenceClient {
   }
 
   async ask(payload: OpenEvidenceAskRequest): Promise<Record<string, unknown>> {
-    const body: Record<string, unknown> = {
+    this.companion ??= new CompanionBridge(this.config);
+    const articleId = await this.companion.submitQuestion(
+      payload.question,
+      payload.originalArticleId,
+    );
+    return {
+      id: articleId,
+      status: "pending",
       article_type: payload.articleType ?? DEFAULT_ARTICLE_TYPE,
-      inputs: {
-        variant_configuration_file: payload.variantConfigurationFile ?? "prod",
-        attachments: [],
-        question: payload.question,
-        use_gatekeeper: true,
-      },
-      personalization_enabled: payload.personalizationEnabled ?? false,
-      disable_caching: payload.disableCaching ?? false,
     };
-
-    if (payload.originalArticleId) {
-      body.original_article = payload.originalArticleId;
-    }
-
-    return (await this.postJson("/api/article", body)) as Record<string, unknown>;
   }
 
   async waitForArticle(articleId: string, options?: WaitOptions): Promise<Record<string, unknown>> {
@@ -129,8 +129,9 @@ export class OpenEvidenceClient {
     const res = await this.postWithRetry(url, body, 2);
     const status = res.status();
     if (status !== 200 && status !== 201) {
+      const contentType = res.headers()["content-type"] ?? "";
       const text = await res.text();
-      throw new Error(`POST ${url} failed: ${status} ${text.slice(0, 400)}`);
+      throw new Error(classifyWriteFailure(status, contentType, text));
     }
     return res.json();
   }
@@ -181,7 +182,6 @@ async function readJsonObject(res: { headers(): Record<string, string>; json(): 
   } catch {
     return null;
   }
-
   return null;
 }
 

@@ -37,6 +37,7 @@ Steps:
 8. If smoke succeeds, tell me to restart my MCP client session/app and verify the OpenEvidence tools appear.
 9. If smoke fails, summarize the error without exposing private data and suggest the next safe fix.
 10. For long OpenEvidence questions after setup, prefer `oe_ask` with `wait_for_completion=false`, then use `oe_article_wait` with the returned `article_id`.
+11. If `oe_ask` returns an upstream browser-protection `403`, report that read-only tools may still work and follow `docs/COMPANION_UAT.md` for the experimental local companion flow. Do not suggest fingerprint replay, cookie copying, stealth flags, or access-control bypasses.
 
 Expected result:
 - `npm run smoke` returns `ok: true` and `authenticated: true`.

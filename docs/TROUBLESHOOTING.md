@@ -35,7 +35,9 @@ Use the system-browser login flow:
 npm run login:browser
 ```
 
-The script opens Chrome or Edge with a local OpenEvidence MCP profile. Complete OpenEvidence login in the opened browser, return to the terminal, and press Enter. It saves local session state and verifies `/api/auth/me`.
+The script opens Chrome or Edge with a local OpenEvidence MCP profile. Complete OpenEvidence login in the opened browser, return to the terminal, and press Enter. It saves local session state and checks for an authenticated browser cookie. Run `npm run smoke` afterward for the API connectivity check.
+
+This browser window is only used for manual login. Normal MCP tool calls do not open a browser window.
 
 If auto-detection chooses the wrong browser, set one of:
 
@@ -53,6 +55,28 @@ npm run login:browser
 ```
 
 Do not use stealth flags, cookie-copying browser extensions, or instructions that bypass Google, OpenEvidence, institution, regional, or account controls.
+
+## `oe_ask` Returns an Upstream Browser-Protection `403`
+
+OpenEvidence may accept auth and read-only history requests while rejecting direct article creation with an upstream browser-protection response. In this state:
+
+- `npm run smoke` may still pass;
+- `oe_auth_status`, `oe_history_list`, and existing article reads may still work;
+- the experimental local companion write path should be tested.
+
+This is not fixed by repeatedly logging in, switching VPN endpoints, copying cookies, adding stealth flags, or replaying browser fingerprint values. Do not post the returned HTML, cookies, storage state, or account details in an issue.
+
+For local development and UAT, use a normal browser profile with the unpacked companion extension:
+
+```powershell
+$env:OE_MCP_COMPANION_BROWSER = "edge"
+$env:OE_MCP_COMPANION_DEV_EXTENSION = "true"
+npm run login:companion
+```
+
+The companion bridge binds to `127.0.0.1` only and submits the question through the normal authenticated OpenEvidence web interface. It may start a minimized local browser for `oe_ask`; it does not require CDP. See [`COMPANION_UAT.md`](COMPANION_UAT.md).
+
+Open an issue with sanitized logs and link to any existing upstream-protection report if the companion flow fails. Do not post cookies, storage state, raw upstream HTML, or account details.
 
 ## Playwright Browser Install Error
 

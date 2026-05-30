@@ -29,12 +29,13 @@ Available checks:
 ```bash
 npm run build
 npm run check
+npm test
 npm run smoke
 ```
 
 `npm run smoke` requires a valid local OpenEvidence session. Run `npm run login` first if needed.
 
-There is currently no `npm test` or `npm run lint` script. If a PR cannot run one of the available checks, explain why.
+There is currently no `npm run lint` script. If a PR cannot run one of the available checks, explain why.
 
 ## Commit Convention
 
