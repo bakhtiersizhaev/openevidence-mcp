@@ -12,12 +12,12 @@ Do not publish exploit details, session artifacts, account identifiers, private 
 
 ## Sensitive Data Warning
 
-Do not share storage-state files, cookies, session tokens, screenshots with private account data, or patient-identifiable information.
+Do not share browser profile files, storage-state files, cookies, session tokens, screenshots with private account data, or patient-identifiable information.
 
 Treat these as secrets:
 
-- `storage-state.json`
 - browser profile directories
+- `storage-state.json`
 - cookies and session tokens
 - `.env` files
 - MCP client configs that reveal private local paths or account context
@@ -49,18 +49,18 @@ These issues are outside this repository's security scope:
 
 This project uses the user's own authenticated browser session. The project does not collect credentials and does not require an official OpenEvidence API token.
 
-Session state is stored locally by default:
+The recommended one-time login stores the local browser profile here by default:
 
-- macOS/Linux: `~/.openevidence-mcp/auth/storage-state.json`
-- Windows: `%USERPROFILE%\.openevidence-mcp\auth\storage-state.json`
+- macOS/Linux: `~/.openevidence-mcp/browser-profile`
+- Windows: `%USERPROFILE%\.openevidence-mcp\browser-profile`
 
 If authentication fails or a session expires, rerun:
 
 ```bash
-npm run login
+npm run login:session
 ```
 
-Delete local session files if you no longer want this MCP server to use the saved session.
+Delete the local browser profile if you no longer want this MCP server to use the saved session.
 
 ## User Responsibility
 

@@ -52,19 +52,19 @@ cd openevidence-mcp
 npm ci
 npx playwright install chromium
 npm run build
-npm run login
+npm run login:session
 npm run smoke
 ```
 
-Session state хранится локально. Не публикуйте `storage-state.json`, cookies, screenshots с private account data или patient-identifiable information.
+Локальный browser profile хранится на вашей машине. Не публикуйте browser profile files, `storage-state.json`, cookies, screenshots с private account data или patient-identifiable information.
 
-Если Google пишет, что browser/app небезопасен, используйте system-browser flow:
+Если legacy login flow получает ошибку Google про небезопасный browser/app, используйте one-time session flow:
 
 ```bash
-npm run login:browser
+npm run login:session
 ```
 
-Он откроет Chrome или Edge, попросит завершить OpenEvidence login и сохранит local auth state после Enter в терминале.
+Он откроет Chrome или Edge с локальным OpenEvidence MCP profile; после входа закройте окно браузера и нажмите Enter в терминале.
 
 ## Codex config
 

@@ -136,24 +136,18 @@ Ask user to run:
 
 ```bash
 cd /ABSOLUTE/PATH/openevidence-mcp
-npm run login
+npm run login:session
 ```
 
 Human actions:
 - complete OpenEvidence login in browser
+- close that browser window after OpenEvidence loads
 - return to terminal
 - press Enter
 
-If Google sign-in reports "This browser or app may not be secure", stop the Playwright login flow and run:
+If the legacy Playwright login reports "This browser or app may not be secure", use the session login above.
 
-```bash
-cd /ABSOLUTE/PATH/openevidence-mcp
-npm run login:browser
-```
-
-This launches system Chrome/Edge with a local profile, waits for the human to complete login, then captures and verifies local session state. Do not suggest stealth/evasion flags or any access-control bypass.
-
-Alternative import flow:
+Legacy import flow for development only:
 
 ```bash
 cd /ABSOLUTE/PATH/openevidence-mcp
@@ -183,11 +177,11 @@ Agent workflow notes:
 - Use `oe_auth_status` before other tools when auth state is unknown.
 - Use `original_article_id` only for true follow-up continuity; omit it for fresh questions.
 - Treat OpenEvidence output as evidence-research context, not medical advice, diagnosis, or clinical orders.
-- Never expose cookies, storage-state files, tokens, account identifiers, screenshots with private data, or patient-identifiable information.
+- Never expose cookies, browser profile files, storage-state files, tokens, account identifiers, screenshots with private data, or patient-identifiable information.
 
 ## Step 6: Recovery Paths
 
-- If `oe_auth_status` is unauthenticated: rerun `npm run login`
+- If `oe_auth_status` is unauthenticated: rerun `npm run login:session`
 - If MCP tool not visible: restart client session/app
 - If dependencies break: rerun setup script
 

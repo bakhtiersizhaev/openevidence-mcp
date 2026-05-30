@@ -21,7 +21,8 @@ test("MCP server exposes agent instructions and expected tools", async () => {
     assert.match(instructions, /wait_for_completion=false/);
     assert.match(instructions, /oe_article_wait/);
     assert.match(instructions, /original_article_id/);
-    assert.match(instructions, /storage-state/i);
+    assert.match(instructions, /browser profile/i);
+    assert.match(instructions, /login:session/i);
 
     const tools = await client.request(
       { method: "tools/list", params: {} },

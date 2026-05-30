@@ -50,11 +50,11 @@ cd openevidence-mcp
 npm ci
 npx playwright install chromium
 npm run build
-npm run login
+npm run login:session
 npm run smoke
 ```
 
-Session state 會儲存在本機。請勿公開 `storage-state.json`、cookies、包含私人帳號資料的截圖或可識別患者資訊。
+本機瀏覽器設定檔會儲存在你的電腦上。請勿公開 browser profile files、`storage-state.json`、cookies、包含私人帳號資料的截圖或可識別患者資訊。
 
 ## Codex config
 

@@ -33,7 +33,7 @@ npm test
 npm run smoke
 ```
 
-`npm run smoke` requires a valid local OpenEvidence session. Run `npm run login` first if needed.
+`npm run smoke` requires a valid local OpenEvidence session. Run `npm run login:session` first if needed.
 
 There is currently no `npm run lint` script. If a PR cannot run one of the available checks, explain why.
 
@@ -51,15 +51,15 @@ Open an issue with a clear title and description. Include:
 - command used
 - sanitized logs
 - auth status
-- whether storage state exists locally
+- whether the local browser profile exists
 - Steps to reproduce
 - Expected vs actual behavior
 
-Do not include secrets, cookies, session tokens, storage-state files, screenshots with private account data, patient-identifiable information, or account identifiers.
+Do not include secrets, cookies, session tokens, browser profile files, storage-state files, screenshots with private account data, patient-identifiable information, or account identifiers.
 
 ## Pull Request Checklist
 
-- [ ] I did not commit secrets, cookies, or storage-state files.
+- [ ] I did not commit secrets, cookies, browser profile files, or storage-state files.
 - [ ] I ran build/test or explained why not.
 - [ ] I updated docs if behavior changed.
 - [ ] I kept OpenEvidence affiliation/disclaimer wording intact.

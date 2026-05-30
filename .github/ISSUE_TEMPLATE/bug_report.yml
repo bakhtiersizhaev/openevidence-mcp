@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Do not paste cookies, tokens, storage-state files, screenshots with private medical data, patient data, or account identifiers.
+        Do not paste cookies, tokens, browser profile files, storage-state files, screenshots with private medical data, patient data, or account identifiers.
   - type: input
     id: os
     attributes:
@@ -53,7 +53,7 @@ body:
     id: logs
     attributes:
       label: Sanitized logs
-      description: Remove cookies, tokens, account identifiers, patient data, and private paths if needed.
+      description: Remove cookies, tokens, browser profile paths, account identifiers, patient data, and private paths if needed.
       render: text
     validations:
       required: false
@@ -68,9 +68,9 @@ body:
     validations:
       required: true
   - type: dropdown
-    id: storage_state
+    id: browser_profile
     attributes:
-      label: Does storage state exist locally?
+      label: Does the local browser profile exist?
       options:
         - "yes"
         - "no"

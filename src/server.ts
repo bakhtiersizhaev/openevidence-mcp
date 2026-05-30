@@ -13,6 +13,8 @@ import type { OpenEvidenceAskRequest } from "./types.js";
 
 const config = resolveConfig();
 ensureConfigDirs(config);
+let sharedClient: OpenEvidenceClient | null = null;
+let sharedClientInit: Promise<OpenEvidenceClient> | null = null;
 
 const server = new McpServer({
   name: "openevidence-mcp",
@@ -20,12 +22,13 @@ const server = new McpServer({
 }, {
   instructions: [
     "OpenEvidence MCP is an unofficial local stdio bridge to the user's own authenticated OpenEvidence browser session.",
+    "The MCP server reuses one local browser profile during the server process; users should run npm run login:session once before first use.",
     "Use oe_auth_status first when authentication state is unknown.",
     "Use oe_history_list to find recent OpenEvidence article IDs, and oe_article_get to fetch an existing article.",
     "Use oe_ask only for OpenEvidence evidence-research questions. Do not present outputs as medical advice, diagnosis, or clinical orders.",
     "For long research questions, prefer oe_ask with wait_for_completion=false, then call oe_article_wait or oe_article_get with the returned article_id. Some MCP hosts time out long blocking calls.",
     "Use original_article_id only when the user explicitly wants follow-up continuity in that OpenEvidence thread. For fresh questions, omit original_article_id to avoid stale thread context.",
-    "Never ask for or expose passwords, cookies, storage-state files, session tokens, account identifiers, screenshots with private account data, or patient-identifiable information.",
+    "Never ask for or expose passwords, cookies, browser profile files, storage-state files, session tokens, account identifiers, screenshots with private account data, or patient-identifiable information.",
   ].join(" "),
 });
 
@@ -52,7 +55,7 @@ server.registerPrompt(
             "4. For a new evidence-research question, call oe_ask. For long questions, set wait_for_completion=false and then call oe_article_wait with the returned article_id.",
             "5. Use original_article_id only for a true follow-up in the same OpenEvidence thread. Omit it for fresh questions or when prior thread context may be stale.",
             "6. Treat OpenEvidence output as research context, not medical advice, diagnosis, or a clinical order.",
-            "7. Never expose passwords, cookies, storage-state files, session tokens, account identifiers, screenshots with private data, or patient-identifiable information.",
+            "7. Never expose passwords, cookies, browser profile files, storage-state files, session tokens, account identifiers, screenshots with private data, or patient-identifiable information.",
           ].join("\n"),
         },
       },
@@ -65,7 +68,7 @@ server.registerTool(
   {
     title: "OpenEvidence Auth Status",
     description:
-      "Check whether the saved OpenEvidence browser session is authenticated. Use before history/article/ask tools when auth state is unknown. Returns authenticated=true/false and basic account metadata when available. Requires local session state. No side effects. Can fail if session state is missing, expired, or network access fails.",
+      "Check whether the saved OpenEvidence browser session is authenticated. Use before history/article/ask tools when auth state is unknown. Returns authenticated=true/false and basic account metadata when available. Requires the local browser profile created by npm run login:session. No side effects. Can fail if the profile is missing, expired, or network access fails.",
     annotations: {
       readOnlyHint: true,
       idempotentHint: true,
@@ -164,7 +167,7 @@ server.registerTool(
   {
     title: "OpenEvidence Ask",
     description:
-      "Create an OpenEvidence research question, not medical advice or patient-specific diagnosis. For long questions, prefer wait_for_completion=false and then call oe_article_wait with the returned article_id. Use original_article_id only for true follow-up continuity; omit it for fresh questions. Returns privacy-reduced created article data and optionally normalized completed fields. Side effect: creates a question/article in the user's OpenEvidence account. Can fail if upstream browser protection rejects web-session automation.",
+      "Create an OpenEvidence research question, not medical advice or patient-specific diagnosis. For long questions, prefer wait_for_completion=false and then call oe_article_wait with the returned article_id. Use original_article_id only for true follow-up continuity; omit it for fresh questions. Returns privacy-reduced created article data and optionally normalized completed fields. Side effect: creates a question/article in the user's OpenEvidence account through the local browser profile.",
     annotations: {
       readOnlyHint: false,
       idempotentHint: false,
@@ -228,22 +231,42 @@ async function withClient(
     structuredContent?: Record<string, unknown>;
   }>,
 ) {
-  const client = new OpenEvidenceClient(config);
   try {
-    await client.init();
+    const client = await getSharedClient();
     const auth = await client.getAuthStatus();
     if (!auth.authenticated) {
       return fail(
-        `Session is not authenticated (status ${auth.statusCode}). Run: npm run login`,
+        `Session is not authenticated (status ${auth.statusCode}). Run: npm run login:session`,
       );
     }
     return await fn(client);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     return fail(message);
-  } finally {
-    await client.close();
   }
+}
+
+async function getSharedClient(): Promise<OpenEvidenceClient> {
+  if (sharedClient) {
+    return sharedClient;
+  }
+  sharedClientInit ??= (async () => {
+    const client = new OpenEvidenceClient(config);
+    await client.init();
+    sharedClient = client;
+    return client;
+  })().catch((error) => {
+    sharedClientInit = null;
+    throw error;
+  });
+  return sharedClientInit;
+}
+
+async function closeSharedClient(): Promise<void> {
+  const client = sharedClient;
+  sharedClient = null;
+  sharedClientInit = null;
+  await client?.close();
 }
 
 function ok(data: unknown) {
@@ -309,4 +332,11 @@ main().catch((error) => {
   const message = error instanceof Error ? error.stack ?? error.message : String(error);
   process.stderr.write(`[openevidence-mcp] fatal: ${message}\n`);
   process.exit(1);
+});
+
+process.once("SIGINT", () => {
+  void closeSharedClient().finally(() => process.exit(130));
+});
+process.once("SIGTERM", () => {
+  void closeSharedClient().finally(() => process.exit(143));
 });

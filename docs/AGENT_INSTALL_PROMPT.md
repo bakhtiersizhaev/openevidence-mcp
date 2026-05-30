@@ -14,10 +14,10 @@ Goal:
 - Verify that auth works
 
 Rules:
-- Do not ask for my OpenEvidence password, Google password, cookies, tokens, storage-state file, screenshots with private account data, or patient-identifiable information.
+- Do not ask for my OpenEvidence password, Google password, cookies, tokens, browser profile files, storage-state file, screenshots with private account data, or patient-identifiable information.
 - Do not bypass OpenEvidence, Google, institutional, regional, or account access controls.
 - Use my own OpenEvidence account only.
-- Treat `storage-state.json`, cookies, browser profiles, and `.env` files as secrets.
+- Treat browser profiles, `storage-state.json`, cookies, and `.env` files as secrets.
 - Use absolute paths in MCP config.
 
 Steps:
@@ -30,14 +30,14 @@ Steps:
    - Claude Desktop / Claude app: add `mcpServers.openevidence` to `claude_desktop_config.json`.
    - Other MCP clients: use command `node` and args pointing to the absolute `dist/server.js`.
 6. Help me log in:
-   - First try `npm run login`.
-   - If Google says "This browser or app may not be secure", stop that flow and run `npm run login:browser`.
-   - Tell me to complete login only in the opened browser window, then return to the terminal and press Enter.
+   - Run `npm run login:session`.
+   - Tell me to complete OpenEvidence login only in the opened Chrome/Edge window.
+   - Tell me to close that browser window after OpenEvidence is signed in, then return to the terminal and press Enter.
 7. Run `npm run smoke`.
 8. If smoke succeeds, tell me to restart my MCP client session/app and verify the OpenEvidence tools appear.
 9. If smoke fails, summarize the error without exposing private data and suggest the next safe fix.
 10. For long OpenEvidence questions after setup, prefer `oe_ask` with `wait_for_completion=false`, then use `oe_article_wait` with the returned `article_id`.
-11. If `oe_ask` returns an upstream browser-protection `403`, report that read-only tools may still work and follow `docs/COMPANION_UAT.md` for the experimental local companion flow. Do not suggest fingerprint replay, cookie copying, stealth flags, or access-control bypasses.
+11. If `oe_ask` fails, report the sanitized error and verify the same local browser profile can open OpenEvidence while signed in. Do not suggest fingerprint replay, cookie copying, stealth flags, extension hacks, or access-control bypasses.
 
 Expected result:
 - `npm run smoke` returns `ok: true` and `authenticated: true`.
@@ -47,5 +47,5 @@ Expected result:
 ## Short Version
 
 ```text
-Install OpenEvidence MCP from https://github.com/bakhtiersizhaev/openevidence-mcp, run `npm test`, build it, configure it in my MCP client using an absolute path to `dist/server.js`, guide me through `npm run login`, use `npm run login:browser` if Google blocks Playwright login, then run `npm run smoke`. Do not ask for or expose cookies, tokens, storage-state files, passwords, screenshots with private account data, or patient data. Do not bypass access controls.
+Install OpenEvidence MCP from https://github.com/bakhtiersizhaev/openevidence-mcp, run `npm test`, build it, configure it in my MCP client using an absolute path to `dist/server.js`, guide me through `npm run login:session`, then run `npm run smoke`. Do not ask for or expose cookies, tokens, browser profile files, storage-state files, passwords, screenshots with private account data, or patient data. Do not bypass access controls.
 ```
