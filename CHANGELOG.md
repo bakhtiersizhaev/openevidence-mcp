@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.2.0] - 2026-05-31
+
+### Added
+- `npm run login:browser` to guide users through Edge/Chrome Google SSO login using system profiles.
+- Modular, robust `npm run login:session` and automated login runners.
+- Node.js test workflow CI pipeline (`.github/workflows/test.yml`).
+- Compact "Agent Onboarding & Installation" copyable prompts with dedicated `docs/AGENT_INSTALL_PROMPT.md` runbook.
+
+### Changed
+- Refactored `oe_ask` for headless and headful session runner stability.
+- Enhanced security: redacted browser verification HTML and raw HTML dumps in error states to prevent private data exposure.
+- Standardized technical and medical terms for clinical researchers across all files.
+- Fully synchronized and polished all 7 translations: `README.ru.md`, `README.es.md`, `README.zh-Hans.md`, `README.zh-Hant-TW.md`, `README.ko.md`, `README.hi.md`, and `README.AI.md`.
+
 ## [0.1.0] - 2026-02-21
 
 ### Added
