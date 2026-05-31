@@ -141,11 +141,22 @@ export class BrowserSession {
       executablePath: browser.executablePath,
       headless: process.env.OE_MCP_BROWSER_HEADLESS === "1",
       viewport: null,
+      ignoreDefaultArgs: ["--enable-automation"],
       args: [
         "--no-first-run",
         "--no-default-browser-check",
         "--start-minimized",
+        "--disable-blink-features=AutomationControlled",
       ],
+    });
+    await this.context.addInitScript(() => {
+      try {
+        Object.defineProperty(navigator, "webdriver", {
+          get: () => undefined,
+        });
+      } catch {
+        // Ignore errors in standard headless/non-headless environments
+      }
     });
     this.page = this.context.pages()[0] ?? await this.context.newPage();
     this.page.setDefaultTimeout(parsePositiveInt(process.env.OE_MCP_BROWSER_TIMEOUT_MS, 30_000));
