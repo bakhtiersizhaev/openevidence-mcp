@@ -20,7 +20,7 @@ Using Codex, Claude Code, Cursor, or another local AI coding agent? You can let 
 Copy and paste this short bootstrap prompt directly into your local AI coding assistant:
 
 ```text
-Please install OpenEvidence MCP for me: clone https://github.com/bakhtiersizhaev/openevidence-mcp (branch fix/single-session-browser-runner), install dependencies, run build, auto-configure this MCP server in my local client (Claude Desktop/Codex/Cursor), guide me through the one-time Edge/Chrome login using `npm run login:session`, and run `npm run smoke` to verify. Keep everything strictly local and secure.
+Please install OpenEvidence MCP for me: clone https://github.com/bakhtiersizhaev/openevidence-mcp, install dependencies, run build, auto-configure this MCP server in my local client (Claude Desktop/Codex/Cursor), guide me through the one-time Edge/Chrome login using `npm run login:session`, and run `npm run smoke` to verify. Keep everything strictly local and secure.
 ```
 
 For the comprehensive, step-by-step setup playbook and rules, see **[docs/AGENT_INSTALL_PROMPT.md](docs/AGENT_INSTALL_PROMPT.md)**.

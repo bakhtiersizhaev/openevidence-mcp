@@ -12,7 +12,7 @@ You are a highly capable AI assistant helping a medical professional (non-techni
 Please perform the entire installation, build, and configuration process autonomously. Speak in a clear, friendly, and non-jargon tone, guiding the user only when manual actions (like browser login) are strictly required.
 
 Goal:
-1. Clone or update https://github.com/bakhtiersizhaev/openevidence-mcp (use the current active branch `fix/single-session-browser-runner` for the latest session-based fixes).
+1. Clone or update https://github.com/bakhtiersizhaev/openevidence-mcp (use the default `main` branch).
 2. Cleanly install dependencies, build the TypeScript server, and verify unit tests.
 3. Automatically configure the MCP server settings for my active AI client.
 4. Launch the one-time browser login session and wait for me to sign in.
@@ -32,8 +32,8 @@ Steps to execute:
 2. Repository Checkout:
    - If the repository folder `openevidence-mcp` is not present in the current workspace, clone it:
      `git clone https://github.com/bakhtiersizhaev/openevidence-mcp.git`
-   - Change directory into `openevidence-mcp` and check out the active branch:
-     `git checkout fix/single-session-browser-runner` (or ensure it is updated via `git pull`).
+   - Change directory into `openevidence-mcp` and ensure the repository is on the main branch and up to date:
+     `git checkout main` (and run `git pull` to fetch the latest changes).
 
 3. Dependencies & Build:
    - Run `npm ci` to install packages cleanly.
