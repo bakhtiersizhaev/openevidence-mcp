@@ -5,6 +5,7 @@ import {
   extractAnswerText,
   getArticleStatusInfo,
   normalizeArticleResult,
+  formatCitations,
 } from "../src/article.js";
 
 test("extractAnswerText prefers current article output over history fallback", () => {
@@ -119,4 +120,16 @@ test("normalizeArticleResult exposes stable fields without hiding raw article", 
   assert.equal(normalized.answer_text, "Synthetic answer.");
   assert.equal(normalized.answer_source, "article.output.text");
   assert.equal(normalized.article, article);
+});
+
+test("formatCitations cleans up raw OpenEvidence formatting and builds bibliography", () => {
+  const rawText = "Lisinopril starting dose is <strong>10 mg once daily</strong>.[[[$$$Food and Drug Administration. <a target=\"_blank\" href=\"https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=838\">Zestril</a>. 2025.$$$]!!![$$$Food and Drug Administration. <a target=\"_blank\" href=\"https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9f6\">Qbrelis</a>. 2025.$$$]]]";
+  
+  const formatted = formatCitations(rawText);
+  
+  assert.match(formatted, /\*\*10 mg once daily\*\*/);
+  assert.match(formatted, /\[1, 2\]/);
+  assert.match(formatted, /### References/);
+  assert.match(formatted, /1\. Food and Drug Administration\. \[Zestril\]\(https:\/\/dailymed\.nlm\.nih\.gov\/dailymed\/drugInfo\.cfm\?setid=838\)\. 2025\./);
+  assert.match(formatted, /2\. Food and Drug Administration\. \[Qbrelis\]\(https:\/\/dailymed\.nlm\.nih\.gov\/dailymed\/drugInfo\.cfm\?setid=9f6\)\. 2025\./);
 });
