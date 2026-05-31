@@ -1,3 +1,4 @@
+import { platform } from "node:os";
 import { chromium, type BrowserContext, type Page, type Response } from "playwright";
 
 import type { AppConfig } from "./config.js";
@@ -137,10 +138,13 @@ export class BrowserSession {
 
   private async launch(): Promise<void> {
     const browser = findSystemBrowser();
+    const isHeadless = process.env.OE_MCP_BROWSER_HEADLESS !== "0";
+
     this.context = await chromium.launchPersistentContext(this.config.userDataDir, {
       executablePath: browser.executablePath,
-      headless: process.env.OE_MCP_BROWSER_HEADLESS === "1",
-      viewport: null,
+      headless: isHeadless,
+      viewport: isHeadless ? { width: 1280, height: 800 } : null,
+      userAgent: getCleanUserAgent(),
       ignoreDefaultArgs: ["--enable-automation"],
       args: [
         "--no-first-run",
@@ -379,4 +383,15 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 function parsePositiveInt(value: string | undefined, fallback: number): number {
   const parsed = Number.parseInt(value ?? "", 10);
   return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+}
+
+function getCleanUserAgent(): string {
+  const os = platform();
+  if (os === "darwin") {
+    return "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36";
+  }
+  if (os === "linux") {
+    return "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36";
+  }
+  return "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36";
 }
