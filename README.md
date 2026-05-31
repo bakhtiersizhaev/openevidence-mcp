@@ -17,7 +17,13 @@ Translations: [Русский](README.ru.md) | [Español](README.es.md) | [简�
 
 Using Codex, Claude Code, Cursor, or another local AI coding agent? You can let the agent handle the entire setup, compilation, and local MCP configuration for you!
 
-Simply copy the universal bootstrap prompt from **[docs/AGENT_INSTALL_PROMPT.md](docs/AGENT_INSTALL_PROMPT.md)** and paste it into your AI assistant. It will clone the repository, install Playwright, build the server, update your local client configuration file, and guide you through the one-time browser login flow.
+Copy and paste this short bootstrap prompt directly into your local AI coding assistant:
+
+```text
+Please install OpenEvidence MCP for me: clone https://github.com/bakhtiersizhaev/openevidence-mcp (branch fix/single-session-browser-runner), install dependencies, run build, auto-configure this MCP server in my local client (Claude Desktop/Codex/Cursor), guide me through the one-time Edge/Chrome login using `npm run login:session`, and run `npm run smoke` to verify. Keep everything strictly local and secure.
+```
+
+For the comprehensive, step-by-step setup playbook and rules, see **[docs/AGENT_INSTALL_PROMPT.md](docs/AGENT_INSTALL_PROMPT.md)**.
 
 ## What it does
 
