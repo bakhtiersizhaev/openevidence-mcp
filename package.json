@@ -15,6 +15,7 @@
     "start": "node dist/server.js",
     "login": "tsx src/login.ts",
     "login:browser": "tsx src/login-browser.ts",
+    "login:session": "tsx src/login-session.ts",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "node --import tsx --test \"tests/**/*.test.ts\"",
     "smoke": "tsx src/smoke.ts"
@@ -26,6 +27,7 @@
     "docs/AGENT_INSTALL_PROMPT.md",
     "docs/DIRECTORY_COPY.md",
     "docs/LANGUAGE_STRATEGY.md",
+    "docs/SESSION_UAT.md",
     "docs/TROUBLESHOOTING.md",
     ".env.example",
     "SECURITY.md",

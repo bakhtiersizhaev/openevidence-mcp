@@ -9,5 +9,5 @@ npx playwright install chromium
 npm run build
 
 Write-Host "Setup complete."
-Write-Host "Next: npm run login"
+Write-Host "Next: npm run login:session"
 

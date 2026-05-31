@@ -13,27 +13,17 @@ OpenEvidence MCP is an unofficial Model Context Protocol server that connects Op
 
 Translations: [Русский](README.ru.md) | [Español](README.es.md) | [简体中文](README.zh-Hans.md) | [繁體中文（台灣）](README.zh-Hant-TW.md) | [한국어](README.ko.md) | [हिन्दी](README.hi.md)
 
-## Copy/Paste Agent Install Prompt
+## Agent Onboarding & Installation
 
-Using Codex, Claude Code, or another local AI coding agent? Copy this prompt into the agent and let it handle setup, MCP config, login guidance, and verification.
+Using Codex, Claude Code, Cursor, or another local AI coding agent? You can let the agent handle the entire setup, compilation, and local MCP configuration for you!
+
+Copy and paste this short bootstrap prompt directly into your local AI coding assistant:
 
 ```text
-Look into this repository: https://github.com/bakhtiersizhaev/openevidence-mcp
-
-Install OpenEvidence MCP in my local AI CLI / agentic MCP setup. Add it as an MCP server for the CLI or app I am using. Follow the repository README and the agent install playbook at docs/AGENT_INSTALL_PROMPT.md.
-
-Verify local prerequisites: Node.js 20+, npm, git, and Playwright Chromium. Clone or update the repo, run npm ci, npx playwright install chromium, npm run build, and npm run check.
-
-Configure the MCP server with command "node" and args pointing to the absolute path of dist/server.js. Keep the server local and do not expose it over a public network.
-
-Guide me through OpenEvidence login with my own account. First try npm run login. If Google says "This browser or app may not be secure", stop that flow and run npm run login:browser instead. I will complete login in the opened browser window and then press Enter in the terminal.
-
-Do not ask for or expose my password, cookies, tokens, storage-state files, screenshots with private account data, patient-identifiable information, or account identifiers. Do not bypass OpenEvidence, Google, institutional, regional, or account access controls.
-
-After login, run npm run smoke. If smoke returns ok: true and authenticated: true, show me the final MCP config and tell me to restart my AI agent / MCP client so the OpenEvidence tools become available.
+Please install OpenEvidence MCP for me: clone https://github.com/bakhtiersizhaev/openevidence-mcp (branch fix/single-session-browser-runner), install dependencies, run build, auto-configure this MCP server in my local client (Claude Desktop/Codex/Cursor), guide me through the one-time Edge/Chrome login using `npm run login:session`, and run `npm run smoke` to verify. Keep everything strictly local and secure.
 ```
 
-Longer agent runbook: [`docs/AGENT_INSTALL_PROMPT.md`](docs/AGENT_INSTALL_PROMPT.md).
+For the comprehensive, step-by-step setup playbook and rules, see **[docs/AGENT_INSTALL_PROMPT.md](docs/AGENT_INSTALL_PROMPT.md)**.
 
 ## What it does
 
@@ -53,7 +43,7 @@ No official OpenEvidence API token is required.
 - It does not provide medical advice or replace clinical judgment.
 - It does not bypass authentication, paywalls, or access controls.
 - It does not collect credentials.
-- It does not send your browser session state anywhere except to OpenEvidence through local Playwright requests.
+- It does not send your browser session state anywhere except to OpenEvidence through local requests from your machine.
 - It should not be used for patient-specific diagnosis or treatment decisions without appropriate human review.
 
 ## Who it is for
@@ -85,9 +75,9 @@ Other MCP-compatible hosts may work as well, but the examples in this repository
 
 | Tool | Purpose | Auth required | Side effects |
 | --- | --- | --- | --- |
-| `oe_auth_status` | Checks whether the saved OpenEvidence browser session is authenticated. | Yes, saved session file must exist. | None. |
-| `oe_history_list` | Lists prior OpenEvidence articles/questions with optional pagination and search. | Yes. | None. |
-| `oe_article_get` | Fetches an article by ID and returns normalized fields (`status`, `is_complete`, `question`, `answer_text`) plus the raw payload. | Yes. | None. |
+| `oe_auth_status` | Checks whether the saved OpenEvidence browser session is authenticated. | Yes, local browser profile must be logged in. | None. |
+| `oe_history_list` | Lists prior OpenEvidence articles with optional pagination and search. Returns a privacy-reduced list unless `include_raw=true` is explicitly requested. | Yes. | None. |
+| `oe_article_get` | Fetches an article by ID and returns normalized fields (`status`, `is_complete`, `question`, `answer_text`). Raw payload is opt-in with `include_raw=true`. | Yes. | None. |
 | `oe_article_wait` | Waits for an existing article ID to complete; useful after non-blocking `oe_ask`. | Yes. | None. |
 | `oe_ask` | Creates an OpenEvidence research question and optionally waits for the article to complete. | Yes. | Creates a question/article in your OpenEvidence account. |
 
@@ -108,8 +98,9 @@ Related commands:
 
 | Command | Purpose |
 | --- | --- |
-| `npm run login` | Opens a local browser so you can sign in and save reusable session state. |
-| `npm run login:browser` | Opens system Chrome/Edge for Google SSO cases where Playwright login is blocked as unsafe. |
+| `npm run login:session` | Recommended one-time login. Opens Chrome/Edge with the local OpenEvidence MCP profile. |
+| `npm run login` | Legacy/development Playwright login flow that also uses the local profile. |
+| `npm run login:browser` | Legacy system-browser login/export flow for debugging Google SSO issues. |
 | `npm run smoke` | Verifies auth and basic OpenEvidence connectivity. |
 
 ## Requirements
@@ -138,7 +129,7 @@ Useful references:
 git clone https://github.com/bakhtiersizhaev/openevidence-mcp.git
 cd openevidence-mcp
 ./scripts/setup-macos.sh
-npm run login
+npm run login:session
 npm run smoke
 ```
 
@@ -148,7 +139,7 @@ npm run smoke
 git clone https://github.com/bakhtiersizhaev/openevidence-mcp.git
 cd openevidence-mcp
 ./scripts/setup-ubuntu.sh
-npm run login
+npm run login:session
 npm run smoke
 ```
 
@@ -158,40 +149,40 @@ npm run smoke
 git clone https://github.com/bakhtiersizhaev/openevidence-mcp.git
 cd openevidence-mcp
 .\scripts\setup-windows.ps1
-npm run login
+npm run login:session
 npm run smoke
 ```
 
 ## Login Flow
 
-Run:
+Recommended one-time login:
+
+```bash
+npm run login:session
+```
+
+The command opens Chrome or Edge with a local OpenEvidence MCP browser profile. Sign in to OpenEvidence with your own account, confirm the normal OpenEvidence page loads, close that browser window, return to the terminal, and press Enter.
+
+Default local profile path:
+
+- macOS/Linux: `~/.openevidence-mcp/browser-profile`
+- Windows: `%USERPROFILE%\.openevidence-mcp\browser-profile`
+
+The MCP server reuses this same local profile during its process lifetime. It may start a minimized local browser process for OpenEvidence calls, but it does not install an extension, expose a public network service, export cookies, or ask for your password.
+
+Legacy/development flow:
 
 ```bash
 npm run login
 ```
 
-The command opens a browser window. Sign in to OpenEvidence with your own account, return to the terminal, and press Enter. The login script validates `/api/auth/me` and saves local browser session state.
-
-Default state paths:
-
-- macOS/Linux: `~/.openevidence-mcp/auth/storage-state.json`
-- Windows: `%USERPROFILE%\.openevidence-mcp\auth\storage-state.json`
-
-You can import an existing Playwright storage state file:
+If Google sign-in says the browser or app may not be secure during the legacy flow, use the session login instead:
 
 ```bash
-npm run login -- --import /absolute/path/storage-state.json
+npm run login:session
 ```
 
-If Google sign-in says the browser or app may not be secure, use the system-browser login flow:
-
-```bash
-npm run login:browser
-```
-
-This opens Chrome or Edge with a local OpenEvidence MCP profile. Complete login in that browser, return to the terminal, and press Enter. The script saves local session state and verifies `/api/auth/me`.
-
-Do not share storage-state files, cookies, screenshots with private account data, or patient-identifiable information.
+Do not share browser profile files, storage-state files, cookies, screenshots with private account data, or patient-identifiable information.
 
 ## MCP Client Setup
 
@@ -261,7 +252,7 @@ Expected result with a valid session:
 - `authenticated: true`
 - a redacted history preview
 
-If smoke fails with an auth error, run `npm run login` again. Smoke requires a real OpenEvidence account session and will not pass in a clean CI environment unless session state is provided securely.
+If smoke fails with an auth error, run `npm run login:session` again. Smoke requires a real OpenEvidence account session and will not pass in a clean CI environment unless a local session profile is available.
 
 By default, smoke output redacts account and history content. Use `npm run smoke -- --verbose` only in a private terminal if raw account/history payloads are needed for debugging.
 
@@ -275,7 +266,7 @@ npm run check
 
 ## Security Notes
 
-- Treat `storage-state.json`, cookies, and browser profiles as secrets.
+- Treat browser profiles, `storage-state.json`, and cookies as secrets.
 - Do not commit `.env`, session state, screenshots with account data, or patient-identifiable information.
 - Use only your own OpenEvidence account.
 - Keep MCP client configs pointed at the built local server path you control.
@@ -288,13 +279,14 @@ See `docs/TROUBLESHOOTING.md` for detailed recovery steps.
 
 Common fixes:
 
-- `authenticated: false`: rerun `npm run login`.
-- Google says browser is not secure: run `npm run login:browser`.
+- `authenticated: false`: rerun `npm run login:session`.
+- Google says browser is not secure in the legacy login flow: run `npm run login:session`.
 - Browser install errors: run `npx playwright install chromium`.
 - MCP client cannot start server: confirm `npm run build` succeeded and use an absolute path to `dist/server.js`.
 - Windows path issues: escape backslashes in JSON/TOML or use full absolute paths.
 - Node errors: confirm `node --version` is 20 or newer.
 - OpenEvidence UI/API changed: open an issue with sanitized logs and no private account or patient data.
+- `oe_ask` cannot find the question input or submit button: OpenEvidence UI may have changed; open an issue with sanitized logs and no private account or patient data.
 
 ## Roadmap
 

@@ -50,11 +50,11 @@ cd openevidence-mcp
 npm ci
 npx playwright install chromium
 npm run build
-npm run login
+npm run login:session
 npm run smoke
 ```
 
-El estado de sesión se guarda localmente. No publiques `storage-state.json`, cookies, capturas con datos privados de cuenta o información identificable de pacientes.
+El perfil local del navegador se guarda en tu máquina. No publiques browser profile files, `storage-state.json`, cookies, capturas con datos privados de cuenta o información identificable de pacientes.
 
 ## Configuración Codex
 

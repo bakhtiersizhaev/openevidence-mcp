@@ -6,7 +6,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Do not paste cookies, tokens, storage-state files, screenshots with private medical data, patient data, or account identifiers.
+        Do not paste cookies, tokens, browser profile files, storage-state files, screenshots with private medical data, patient data, or account identifiers.
   - type: textarea
     id: problem
     attributes:
@@ -38,6 +38,6 @@ body:
     id: security
     attributes:
       label: Security or session-state impact
-      description: Note whether this changes auth, storage-state, local file handling, tool output, or user data exposure.
+      description: Note whether this changes auth, browser profile handling, storage-state handling, local file handling, tool output, or user data exposure.
     validations:
       required: true

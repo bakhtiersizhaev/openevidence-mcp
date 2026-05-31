@@ -85,7 +85,7 @@ export function normalizeArticleResult(article: Record<string, unknown>): Normal
     status: statusInfo.status,
     is_complete: statusInfo.is_complete,
     question: readQuestion(article),
-    answer_text: extracted?.text ?? null,
+    answer_text: extracted?.text ? formatCitations(extracted.text) : null,
     answer_source: extracted?.source ?? null,
     article,
   };
@@ -119,4 +119,70 @@ function readNonEmptyString(value: unknown): string | null {
   }
   const trimmed = value.trim();
   return trimmed.length > 0 ? trimmed : null;
+}
+
+export function formatCitations(text: string): string {
+  const bibliography: string[] = [];
+  const citationMap = new Map<string, number>();
+
+  // Regular expression to match [[[...]]] citation blocks
+  const blockRegex = /\[\[\[([\s\S]*?)\]\]\]/g;
+
+  let formattedText = text.replace(blockRegex, (match, innerContent: string) => {
+    // Split by !!! or ]!!![ or similar
+    const rawParts = innerContent.split(/!!!/);
+    const resolvedNumbers: number[] = [];
+
+    for (const rawPart of rawParts) {
+      // Clean up brackets, dollars and whitespace
+      let cleanPart = rawPart
+        .replace(/^[\[\]\s\$]+/, "")
+        .replace(/[\[\]\s\$]+$/, "")
+        .trim();
+
+      if (cleanPart.length === 0) {
+        continue;
+      }
+
+      // De-duplicate references
+      let citationIndex = citationMap.get(cleanPart);
+      if (citationIndex === undefined) {
+        // Clean up internal HTML tags in citation text and convert <a> tags to Markdown links
+        let processedPart = cleanPart
+          .replace(/<a\s+[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/gi, "[$2]($1)")
+          .replace(/<[^>]+>/g, ""); // strip other HTML tags
+
+        bibliography.push(processedPart);
+        citationIndex = bibliography.length;
+        citationMap.set(cleanPart, citationIndex);
+      }
+      resolvedNumbers.push(citationIndex);
+    }
+
+    if (resolvedNumbers.length === 0) {
+      return "";
+    }
+    // Return citation numbers like [1] or [1, 2]
+    return `[${resolvedNumbers.join(", ")}]`;
+  });
+
+  // Append bibliography to the end of the text if references exist
+  if (bibliography.length > 0) {
+    const referencesBlock = [
+      "",
+      "### References",
+      ...bibliography.map((ref, idx) => `${idx + 1}. ${ref}`),
+    ].join("\n");
+    formattedText = `${formattedText}\n${referencesBlock}`;
+  }
+
+  // Final text cleanup: convert remaining HTML tags (like <strong>) in the main text to Markdown (like **)
+  formattedText = formattedText
+    .replace(/<strong>([\s\S]*?)<\/strong>/gi, "**$1**")
+    .replace(/<b>([\s\S]*?)<\/b>/gi, "**$1**")
+    .replace(/<em>([\s\S]*?)<\/em>/gi, "*$1*")
+    .replace(/<i>([\s\S]*?)<\/i>/gi, "*$1*")
+    .replace(/<br\s*\/?>/gi, "\n");
+
+  return formattedText;
 }

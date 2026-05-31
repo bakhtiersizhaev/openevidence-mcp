@@ -50,11 +50,11 @@ cd openevidence-mcp
 npm ci
 npx playwright install chromium
 npm run build
-npm run login
+npm run login:session
 npm run smoke
 ```
 
-Session state는 로컬에 저장됩니다. `storage-state.json`, cookies, private account data가 포함된 screenshots 또는 patient-identifiable information을 공개하지 마세요.
+로컬 브라우저 프로필은 사용자의 머신에 저장됩니다. browser profile files, `storage-state.json`, cookies, private account data가 포함된 screenshots 또는 patient-identifiable information을 공개하지 마세요.
 
 ## Codex config
 

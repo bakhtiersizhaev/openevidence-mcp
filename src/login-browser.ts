@@ -2,9 +2,7 @@
 import "dotenv/config";
 
 import { spawn, type ChildProcess } from "node:child_process";
-import { existsSync } from "node:fs";
 import { mkdir } from "node:fs/promises";
-import { homedir, platform } from "node:os";
 import path from "node:path";
 import { createInterface } from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
@@ -12,18 +10,14 @@ import { stdin as input, stdout as output } from "node:process";
 import { chromium, type BrowserContext } from "playwright";
 
 import { ensureConfigDirs, resolveConfig } from "./config.js";
-
-interface BrowserChoice {
-  name: string;
-  executablePath: string;
-}
+import { findSystemBrowser } from "./system-browser.js";
 
 async function main() {
   const config = resolveConfig();
   ensureConfigDirs(config);
 
   const port = parseInt(process.env.OE_MCP_BROWSER_DEBUG_PORT ?? "9222", 10);
-  const browser = findBrowser();
+  const browser = findSystemBrowser();
   const loginUrl = `${config.baseUrl}/login`;
 
   await mkdir(config.userDataDir, { recursive: true });
@@ -62,94 +56,6 @@ async function main() {
   }
 }
 
-function findBrowser(): BrowserChoice {
-  const explicitPath = process.env.OE_MCP_BROWSER_PATH;
-  if (explicitPath) {
-    if (!existsSync(explicitPath)) {
-      throw new Error(`OE_MCP_BROWSER_PATH does not exist: ${explicitPath}`);
-    }
-    return { name: "custom browser", executablePath: explicitPath };
-  }
-
-  const preferred = (process.env.OE_MCP_BROWSER ?? "").toLowerCase();
-  const candidates = getBrowserCandidates();
-  const ordered = preferred
-    ? [
-        ...candidates.filter((candidate) => candidate.name.toLowerCase().includes(preferred)),
-        ...candidates.filter((candidate) => !candidate.name.toLowerCase().includes(preferred)),
-      ]
-    : candidates;
-
-  const found = ordered.find((candidate) => existsSync(candidate.executablePath));
-  if (!found) {
-    throw new Error(
-      [
-        "Could not find Chrome, Edge, or Chromium.",
-        "Install one of them or set OE_MCP_BROWSER_PATH to the browser executable.",
-      ].join(" "),
-    );
-  }
-
-  return found;
-}
-
-function getBrowserCandidates(): BrowserChoice[] {
-  const os = platform();
-  if (os === "win32") {
-    const local = process.env.LOCALAPPDATA ?? "";
-    const programFiles = process.env.ProgramFiles ?? "";
-    const programFilesX86 = process.env["ProgramFiles(x86)"] ?? "";
-    return [
-      {
-        name: "Google Chrome",
-        executablePath: path.join(programFiles, "Google", "Chrome", "Application", "chrome.exe"),
-      },
-      {
-        name: "Google Chrome",
-        executablePath: path.join(programFilesX86, "Google", "Chrome", "Application", "chrome.exe"),
-      },
-      {
-        name: "Google Chrome",
-        executablePath: path.join(local, "Google", "Chrome", "Application", "chrome.exe"),
-      },
-      {
-        name: "Microsoft Edge",
-        executablePath: path.join(programFiles, "Microsoft", "Edge", "Application", "msedge.exe"),
-      },
-      {
-        name: "Microsoft Edge",
-        executablePath: path.join(programFilesX86, "Microsoft", "Edge", "Application", "msedge.exe"),
-      },
-    ];
-  }
-
-  if (os === "darwin") {
-    return [
-      {
-        name: "Google Chrome",
-        executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-      },
-      {
-        name: "Microsoft Edge",
-        executablePath: "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",
-      },
-      {
-        name: "Chromium",
-        executablePath: "/Applications/Chromium.app/Contents/MacOS/Chromium",
-      },
-    ];
-  }
-
-  return [
-    { name: "Google Chrome", executablePath: "/usr/bin/google-chrome" },
-    { name: "Google Chrome", executablePath: "/usr/bin/google-chrome-stable" },
-    { name: "Microsoft Edge", executablePath: "/usr/bin/microsoft-edge" },
-    { name: "Microsoft Edge", executablePath: "/usr/bin/microsoft-edge-stable" },
-    { name: "Chromium", executablePath: "/usr/bin/chromium" },
-    { name: "Chromium", executablePath: "/usr/bin/chromium-browser" },
-  ];
-}
-
 function launchBrowser(
   executablePath: string,
   userDataDir: string,
@@ -174,7 +80,7 @@ async function saveStorageStateFromBrowser(
   port: number,
   authStatePath: string,
 ): Promise<boolean> {
-  const browser = await chromium.connectOverCDP(`http://127.0.0.1:${port}`);
+  const browser = await connectToBrowserWithRetry(port);
   try {
     const context = browser.contexts()[0];
     if (!context) {
@@ -188,6 +94,19 @@ async function saveStorageStateFromBrowser(
   } finally {
     await browser.close();
   }
+}
+
+async function connectToBrowserWithRetry(port: number) {
+  let lastError: unknown;
+  for (let attempt = 0; attempt < 40; attempt += 1) {
+    try {
+      return await chromium.connectOverCDP(`http://127.0.0.1:${port}`);
+    } catch (error) {
+      lastError = error;
+      await new Promise((resolve) => setTimeout(resolve, 250));
+    }
+  }
+  throw lastError;
 }
 
 async function waitForEnter(prompt: string): Promise<void> {

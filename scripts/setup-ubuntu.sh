@@ -10,5 +10,5 @@ npx playwright install chromium
 npm run build
 
 echo "Setup complete."
-echo "Next: npm run login"
+echo "Next: npm run login:session"
 
