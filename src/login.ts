@@ -29,6 +29,7 @@ async function main() {
 
   const context = await chromium.launchPersistentContext(config.userDataDir, {
     headless: false,
+    args: ["--password-store=basic"],
   });
 
   try {

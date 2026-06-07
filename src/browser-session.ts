@@ -151,6 +151,7 @@ export class BrowserSession {
         "--no-default-browser-check",
         "--start-minimized",
         "--disable-blink-features=AutomationControlled",
+        "--password-store=basic",
       ],
     });
     await this.context.addInitScript(() => {

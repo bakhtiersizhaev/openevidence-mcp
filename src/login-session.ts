@@ -55,6 +55,7 @@ function launchBrowser(
     `--user-data-dir=${userDataDir}`,
     "--no-first-run",
     "--no-default-browser-check",
+    "--password-store=basic",
   ];
 
   args.push(loginUrl);
