@@ -1,6 +1,7 @@
 {
   "name": "openevidence-mcp",
-  "version": "0.2.0",
+  "version": "0.2.1",
+  "mcpName": "io.github.bakhtiersizhaev/openevidence-mcp",
   "description": "Unofficial MCP server that connects OpenEvidence to AI agents via the user's authenticated browser session",
   "main": "dist/server.js",
   "bin": {

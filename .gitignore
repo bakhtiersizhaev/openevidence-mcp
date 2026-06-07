@@ -22,3 +22,8 @@ Thumbs.db
 
 # Kiro spec workspace (local planning, not for distribution)
 .kiro/
+
+# Temp build, scratch and local profiles
+.tmp_bin/
+npm-profile/
+scratch/
