@@ -19,7 +19,14 @@
     "login:session": "tsx src/login-session.ts",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "node --import tsx --test \"tests/**/*.test.ts\"",
-    "smoke": "tsx src/smoke.ts"
+    "smoke": "tsx src/smoke.ts",
+    "install:claude-app": "node dist/server.js install --client claude-app",
+    "install:codex-app": "node dist/server.js install --client codex-app",
+    "install:claude-code": "node dist/server.js install --client claude-code",
+    "install:codex-cli": "node dist/server.js install --client codex-cli",
+    "install:antigravity": "node dist/server.js install --client antigravity",
+    "install:cursor": "node dist/server.js install --client cursor",
+    "install:windsurf": "node dist/server.js install --client windsurf"
   },
   "files": [
     "dist/",
@@ -82,6 +89,7 @@
     "@modelcontextprotocol/sdk": "^1.26.0",
     "dotenv": "^17.3.1",
     "playwright": "^1.58.2",
+    "smol-toml": "^1.6.1",
     "zod": "^4.3.6"
   },
   "devDependencies": {

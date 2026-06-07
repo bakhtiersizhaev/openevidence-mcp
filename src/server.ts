@@ -1,5 +1,18 @@
 #!/usr/bin/env node
 import "dotenv/config";
+import { runInstallerCLI, printHelp } from "./installer.js";
+
+const args = process.argv.slice(2);
+const subcommands = ["install", "uninstall", "show-config"];
+if (args.length > 0) {
+  if (subcommands.includes(args[0])) {
+    runInstallerCLI(args[0], args.slice(1));
+    process.exit(0);
+  } else if (args[0] === "--help" || args[0] === "-h") {
+    printHelp();
+    process.exit(0);
+  }
+}
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";

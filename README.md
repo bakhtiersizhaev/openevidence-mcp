@@ -192,6 +192,62 @@ Build before registering the server:
 npm run build
 ```
 
+### Automatic Setup (Recommended)
+
+You can automatically register the OpenEvidence MCP server with your favorite client using the built-in installer:
+
+* **Claude Desktop** (`claude-app`):
+  ```bash
+  npx openevidence-mcp install --client claude-app
+  # or via npm shortcut:
+  npm run install:claude-app
+  ```
+* **Codex Desktop** (`codex-app`):
+  ```bash
+  npx openevidence-mcp install --client codex-app
+  # or via npm shortcut:
+  npm run install:codex-app
+  ```
+* **Claude Code** (`claude-code`):
+  ```bash
+  npx openevidence-mcp install --client claude-code
+  # or via npm shortcut:
+  npm run install:claude-code
+  ```
+* **Codex CLI** (`codex-cli`):
+  ```bash
+  npx openevidence-mcp install --client codex-cli
+  # or via npm shortcut:
+  npm run install:codex-cli
+  ```
+* **Google Antigravity** (`antigravity`):
+  ```bash
+  npx openevidence-mcp install --client antigravity
+  # or via npm shortcut:
+  npm run install:antigravity
+  ```
+* **Cursor** (`cursor`):
+  ```bash
+  npx openevidence-mcp install --client cursor
+  # or via npm shortcut:
+  npm run install:cursor
+  ```
+* **Windsurf** (`windsurf`):
+  ```bash
+  npx openevidence-mcp install --client windsurf
+  # or via npm shortcut:
+  npm run install:windsurf
+  ```
+
+To uninstall, you can run:
+```bash
+npx openevidence-mcp uninstall --client <client-id>
+```
+
+---
+
+### Manual Setup
+
 ### Codex
 
 Add this to `~/.codex/config.toml`:

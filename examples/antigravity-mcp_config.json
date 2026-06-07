@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "openevidence": {
+      "command": "node",
+      "args": ["/ABSOLUTE/PATH/openevidence-mcp/dist/server.js"]
+    }
+  }
+}
