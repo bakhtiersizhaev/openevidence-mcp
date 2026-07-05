@@ -1,21 +1,17 @@
 {
   "name": "openevidence-mcp",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "mcpName": "io.github.bakhtiersizhaev/openevidence-mcp",
   "description": "Unofficial MCP server that connects OpenEvidence to AI agents via the user's authenticated browser session",
   "main": "dist/server.js",
   "bin": {
     "openevidence-mcp": "./dist/server.js"
   },
-  "directories": {
-    "example": "examples"
-  },
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "prepare": "tsc -p tsconfig.json",
     "dev": "tsx src/server.ts",
     "start": "node dist/server.js",
-    "login": "tsx src/login.ts",
-    "login:browser": "tsx src/login-browser.ts",
     "login:session": "tsx src/login-session.ts",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "node --import tsx --test \"tests/**/*.test.ts\"",
