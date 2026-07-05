@@ -81,16 +81,146 @@ export function getArticleStatusInfo(article: Record<string, unknown>): ArticleS
 export function normalizeArticleResult(article: Record<string, unknown>): NormalizedArticleResult {
   const extracted = extractAnswerText(article);
   const statusInfo = getArticleStatusInfo(article);
+  const cleanedText = extracted?.text ? renderReactComponents(extracted.text) : null;
   return {
     article_id: readNonEmptyString(article.id),
     status: statusInfo.status,
     is_complete: statusInfo.is_complete,
     question: readQuestion(article),
-    answer_text: extracted?.text ? formatCitations(extracted.text) : null,
+    answer_text: cleanedText ? formatCitations(cleanedText) : null,
     answer_source: extracted?.source ?? null,
-    citations: extracted?.text ? extractCitations(extracted.text) : [],
+    citations: cleanedText ? extractCitations(cleanedText) : [],
     article,
   };
+}
+
+const REACT_COMPONENT_MARKER = "REACTCOMPONENT!:!";
+
+/**
+ * OpenEvidence embeds UI widgets into answer text as:
+ *   REACTCOMPONENT!:!<ComponentName>!:!{json payload}
+ * Render useful ones (figures, quotations) as Markdown and drop the rest
+ * (generation progress steps, unknown future widgets).
+ */
+export function renderReactComponents(text: string): string {
+  if (!text.includes(REACT_COMPONENT_MARKER)) {
+    return text;
+  }
+
+  let result = "";
+  let cursor = 0;
+
+  while (cursor < text.length) {
+    const markerStart = text.indexOf(REACT_COMPONENT_MARKER, cursor);
+    if (markerStart === -1) {
+      result += text.slice(cursor);
+      break;
+    }
+
+    result += text.slice(cursor, markerStart);
+
+    const nameStart = markerStart + REACT_COMPONENT_MARKER.length;
+    const nameEnd = text.indexOf("!:!", nameStart);
+    if (nameEnd === -1) {
+      // Marker without payload separator: drop the rest of the line.
+      cursor = skipToLineEnd(text, markerStart);
+      continue;
+    }
+
+    const componentName = text.slice(nameStart, nameEnd);
+    const payload = readBalancedJson(text, nameEnd + 3);
+    if (payload === null) {
+      // Malformed/truncated JSON: drop the rest of the line, keep following text.
+      cursor = skipToLineEnd(text, markerStart);
+      continue;
+    }
+
+    result += renderComponentMarkdown(componentName, payload.value);
+    cursor = payload.endIndex;
+  }
+
+  // Collapse runs of 3+ newlines left behind by removed blocks.
+  return result.replace(/\n{3,}/g, "\n\n").trim();
+}
+
+function renderComponentMarkdown(componentName: string, payload: unknown): string {
+  const record = readObject(payload);
+  if (!record) {
+    return "";
+  }
+
+  if (componentName === "PublicationFigure") {
+    const url = readNonEmptyString(record.url);
+    if (!url) {
+      return "";
+    }
+    const caption =
+      readNonEmptyString(record.display_caption) ??
+      readNonEmptyString(record.caption) ??
+      readNonEmptyString(record.name) ??
+      "Figure";
+    return `![${caption}](${url})`;
+  }
+
+  if (componentName === "PublicationQuotation") {
+    const quote = readNonEmptyString(record.text);
+    if (!quote) {
+      return "";
+    }
+    return `> ${quote}`;
+  }
+
+  // InlineGenerationStep and any unknown widget types carry no answer content.
+  return "";
+}
+
+function readBalancedJson(
+  text: string,
+  startIndex: number,
+): { value: unknown; endIndex: number } | null {
+  if (text[startIndex] !== "{") {
+    return null;
+  }
+
+  let depth = 0;
+  let inString = false;
+  let escaped = false;
+
+  for (let index = startIndex; index < text.length; index += 1) {
+    const char = text[index];
+    if (inString) {
+      if (escaped) {
+        escaped = false;
+      } else if (char === "\\") {
+        escaped = true;
+      } else if (char === '"') {
+        inString = false;
+      }
+      continue;
+    }
+    if (char === '"') {
+      inString = true;
+    } else if (char === "{") {
+      depth += 1;
+    } else if (char === "}") {
+      depth -= 1;
+      if (depth === 0) {
+        const rawJson = text.slice(startIndex, index + 1);
+        try {
+          return { value: JSON.parse(rawJson), endIndex: index + 1 };
+        } catch {
+          return null;
+        }
+      }
+    }
+  }
+
+  return null;
+}
+
+function skipToLineEnd(text: string, fromIndex: number): number {
+  const lineEnd = text.indexOf("\n", fromIndex);
+  return lineEnd === -1 ? text.length : lineEnd + 1;
 }
 
 function readQuestion(article: Record<string, unknown>): string | null {
