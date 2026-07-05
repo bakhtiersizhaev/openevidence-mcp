@@ -1,9 +1,13 @@
-import { extractAnswerText as extractArticleAnswerText } from "./article.js";
+import { extractAnswerText as extractArticleAnswerText, PENDING_STATUSES } from "./article.js";
 import { BrowserSession } from "./browser-session.js";
 import type { AppConfig } from "./config.js";
 import type { AuthStatusResult, OpenEvidenceAskRequest, WaitOptions } from "./types.js";
 
-const PENDING_STATUSES = new Set(["queued", "pending", "processing", "running", "in_progress"]);
+export interface WaitForArticleResult {
+  article: Record<string, unknown>;
+  /** True when polling stopped because the timeout elapsed, not because the article completed. */
+  timedOut: boolean;
+}
 
 export class OpenEvidenceClient {
   private readonly browserSession: BrowserSession;
@@ -36,7 +40,7 @@ export class OpenEvidenceClient {
     return this.browserSession.ask(payload);
   }
 
-  async waitForArticle(articleId: string, options?: WaitOptions): Promise<Record<string, unknown>> {
+  async waitForArticle(articleId: string, options?: WaitOptions): Promise<WaitForArticleResult> {
     const timeoutMs = options?.timeoutMs ?? this.config.pollTimeoutMs;
     const intervalMs = options?.intervalMs ?? this.config.pollIntervalMs;
     const started = Date.now();
@@ -45,11 +49,11 @@ export class OpenEvidenceClient {
       const article = await this.getArticle(articleId);
       const status = String(article.status ?? "").toLowerCase();
       if (status.length > 0 && !PENDING_STATUSES.has(status)) {
-        return article;
+        return { article, timedOut: false };
       }
 
       if (Date.now() - started > timeoutMs) {
-        return article;
+        return { article, timedOut: true };
       }
 
       await sleep(intervalMs);

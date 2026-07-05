@@ -36,6 +36,7 @@ test("MCP server exposes agent instructions and expected tools", async () => {
       "oe_article_get",
       "oe_article_wait",
       "oe_ask",
+      "oe_citations_get",
     ]) {
       assert.ok(byName.has(name), `expected tool ${name}`);
     }
@@ -45,6 +46,18 @@ test("MCP server exposes agent instructions and expected tools", async () => {
     assert.equal(byName.get("oe_article_get")?.annotations?.readOnlyHint, true);
     assert.equal(byName.get("oe_article_wait")?.annotations?.readOnlyHint, true);
     assert.equal(byName.get("oe_ask")?.annotations?.readOnlyHint, false);
+    assert.equal(byName.get("oe_citations_get")?.annotations?.readOnlyHint, true);
+
+    // The oe_ask schema must only advertise inputs the server actually honors.
+    const askSchema = byName.get("oe_ask")?.inputSchema as { properties?: Record<string, unknown> };
+    const askInputs = Object.keys(askSchema?.properties ?? {}).sort();
+    assert.deepEqual(askInputs, [
+      "original_article_id",
+      "poll_interval_ms",
+      "question",
+      "timeout_sec",
+      "wait_for_completion",
+    ]);
 
     assert.match(byName.get("oe_ask")?.description ?? "", /wait_for_completion=false/);
     assert.match(byName.get("oe_article_wait")?.description ?? "", /long research questions/);

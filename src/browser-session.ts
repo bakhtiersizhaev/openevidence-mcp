@@ -25,7 +25,6 @@ interface PostArticleResult {
 export interface BrowserAskPayload {
   question: string;
   originalArticleId?: string;
-  articleType?: string;
 }
 
 export class BrowserSession {
@@ -112,7 +111,7 @@ export class BrowserSession {
         return {
           id: first,
           status: "pending",
-          article_type: payload.articleType ?? DEFAULT_ARTICLE_TYPE,
+          article_type: DEFAULT_ARTICLE_TYPE,
         };
       }
 
@@ -128,7 +127,7 @@ export class BrowserSession {
         return {
           id: fallbackArticleId,
           status: "pending",
-          article_type: payload.articleType ?? DEFAULT_ARTICLE_TYPE,
+          article_type: DEFAULT_ARTICLE_TYPE,
         };
       }
 
