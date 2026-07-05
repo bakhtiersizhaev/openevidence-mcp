@@ -8,6 +8,22 @@ import { findSystemBrowser } from "./system-browser.js";
 const DEFAULT_ARTICLE_TYPE = "Ask OpenEvidence Light with citations";
 const ARTICLE_ID_RE = /\/ask\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/i;
 
+export const BOT_CHALLENGE_MESSAGE =
+  "OpenEvidence is showing an anti-bot verification page (DataDome) for the local MCP browser profile, so the app UI did not load. " +
+  "This is not a login problem and usually happens after many automated questions in a short time. " +
+  "To fix it, the user must open the MCP browser profile manually and pass the verification once: " +
+  "run `npm run login:session` (from the openevidence-mcp folder), complete the check in the opened browser window until the normal OpenEvidence page loads, " +
+  "close that window, then retry this tool. Consider spacing out oe_ask calls to avoid repeat challenges.";
+
+/**
+ * DataDome serves a small interstitial page instead of the app.
+ * Detect its unmistakable markers so we can tell the user exactly what to do
+ * instead of a generic "UI may have changed" error.
+ */
+export function isBotChallengePage(html: string): boolean {
+  return html.includes("captcha-delivery.com") || /\bvar\s+dd\s*=\s*\{[^}]*'rt'/.test(html);
+}
+
 interface BrowserFetchResult {
   status: number;
   contentType: string;
@@ -270,6 +286,10 @@ async function fillQuestion(page: Page, question: string): Promise<void> {
     '[contenteditable="true"]',
   ]);
   if (!input) {
+    const html = await page.content().catch(() => "");
+    if (isBotChallengePage(html)) {
+      throw new Error(BOT_CHALLENGE_MESSAGE);
+    }
     throw new Error("Could not find the OpenEvidence question input. The OpenEvidence UI may have changed.");
   }
   await input.fill(question);

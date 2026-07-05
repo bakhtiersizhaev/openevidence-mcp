@@ -14,7 +14,7 @@
     "start": "node dist/server.js",
     "login:session": "tsx src/login-session.ts",
     "check": "tsc -p tsconfig.json --noEmit",
-    "test": "node --import tsx --test tests/article-normalize.test.ts tests/citations-bibtex.test.ts tests/history-redaction.test.ts tests/installer.test.ts tests/mcp-contract.test.ts",
+    "test": "node --import tsx --test tests/article-normalize.test.ts tests/bot-challenge.test.ts tests/citations-bibtex.test.ts tests/history-redaction.test.ts tests/installer.test.ts tests/mcp-contract.test.ts",
     "smoke": "tsx src/smoke.ts",
     "install:claude-app": "node dist/server.js install --client claude-app",
     "install:codex-app": "node dist/server.js install --client codex-app",

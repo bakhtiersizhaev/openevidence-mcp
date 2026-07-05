@@ -56,6 +56,22 @@ npm run login:session
 
 Do not use stealth flags, cookie-copying browser extensions, or instructions that bypass Google, OpenEvidence, institution, regional, or account controls.
 
+## Anti-Bot Verification Page (DataDome)
+
+If `oe_ask` returns an error mentioning an **anti-bot verification page**, OpenEvidence's protection layer (DataDome) served a verification interstitial to the local MCP browser profile instead of the app. Read-only tools (`oe_auth_status`, `oe_history_list`, `oe_article_get`) usually keep working; only new question submission is affected.
+
+This is not a login problem and usually happens after several automated questions in a short time.
+
+Fix it by passing the verification once in a visible browser window using the same profile:
+
+```bash
+npm run login:session
+```
+
+Complete the verification (and login if asked) in the opened window until the normal OpenEvidence page loads, close that window, then retry `oe_ask`.
+
+To reduce repeat challenges, space out `oe_ask` calls instead of sending many questions back-to-back. Do not attempt captcha-solving services, stealth patches, or fingerprint spoofing — pass the check manually.
+
 ## `oe_ask` Fails
 
 OpenEvidence may accept auth and read-only history requests while write/ask submission fails because the local session is expired, the page changed, or the local browser profile is not usable. In this state:
