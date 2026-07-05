@@ -27,7 +27,7 @@ The browser opens, you sign in with your own account, close that browser window 
 
 ## Google Says the Browser or App Is Not Secure
 
-Google sign-in may block automation-controlled Chromium during `npm run login`. This can happen on Windows, macOS, or Linux and is a Google OAuth security behavior, not a password or OpenEvidence MCP error.
+Google sign-in may block automation-controlled browser contexts. This can happen on Windows, macOS, or Linux and is a Google OAuth security behavior, not a password or OpenEvidence MCP error.
 
 Use the one-time session login flow:
 

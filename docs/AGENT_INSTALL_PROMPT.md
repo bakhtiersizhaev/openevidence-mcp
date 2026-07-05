@@ -65,7 +65,7 @@ Steps to execute:
 
 6. Smoke Test & Validation:
    - Run `npm run smoke` (or with environment variables matching the selected browser) to confirm that the server can securely access the local profile and verify authorization.
-   - Print a clean success message confirming the setup is complete, and advise me to restart my AI/MCP client so the new tools (`oe_auth_status`, `oe_history_list`, `oe_article_get`, `oe_ask`, `oe_article_wait`) are activated.
+   - Print a clean success message confirming the setup is complete, and advise me to restart my AI/MCP client so the new tools (`oe_auth_status`, `oe_history_list`, `oe_article_get`, `oe_ask`, `oe_article_wait`, `oe_citations_get`) are activated.
    - Remind me that for long clinical questions, I can ask them in a non-blocking mode (`oe_ask` with `wait_for_completion=false`), and you will automatically poll for completion using `oe_article_wait` behind the scenes.
 ```
 

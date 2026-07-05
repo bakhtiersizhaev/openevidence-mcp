@@ -4,6 +4,32 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.3.0] - 2026-07-06
+
+### Added
+- `oe_citations_get` tool for structured citation extraction and BibTeX export, with optional Crossref DOI enrichment.
+- Citation extraction on normalized article payloads via the `citations` field.
+- Explicit `timed_out` flags for article waiting flows so agents can distinguish incomplete results from failures.
+- Cross-platform CI matrix for Ubuntu, Windows, and macOS across Node.js 20, 22, and 24.
+- `prepare` script so npm installs from git build the TypeScript output automatically.
+
+### Changed
+- `oe_ask` now exposes only parameters that are actually sent to OpenEvidence: `question`, optional `original_article_id`, and wait/poll controls.
+- Server metadata now reads the package version instead of returning a hardcoded version.
+- `oe_auth_status` no longer performs a redundant authenticated client check.
+- README and all seven translated README files now document the `login:session` browser-profile flow, fire-and-forget asks, and citation export.
+- `server.json` now uses real optional environment variables instead of placeholder API-key fields.
+
+### Removed
+- Removed legacy `npm run login`, `npm run login:browser`, and storage-state import flows from the package scripts and user docs.
+- Removed unused legacy login entrypoints and local marketing/scratch artifacts from the repository.
+
+## [0.2.1] - 2026-06-01
+
+### Changed
+- Documentation and install guidance were synchronized around the system-browser `login:session` workflow.
+- Smoke-test and troubleshooting guidance clarified that a real local browser session is required.
+
 ## [0.2.0] - 2026-05-31
 
 ### Added
@@ -27,7 +53,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `oe_article_get` tool - fetch full article payload by ID
 - `oe_ask` tool - ask a question with optional completion polling
 - Browser-session authentication via Playwright (no API key required)
-- `npm run login` - interactive login flow with state persistence
+- Browser-session login flow with local state persistence
 - `npm run smoke` - smoke test for auth and connectivity
 - Cross-platform support: macOS, Windows, Ubuntu/Linux
 - Setup scripts for all three platforms
