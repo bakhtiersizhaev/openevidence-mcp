@@ -155,13 +155,19 @@ export class BrowserSession {
     const browser = findSystemBrowser();
     const isHeadless = process.env.OE_MCP_BROWSER_HEADLESS !== "0";
 
+    // Drive Chrome's modern headless mode via an explicit `--headless=new` flag
+    // rather than Playwright's legacy `--headless`, which crashes on current
+    // Chrome builds (launch exits with code 21). We keep the system Chrome so the
+    // login-session profile stays fully compatible. headless:false stops Playwright
+    // from injecting the legacy flag; Playwright still attaches over the debug pipe.
     this.context = await chromium.launchPersistentContext(this.config.userDataDir, {
       executablePath: browser.executablePath,
-      headless: isHeadless,
+      headless: false,
       viewport: isHeadless ? { width: 1280, height: 800 } : null,
       userAgent: getCleanUserAgent(),
       ignoreDefaultArgs: ["--enable-automation"],
       args: [
+        ...(isHeadless ? ["--headless=new"] : []),
         "--no-first-run",
         "--no-default-browser-check",
         "--start-minimized",
