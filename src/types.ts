@@ -1,10 +1,6 @@
 export interface OpenEvidenceAskRequest {
   question: string;
   originalArticleId?: string;
-  articleType?: string;
-  personalizationEnabled?: boolean;
-  disableCaching?: boolean;
-  variantConfigurationFile?: string;
 }
 
 export interface WaitOptions {

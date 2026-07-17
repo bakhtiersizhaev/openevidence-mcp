@@ -1,39 +1,44 @@
 # OpenEvidence MCP (Unofficial)
 
-OpenEvidence MCP is an unofficial Model Context Protocol server that connects OpenEvidence to Codex, Claude Code, Claude Desktop, Cursor, Cline, Continue, and other MCP-compatible clients through your own authenticated browser session.
+**The first open-source OpenEvidence MCP server (published February 2026).** Query OpenEvidence from Codex, Claude Code, Claude Desktop, Cursor, Windsurf, and any MCP-compatible client through your own authenticated browser session. No API key. One-command installer for 7 MCP clients. Fire-and-forget asks with polling. Structured citations with BibTeX export.
 
+[![CI](https://github.com/bakhtiersizhaev/openevidence-mcp/actions/workflows/test.yml/badge.svg)](https://github.com/bakhtiersizhaev/openevidence-mcp/actions/workflows/test.yml)
+[![npm](https://img.shields.io/npm/v/openevidence-mcp)](https://www.npmjs.com/package/openevidence-mcp)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-2d72d9)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Node.js 20+](https://img.shields.io/badge/node-%3E%3D20-339933)](https://nodejs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178c6)](https://www.typescriptlang.org/)
-[![MCP SDK](https://img.shields.io/badge/MCP%20SDK-1.26.0-1d9a5a)](https://www.npmjs.com/package/@modelcontextprotocol/sdk)
-[![Playwright](https://img.shields.io/badge/Playwright-1.58.2-4f46e5)](https://playwright.dev/)
+[![auth](https://img.shields.io/badge/auth-your%20own%20browser%20session-8250df)](#login-flow)
+[![citations](https://img.shields.io/badge/citations-BibTeX%20%2B%20Crossref-b60205)](#features)
 
 > [!IMPORTANT]
-> This project is unofficial and is not affiliated with OpenEvidence. It does not provide medical advice, does not bypass access controls, and should only be used with your own OpenEvidence account in compliance with applicable terms, privacy rules, and clinical governance requirements.
+> This project is unofficial and is not affiliated with OpenEvidence. It does not provide medical advice and should only be used with your own OpenEvidence account in compliance with applicable terms, privacy rules, and clinical governance requirements.
 
 Translations: [Русский](README.ru.md) | [Español](README.es.md) | [简体中文](README.zh-Hans.md) | [繁體中文（台灣）](README.zh-Hant-TW.md) | [한국어](README.ko.md) | [हिन्दी](README.hi.md)
 
-## Agent Onboarding & Installation
+## How it works
 
-Using Codex, Claude Code, Cursor, or another local AI coding agent? You can let the agent handle the entire setup, compilation, and local MCP configuration for you!
-
-Copy and paste this short bootstrap prompt directly into your local AI coding assistant:
-
-```text
-Please install OpenEvidence MCP for me: clone https://github.com/bakhtiersizhaev/openevidence-mcp, install dependencies, run build, auto-configure this MCP server in my local client (Claude Desktop/Codex/Cursor), guide me through the one-time Edge/Chrome login using `npm run login:session`, and run `npm run smoke` to verify. Keep everything strictly local and secure.
+```
+MCP client (Codex / Claude / Cursor / ...)
+        │  stdio
+        ▼
+openevidence-mcp server (local Node process)
+        │  Playwright on YOUR system Chrome/Edge
+        ▼
+dedicated local browser profile (~/.openevidence-mcp)
+        │  your own logged-in OpenEvidence session
+        ▼
+openevidence.com
 ```
 
-For the comprehensive, step-by-step setup playbook and rules, see **[docs/AGENT_INSTALL_PROMPT.md](docs/AGENT_INSTALL_PROMPT.md)**.
+You log in once in a real browser window (`npm run login:session`). After that, the MCP server drives a minimized local browser on that profile — cookies never leave the browser, nothing is exported, no extension is installed, no ports are opened.
 
 ## What it does
 
-OpenEvidence MCP runs a local stdio MCP server that lets MCP clients use your existing OpenEvidence browser session for:
-
-- checking whether the saved session is authenticated;
-- listing your OpenEvidence question/article history;
-- fetching a full article payload by ID;
-- asking an OpenEvidence research question and optionally waiting for completion;
-- polling an existing OpenEvidence article until it completes.
+- checks whether the saved session is authenticated;
+- lists your OpenEvidence question/article history;
+- fetches a full article payload by ID;
+- asks an OpenEvidence research question — blocking or **fire-and-forget** (`wait_for_completion=false`, then poll);
+- polls an existing OpenEvidence article until it completes, with an explicit `timed_out` flag;
+- extracts **structured citations** from a completed article and exports **BibTeX** (optional Crossref DOI enrichment).
 
 No official OpenEvidence API token is required.
 
@@ -41,21 +46,39 @@ No official OpenEvidence API token is required.
 
 - It is not affiliated with, endorsed by, or approved by OpenEvidence.
 - It does not provide medical advice or replace clinical judgment.
-- It does not bypass authentication, paywalls, or access controls.
-- It does not collect credentials.
+- It does not collect credentials or ask for your password.
 - It does not send your browser session state anywhere except to OpenEvidence through local requests from your machine.
 - It should not be used for patient-specific diagnosis or treatment decisions without appropriate human review.
 
 ## Who it is for
 
 - clinicians using their own OpenEvidence account;
-- medical researchers;
+- medical researchers who need citations they can drop into a reference manager;
 - AI operators building evidence-research workflows;
 - MCP developers integrating local tools with Codex, Claude, Cursor, Cline, Continue, or similar clients.
 
-## Tested / Target Clients
+## Agent Onboarding & Installation
 
-This project is designed for MCP-compatible clients and local agent workflows. Only Codex and Claude-style local configuration examples are maintained in this repository unless otherwise noted.
+Using Codex, Claude Code, Cursor, or another local AI coding agent? Let the agent handle the entire setup:
+
+```text
+Please install OpenEvidence MCP for me: clone https://github.com/bakhtiersizhaev/openevidence-mcp, install dependencies, run build, auto-configure this MCP server in my local client (Claude Desktop/Codex/Cursor), guide me through the one-time Edge/Chrome login using `npm run login:session`, and run `npm run smoke` to verify. Keep everything strictly local and secure.
+```
+
+For the comprehensive, step-by-step setup playbook and rules, see **[docs/AGENT_INSTALL_PROMPT.md](docs/AGENT_INSTALL_PROMPT.md)**.
+
+## Features
+
+| Tool | Purpose | Auth required | Side effects |
+| --- | --- | --- | --- |
+| `oe_auth_status` | Checks whether the saved OpenEvidence browser session is authenticated. | Yes, local browser profile must be logged in. | None. |
+| `oe_history_list` | Lists prior OpenEvidence articles with optional pagination and search. Returns a privacy-reduced list unless `include_raw=true` is explicitly requested. | Yes. | None. |
+| `oe_article_get` | Fetches an article by ID and returns normalized fields (`status`, `is_complete`, `question`, `answer_text`, `citations`). Raw payload is opt-in with `include_raw=true`. | Yes. | None. |
+| `oe_article_wait` | Waits for an existing article ID to complete; returns `timed_out=true` when the timeout elapsed before completion. | Yes. | None. |
+| `oe_ask` | Creates an OpenEvidence research question and optionally waits for the article to complete. Set `wait_for_completion=false` for fire-and-forget. | Yes. | Creates a question/article in your OpenEvidence account. |
+| `oe_citations_get` | Extracts structured citations from a completed article and returns JSON + BibTeX. `validate_crossref=true` enriches DOI entries with Crossref metadata. | Yes. | None. |
+
+## Tested / Target Clients
 
 | Client | Status | Notes |
 | --- | --- | --- |
@@ -66,20 +89,8 @@ This project is designed for MCP-compatible clients and local agent workflows. O
 | Cline | Compatible | VS Code agent workflow. |
 | Continue | Compatible | Open-source IDE assistant workflow. |
 | VS Code / GitHub Copilot environments with MCP support | Experimental | Depends on local MCP support and client configuration. |
-| Windsurf / Zed / Replit / Sourcegraph-style MCP hosts | Experimental | Not guaranteed unless tested. |
-| Gemini CLI / Google Antigravity-style agent environments | Experimental | Watchlist/ecosystem target, not a maintained example. |
-
-Other MCP-compatible hosts may work as well, but the examples in this repository focus on Codex and Claude-style local MCP configuration.
-
-## Features
-
-| Tool | Purpose | Auth required | Side effects |
-| --- | --- | --- | --- |
-| `oe_auth_status` | Checks whether the saved OpenEvidence browser session is authenticated. | Yes, local browser profile must be logged in. | None. |
-| `oe_history_list` | Lists prior OpenEvidence articles with optional pagination and search. Returns a privacy-reduced list unless `include_raw=true` is explicitly requested. | Yes. | None. |
-| `oe_article_get` | Fetches an article by ID and returns normalized fields (`status`, `is_complete`, `question`, `answer_text`). Raw payload is opt-in with `include_raw=true`. | Yes. | None. |
-| `oe_article_wait` | Waits for an existing article ID to complete; useful after non-blocking `oe_ask`. | Yes. | None. |
-| `oe_ask` | Creates an OpenEvidence research question and optionally waits for the article to complete. | Yes. | Creates a question/article in your OpenEvidence account. |
+| Windsurf / Zed / Replit / Sourcegraph-style MCP hosts | Experimental | Windsurf is covered by the installer. |
+| Gemini CLI / Google Antigravity-style agent environments | Experimental | Antigravity is covered by the installer. |
 
 ## Agent Tool-Calling Notes
 
@@ -92,15 +103,14 @@ Recommended agent workflow:
 3. Use `oe_article_get` when you already have an article ID.
 4. For long research questions, call `oe_ask` with `wait_for_completion=false`, then call `oe_article_wait` with the returned `article_id`.
 5. Use `original_article_id` only for true follow-up continuity. Omit it for fresh questions to avoid stale thread context.
-6. Treat outputs as evidence-research context, not medical advice, diagnosis, or clinical orders.
+6. Call `oe_citations_get` when the user needs references or BibTeX from a completed article.
+7. Treat outputs as evidence-research context, not medical advice, diagnosis, or clinical orders.
 
 Related commands:
 
 | Command | Purpose |
 | --- | --- |
-| `npm run login:session` | Recommended one-time login. Opens Chrome/Edge with the local OpenEvidence MCP profile. |
-| `npm run login` | Legacy/development Playwright login flow that also uses the local profile. |
-| `npm run login:browser` | Legacy system-browser login/export flow for debugging Google SSO issues. |
+| `npm run login:session` | One-time login. Opens Chrome/Edge with the local OpenEvidence MCP profile. |
 | `npm run smoke` | Verifies auth and basic OpenEvidence connectivity. |
 
 ## Requirements
@@ -109,11 +119,11 @@ Related commands:
 - npm 10+
 - OpenEvidence account
 - macOS, Windows, or Linux
-- Chromium installed by Playwright (`npx playwright install chromium`)
+- Chrome, Edge, or Chromium installed on your system
 
 ## Availability Note
 
-OpenEvidence availability may depend on region, account eligibility, and OpenEvidence policy. Public materials in May 2026 indicate verified U.S. HCP/NPI-centered access and EU/U.K. unavailability; this project does not bypass those restrictions.
+OpenEvidence availability may depend on region, account eligibility, and OpenEvidence policy. Public materials in May 2026 indicate verified U.S. HCP/NPI-centered access and EU/U.K. unavailability; this project does not change those restrictions.
 
 Useful references:
 
@@ -155,7 +165,7 @@ npm run smoke
 
 ## Login Flow
 
-Recommended one-time login:
+One-time login:
 
 ```bash
 npm run login:session
@@ -170,19 +180,7 @@ Default local profile path:
 
 The MCP server reuses this same local profile during its process lifetime. It may start a minimized local browser process for OpenEvidence calls, but it does not install an extension, expose a public network service, export cookies, or ask for your password.
 
-Legacy/development flow:
-
-```bash
-npm run login
-```
-
-If Google sign-in says the browser or app may not be secure during the legacy flow, use the session login instead:
-
-```bash
-npm run login:session
-```
-
-Do not share browser profile files, storage-state files, cookies, screenshots with private account data, or patient-identifiable information.
+Do not share browser profile files, cookies, screenshots with private account data, or patient-identifiable information.
 
 ## MCP Client Setup
 
@@ -194,61 +192,27 @@ npm run build
 
 ### Automatic Setup (Recommended)
 
-You can automatically register the OpenEvidence MCP server with your favorite client using the built-in installer:
+Register the OpenEvidence MCP server with your client using the built-in installer:
 
-* **Claude Desktop** (`claude-app`):
-  ```bash
-  npx openevidence-mcp install --client claude-app
-  # or via npm shortcut:
-  npm run install:claude-app
-  ```
-* **Codex Desktop** (`codex-app`):
-  ```bash
-  npx openevidence-mcp install --client codex-app
-  # or via npm shortcut:
-  npm run install:codex-app
-  ```
-* **Claude Code** (`claude-code`):
-  ```bash
-  npx openevidence-mcp install --client claude-code
-  # or via npm shortcut:
-  npm run install:claude-code
-  ```
-* **Codex CLI** (`codex-cli`):
-  ```bash
-  npx openevidence-mcp install --client codex-cli
-  # or via npm shortcut:
-  npm run install:codex-cli
-  ```
-* **Google Antigravity** (`antigravity`):
-  ```bash
-  npx openevidence-mcp install --client antigravity
-  # or via npm shortcut:
-  npm run install:antigravity
-  ```
-* **Cursor** (`cursor`):
-  ```bash
-  npx openevidence-mcp install --client cursor
-  # or via npm shortcut:
-  npm run install:cursor
-  ```
-* **Windsurf** (`windsurf`):
-  ```bash
-  npx openevidence-mcp install --client windsurf
-  # or via npm shortcut:
-  npm run install:windsurf
-  ```
+| Client | Command |
+| --- | --- |
+| Claude Desktop | `npx openevidence-mcp install --client claude-app` |
+| Codex Desktop | `npx openevidence-mcp install --client codex-app` |
+| Claude Code | `npx openevidence-mcp install --client claude-code` |
+| Codex CLI | `npx openevidence-mcp install --client codex-cli` |
+| Google Antigravity | `npx openevidence-mcp install --client antigravity` |
+| Cursor | `npx openevidence-mcp install --client cursor` |
+| Windsurf | `npx openevidence-mcp install --client windsurf` |
 
-To uninstall, you can run:
+Each client also has an npm shortcut, e.g. `npm run install:cursor`. To uninstall:
+
 ```bash
 npx openevidence-mcp uninstall --client <client-id>
 ```
 
----
-
 ### Manual Setup
 
-### Codex
+#### Codex
 
 Add this to `~/.codex/config.toml`:
 
@@ -268,7 +232,7 @@ args = ["C:\\Users\\<user>\\openevidence-mcp\\dist\\server.js"]
 startup_timeout_sec = 60
 ```
 
-### Claude Desktop
+#### Claude Desktop
 
 Add this to `claude_desktop_config.json`:
 
@@ -283,7 +247,7 @@ Add this to `claude_desktop_config.json`:
 }
 ```
 
-### Cursor, Cline, Continue
+#### Cursor, Cline, Continue
 
 Use the same stdio server shape if your client supports MCP server command/args configuration:
 
@@ -322,7 +286,7 @@ npm run check
 
 ## Security Notes
 
-- Treat browser profiles, `storage-state.json`, and cookies as secrets.
+- Treat browser profiles and cookies as secrets.
 - Do not commit `.env`, session state, screenshots with account data, or patient-identifiable information.
 - Use only your own OpenEvidence account.
 - Keep MCP client configs pointed at the built local server path you control.
@@ -336,8 +300,6 @@ See `docs/TROUBLESHOOTING.md` for detailed recovery steps.
 Common fixes:
 
 - `authenticated: false`: rerun `npm run login:session`.
-- Google says browser is not secure in the legacy login flow: run `npm run login:session`.
-- Browser install errors: run `npx playwright install chromium`.
 - MCP client cannot start server: confirm `npm run build` succeeded and use an absolute path to `dist/server.js`.
 - Windows path issues: escape backslashes in JSON/TOML or use full absolute paths.
 - Node errors: confirm `node --version` is 20 or newer.
@@ -346,16 +308,16 @@ Common fixes:
 
 ## Roadmap
 
-- Keep tool descriptions compact and agent-friendly.
-- Add focused tests around config and response parsing.
-- Improve smoke diagnostics without exposing session details.
+- Publish to the official MCP Registry (`server.json` manifest is ready).
+- Crossref-validated citation metadata caching.
+- Optional article artifacts on disk (answer.md, citations.bib).
 - Track MCP client setup examples as client configuration formats evolve.
 
 ## License & Attribution
 
 Apache-2.0 (`LICENSE`) + `NOTICE`.
 
-If you redistribute, fork, or build derivative versions, keep attribution to:
+This is the original OpenEvidence MCP repository, published February 2026. If you redistribute, fork, or build derivative versions, keep attribution to:
 
 - Original author: Bakhtier Sizhaev
 - Original repository: `https://github.com/bakhtiersizhaev/openevidence-mcp`
@@ -375,4 +337,3 @@ Based on OpenEvidence MCP by Bakhtier Sizhaev - https://github.com/bakhtiersizha
     <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=bakhtiersizhaev/openevidence-mcp&type=Date" />
   </picture>
 </a>
-

@@ -27,3 +27,6 @@ Thumbs.db
 .tmp_bin/
 npm-profile/
 scratch/
+
+# Private local notes (never commit)
+PRIVATE_HEALTH_FACTS.md

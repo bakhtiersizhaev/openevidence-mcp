@@ -14,15 +14,21 @@ if (args.length > 0) {
   }
 }
 
+import { createRequire } from "node:module";
+
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
 import { normalizeArticleResult } from "./article.js";
+import { citationsToBibtex } from "./bibtex.js";
 import { ensureConfigDirs, resolveConfig } from "./config.js";
 import { sanitizeHistoryPayload } from "./history.js";
 import { extractAnswerText, OpenEvidenceClient } from "./openevidence-client.js";
 import type { OpenEvidenceAskRequest } from "./types.js";
+
+const require = createRequire(import.meta.url);
+const packageJson = require("../package.json") as { version: string };
 
 const config = resolveConfig();
 ensureConfigDirs(config);
@@ -31,13 +37,14 @@ let sharedClientInit: Promise<OpenEvidenceClient> | null = null;
 
 const server = new McpServer({
   name: "openevidence-mcp",
-  version: "1.0.0",
+  version: packageJson.version,
 }, {
   instructions: [
     "OpenEvidence MCP is an unofficial local stdio bridge to the user's own authenticated OpenEvidence browser session.",
     "The MCP server reuses one local browser profile during the server process; users should run npm run login:session once before first use.",
     "Use oe_auth_status first when authentication state is unknown.",
     "Use oe_history_list to find recent OpenEvidence article IDs, and oe_article_get to fetch an existing article.",
+    "Use oe_citations_get to export structured citations and BibTeX from a completed article.",
     "Use oe_ask only for OpenEvidence evidence-research questions. Do not present outputs as medical advice, diagnosis, or clinical orders.",
     "For long research questions, prefer oe_ask with wait_for_completion=false, then call oe_article_wait or oe_article_get with the returned article_id. Some MCP hosts time out long blocking calls.",
     "Use original_article_id only when the user explicitly wants follow-up continuity in that OpenEvidence thread. For fresh questions, omit original_article_id to avoid stale thread context.",
@@ -67,8 +74,9 @@ server.registerPrompt(
             "3. Call oe_article_get when you already have an article_id and need the current status or answer_text.",
             "4. For a new evidence-research question, call oe_ask. For long questions, set wait_for_completion=false and then call oe_article_wait with the returned article_id.",
             "5. Use original_article_id only for a true follow-up in the same OpenEvidence thread. Omit it for fresh questions or when prior thread context may be stale.",
-            "6. Treat OpenEvidence output as research context, not medical advice, diagnosis, or a clinical order.",
-            "7. Never expose passwords, cookies, browser profile files, storage-state files, session tokens, account identifiers, screenshots with private data, or patient-identifiable information.",
+            "6. Call oe_citations_get when the user needs references or BibTeX from a completed article.",
+            "7. Treat OpenEvidence output as research context, not medical advice, diagnosis, or a clinical order.",
+            "8. Never expose passwords, cookies, browser profile files, storage-state files, session tokens, account identifiers, screenshots with private data, or patient-identifiable information.",
           ].join("\n"),
         },
       },
@@ -88,10 +96,13 @@ server.registerTool(
     },
   },
   async () =>
-    withClient(async (client) => {
-      const status = await client.getAuthStatus();
-      return ok(sanitizeAuthStatus(status));
-    }),
+    withClient(
+      async (client) => {
+        const status = await client.getAuthStatus();
+        return ok(sanitizeAuthStatus(status));
+      },
+      { requireAuth: false },
+    ),
 );
 
 server.registerTool(
@@ -163,12 +174,13 @@ server.registerTool(
   },
   async (args) =>
     withClient(async (client) => {
-      const article = await client.waitForArticle(args.article_id, {
+      const { article, timedOut } = await client.waitForArticle(args.article_id, {
         timeoutMs: (args.timeout_sec ?? 180) * 1000,
         intervalMs: args.poll_interval_ms ?? config.pollIntervalMs,
       });
       const result = {
         ...normalizeArticleResult(article),
+        timed_out: timedOut,
         extracted_answer_raw: extractAnswerText(article),
       };
       return ok(args.include_raw ? result : omitRawArticle(result));
@@ -191,10 +203,6 @@ server.registerTool(
       wait_for_completion: z.boolean().default(true).optional(),
       timeout_sec: z.number().int().min(5).max(600).default(120).optional(),
       poll_interval_ms: z.number().int().min(300).max(10000).default(1200).optional(),
-      disable_caching: z.boolean().default(false).optional(),
-      personalization_enabled: z.boolean().default(false).optional(),
-      article_type: z.string().default("Ask OpenEvidence Light with citations").optional(),
-      variant_configuration_file: z.string().default("prod").optional(),
     }),
   },
   async (args) =>
@@ -202,10 +210,6 @@ server.registerTool(
       const askPayload: OpenEvidenceAskRequest = {
         question: args.question,
         originalArticleId: args.original_article_id,
-        disableCaching: args.disable_caching ?? false,
-        personalizationEnabled: args.personalization_enabled ?? false,
-        articleType: args.article_type,
-        variantConfigurationFile: args.variant_configuration_file,
       };
 
       const created = await client.ask(askPayload);
@@ -223,7 +227,7 @@ server.registerTool(
         });
       }
 
-      const article = await client.waitForArticle(articleId, {
+      const { article, timedOut } = await client.waitForArticle(articleId, {
         timeoutMs: (args.timeout_sec ?? 120) * 1000,
         intervalMs: args.poll_interval_ms ?? config.pollIntervalMs,
       });
@@ -232,7 +236,53 @@ server.registerTool(
         created: sanitizeCreatedArticle(created),
         ...omitRawArticle(normalizeArticleResult(article)),
         article_id: articleId,
+        timed_out: timedOut,
         extracted_answer_raw: extractAnswerText(article),
+      });
+    }),
+);
+
+server.registerTool(
+  "oe_citations_get",
+  {
+    title: "OpenEvidence Citations Get",
+    description:
+      "Extract structured citations from a completed OpenEvidence article and return them as JSON and BibTeX. Use after oe_article_get/oe_article_wait when the user needs references for a bibliography or citation manager. Inputs: article_id UUID, optional validate_crossref=false (when true, entries with a DOI are enriched with Crossref metadata over the network, best-effort). Requires authenticated session. No side effects.",
+    annotations: {
+      readOnlyHint: true,
+      idempotentHint: true,
+    },
+    inputSchema: z.object({
+      article_id: z.string().uuid(),
+      validate_crossref: z.boolean().default(false).optional(),
+    }),
+  },
+  async (args) =>
+    withClient(async (client) => {
+      const article = await client.getArticle(args.article_id);
+      const normalized = normalizeArticleResult(article);
+      if (normalized.citations.length === 0) {
+        return ok({
+          article_id: normalized.article_id,
+          status: normalized.status,
+          is_complete: normalized.is_complete,
+          citations: [],
+          bibtex: "",
+          note: normalized.is_complete
+            ? "The article answer contains no extractable citations."
+            : "The article is not complete yet. Wait for completion, then retry.",
+        });
+      }
+      const result = await citationsToBibtex(normalized.citations, {
+        validateCrossref: args.validate_crossref ?? false,
+      });
+      return ok({
+        article_id: normalized.article_id,
+        status: normalized.status,
+        is_complete: normalized.is_complete,
+        citations: normalized.citations,
+        bibtex_entries: result.entries,
+        bibtex: result.bibtex,
       });
     }),
 );
@@ -243,14 +293,17 @@ async function withClient(
     isError?: boolean;
     structuredContent?: Record<string, unknown>;
   }>,
+  options: { requireAuth?: boolean } = {},
 ) {
   try {
     const client = await getSharedClient();
-    const auth = await client.getAuthStatus();
-    if (!auth.authenticated) {
-      return fail(
-        `Session is not authenticated (status ${auth.statusCode}). Run: npm run login:session`,
-      );
+    if (options.requireAuth ?? true) {
+      const auth = await client.getAuthStatus();
+      if (!auth.authenticated) {
+        return fail(
+          `Session is not authenticated (status ${auth.statusCode}). Run: npm run login:session`,
+        );
+      }
     }
     return await fn(client);
   } catch (error) {

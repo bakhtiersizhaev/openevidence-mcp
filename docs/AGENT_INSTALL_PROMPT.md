@@ -36,25 +36,35 @@ Steps to execute:
      `git checkout main` (and run `git pull` to fetch the latest changes).
 
 3. Dependencies & Build:
-   - Run `npm ci` to install packages cleanly.
+   - Run `npm ci` to install packages cleanly (this also compiles TypeScript to `dist/server.js` via the `prepare` script).
    - Run `npx playwright install chromium` to ensure local browser drivers are ready.
-   - Run `npm test` and `npm run build` to compile the TypeScript server to `dist/server.js`.
-   - Run `npm run check` and moderate-level audits to ensure compilation and dependency health.
+   - Run `npm test` to verify the test suite passes (20 tests expected).
+   - If `dist/server.js` is missing, run `npm run build` explicitly.
 
 4. Client Configuration (Auto-Configure MCP):
-   - Locate and edit the appropriate configuration file for the host environment:
-     * Claude Desktop App (macOS): `~/Library/Application Support/Claude/claude_desktop_config.json`
-     * Claude Desktop App (Windows): `%APPDATA%\Claude\claude_desktop_config.json`
-     * Codex / Antigravity: `~/.codex/config.toml` (add under `[mcp_servers.openevidence]`)
-     * Other agents (e.g. Cursor / Cline): Provide a clear, easy-to-read copyable code card so the user can easily paste the configuration manually in their GUI settings if needed.
-   - Use the absolute path to `dist/server.js` and specify `node` as the executable command. Example configuration:
-     "openevidence": {
-       "command": "node",
-       "args": ["<absolute-path-to-openevidence-mcp>/dist/server.js"],
-       "env": {
-         "OE_MCP_BROWSER": "chrome" (or "edge" on Windows if Chrome has active profile locks)
+   - First, identify which AI client you (the agent) are running inside right now, and configure that client.
+   - Prefer the built-in installer CLI. It edits/backs up config files safely and prints a diff. From the repo root, run the command matching the client:
+     * Claude Code (CLI):        `node dist/server.js install --client claude-code`
+     * Codex CLI:                `node dist/server.js install --client codex-cli`
+     * Claude Desktop App:       `node dist/server.js install --client claude-app`
+     * Codex Desktop App:        `node dist/server.js install --client codex-app`
+     * Google Antigravity:       `node dist/server.js install --client antigravity`
+     * Cursor:                   `node dist/server.js install --client cursor`
+     * Windsurf:                 `node dist/server.js install --client windsurf`
+   - To preview changes without writing anything, use `show-config` instead of `install`, e.g. `node dist/server.js show-config --client antigravity`.
+   - OpenCode is not yet supported by the installer CLI. For OpenCode, merge this entry into the active OpenCode JSON config (project `opencode.json` / `.opencode.json` or the user-level OpenCode config), preserving all existing `mcpServers`:
+     {
+       "mcpServers": {
+         "openevidence": {
+           "type": "stdio",
+           "command": "node",
+           "args": ["<absolute-path-to-openevidence-mcp>/dist/server.js"],
+           "env": []
+         }
        }
      }
+   - For any other agent (e.g. Cline), provide a clear, copyable config card using `node` as the command and the absolute path to `dist/server.js` as the single argument.
+   - Optional env var if the default browser detection needs an override: `OE_MCP_BROWSER=chrome` (or `edge` on Windows if Chrome has active profile locks).
 
 5. Guide One-Time Browser Login:
    - Launch the login session helper by running:
@@ -65,7 +75,7 @@ Steps to execute:
 
 6. Smoke Test & Validation:
    - Run `npm run smoke` (or with environment variables matching the selected browser) to confirm that the server can securely access the local profile and verify authorization.
-   - Print a clean success message confirming the setup is complete, and advise me to restart my AI/MCP client so the new tools (`oe_auth_status`, `oe_history_list`, `oe_article_get`, `oe_ask`, `oe_article_wait`) are activated.
+   - Print a clean success message confirming the setup is complete, and advise me to restart my AI/MCP client so the new tools (`oe_auth_status`, `oe_history_list`, `oe_article_get`, `oe_ask`, `oe_article_wait`, `oe_citations_get`) are activated.
    - Remind me that for long clinical questions, I can ask them in a non-blocking mode (`oe_ask` with `wait_for_completion=false`), and you will automatically poll for completion using `oe_article_wait` behind the scenes.
 ```
 

@@ -31,9 +31,9 @@ Verify local prerequisites: Node.js 20+, npm, git, and Playwright Chromium. Clon
 
 Configure the MCP server with command "node" and args pointing to the absolute path of dist/server.js. Keep the server local and do not expose it over a public network.
 
-Guide me through OpenEvidence login with my own account. First try npm run login. If Google says "This browser or app may not be secure", stop that flow and run npm run login:browser instead. I will complete login in the opened browser window and then press Enter in the terminal.
+Guide me through OpenEvidence login with my own account using `npm run login:session`. I will complete login in the opened Chrome/Edge window, close that browser window after OpenEvidence loads, then press Enter in the terminal.
 
-Do not ask for or expose my password, cookies, tokens, storage-state files, screenshots with private account data, patient-identifiable information, or account identifiers. Do not bypass OpenEvidence, Google, institutional, regional, or account access controls.
+Do not ask for or expose my password, cookies, tokens, browser profile files, storage-state files, screenshots with private account data, patient-identifiable information, or account identifiers. Do not bypass OpenEvidence, Google, institutional, regional, or account access controls.
 
 After login, run npm run smoke. If smoke returns ok: true and authenticated: true, show me the final MCP config and tell me to restart my AI agent / MCP client so the OpenEvidence tools become available.
 ```
@@ -156,29 +156,16 @@ Ask user to run:
 
 ```bash
 cd /ABSOLUTE/PATH/openevidence-mcp
-npm run login
+npm run login:session
 ```
 
 Human actions:
-- complete OpenEvidence login in browser
+- complete OpenEvidence login in the opened Chrome/Edge window
+- close that browser window after OpenEvidence loads
 - return to terminal
 - press Enter
 
-If Google sign-in reports "This browser or app may not be secure", stop the Playwright login flow and run:
-
-```bash
-cd /ABSOLUTE/PATH/openevidence-mcp
-npm run login:browser
-```
-
-This launches system Chrome/Edge with a local profile, waits for the human to complete login, then captures and verifies local session state. Do not suggest stealth/evasion flags or any access-control bypass.
-
-Alternative import flow:
-
-```bash
-cd /ABSOLUTE/PATH/openevidence-mcp
-npm run login -- --import /path/to/storage-state.json
-```
+This uses a dedicated local OpenEvidence MCP browser profile. Do not suggest cookie copying, browser profile export, stealth/evasion flags, or any access-control bypass.
 
 ## Step 5: Validate
 
@@ -198,16 +185,17 @@ Then MCP-side checks:
 - `oe_article_get` when an article ID is available
 - `oe_ask` with `wait_for_completion=false` for long questions
 - `oe_article_wait` with the returned `article_id`
+- `oe_citations_get` when citations or BibTeX are needed
 
 Agent workflow notes:
 - Use `oe_auth_status` before other tools when auth state is unknown.
 - Use `original_article_id` only for true follow-up continuity; omit it for fresh questions.
 - Treat OpenEvidence output as evidence-research context, not medical advice, diagnosis, or clinical orders.
-- Never expose cookies, storage-state files, tokens, account identifiers, screenshots with private data, or patient-identifiable information.
+- Never expose cookies, browser profile files, storage-state files, tokens, account identifiers, screenshots with private data, or patient-identifiable information.
 
 ## Step 6: Recovery Paths
 
-- If `oe_auth_status` is unauthenticated: rerun `npm run login`
+- If `oe_auth_status` is unauthenticated: rerun `npm run login:session`
 - If MCP tool not visible: restart client session/app
 - If dependencies break: rerun setup script
 

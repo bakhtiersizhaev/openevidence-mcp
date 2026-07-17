@@ -6,22 +6,29 @@
     "url": "https://github.com/bakhtiersizhaev/openevidence-mcp",
     "source": "github"
   },
-  "version": "0.2.1",
+  "version": "0.3.0",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "openevidence-mcp",
-      "version": "0.2.1",
+      "version": "0.3.0",
       "transport": {
         "type": "stdio"
       },
       "environmentVariables": [
         {
-          "description": "Your API key for the service",
-          "isRequired": true,
+          "description": "Set to 0 to run the browser window visibly instead of headless",
+          "isRequired": false,
           "format": "string",
-          "isSecret": true,
-          "name": "YOUR_API_KEY"
+          "isSecret": false,
+          "name": "OE_MCP_BROWSER_HEADLESS"
+        },
+        {
+          "description": "Override the root directory for the local browser profile (default ~/.openevidence-mcp)",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false,
+          "name": "OE_MCP_ROOT_DIR"
         }
       ]
     }

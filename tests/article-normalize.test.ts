@@ -6,6 +6,7 @@ import {
   getArticleStatusInfo,
   normalizeArticleResult,
   formatCitations,
+  renderReactComponents,
 } from "../src/article.js";
 
 test("extractAnswerText prefers current article output over history fallback", () => {
@@ -120,6 +121,77 @@ test("normalizeArticleResult exposes stable fields without hiding raw article", 
   assert.equal(normalized.answer_text, "Synthetic answer.");
   assert.equal(normalized.answer_source, "article.output.text");
   assert.equal(normalized.article, article);
+});
+
+test("renderReactComponents strips InlineGenerationStep progress blocks", () => {
+  const raw =
+    'REACTCOMPONENT!:!InlineGenerationStep!:!{"steps": [{"kind": "reasoning", "label": "Analyzed query", "active": false, "children": [], "paragraph_index": 0, "metadata": {}}], "done": true, "summary": "Analyzed query, searched for evidence"}\n\nSGLT2 inhibitors reduce kidney failure risk.';
+
+  const cleaned = renderReactComponents(raw);
+
+  assert.equal(cleaned.includes("REACTCOMPONENT"), false);
+  assert.equal(cleaned.includes("InlineGenerationStep"), false);
+  assert.match(cleaned, /^SGLT2 inhibitors reduce kidney failure risk\./);
+});
+
+test("renderReactComponents converts PublicationFigure to markdown image", () => {
+  const raw =
+    'Consistency across eGFR categories:\n\nREACTCOMPONENT!:!PublicationFigure!:!{"media_type": "figure", "url": "https://example.com/fig1.jpg", "name": "Figure 1", "caption": "Effects of SGLT2 Inhibitors on CKD Progression", "display_caption": null, "rich_citation_data": {"title": "Nested {braces} inside", "doi": "10.1001/jama.2025.20834"}}\n\nNext paragraph.';
+
+  const cleaned = renderReactComponents(raw);
+
+  assert.equal(cleaned.includes("REACTCOMPONENT"), false);
+  assert.match(cleaned, /!\[Effects of SGLT2 Inhibitors on CKD Progression\]\(https:\/\/example\.com\/fig1\.jpg\)/);
+  assert.match(cleaned, /Next paragraph\./);
+});
+
+test("renderReactComponents converts PublicationQuotation to blockquote", () => {
+  const raw =
+    'Evidence summary:\n\nREACTCOMPONENT!:!PublicationQuotation!:!{"text": "SGLT2 inhibitors were found to lower the risk of CKD progression.", "full_author_list": ["Brendon L. Neuen, PhD"]}\n\nEnd.';
+
+  const cleaned = renderReactComponents(raw);
+
+  assert.equal(cleaned.includes("REACTCOMPONENT"), false);
+  assert.match(cleaned, /> SGLT2 inhibitors were found to lower the risk of CKD progression\./);
+  assert.match(cleaned, /End\./);
+});
+
+test("renderReactComponents drops unknown component types and malformed JSON safely", () => {
+  const unknown =
+    'Before.\n\nREACTCOMPONENT!:!FutureWidget!:!{"some": {"nested": "payload"}}\n\nAfter.';
+  const cleanedUnknown = renderReactComponents(unknown);
+  assert.equal(cleanedUnknown.includes("REACTCOMPONENT"), false);
+  assert.match(cleanedUnknown, /Before\./);
+  assert.match(cleanedUnknown, /After\./);
+
+  const malformed = 'Before.\n\nREACTCOMPONENT!:!InlineGenerationStep!:!{"broken": tru\n\nAfter.';
+  const cleanedMalformed = renderReactComponents(malformed);
+  assert.equal(cleanedMalformed.includes("REACTCOMPONENT"), false);
+  assert.match(cleanedMalformed, /Before\./);
+  assert.match(cleanedMalformed, /After\./);
+});
+
+test("renderReactComponents leaves plain text untouched", () => {
+  const raw = "Plain answer with [1] citation markers and **bold** text.";
+  assert.equal(renderReactComponents(raw), raw);
+});
+
+test("normalizeArticleResult strips REACTCOMPONENT blocks from answer_text", () => {
+  const article = {
+    id: "00000000-0000-4000-8000-000000000005",
+    status: "success",
+    output: {
+      text:
+        'REACTCOMPONENT!:!InlineGenerationStep!:!{"steps": [], "done": true, "summary": "Analyzed query"}\n\nReal answer body.[[[$$$FDA. <a href="https://example.com/drug">Drug Label</a>. 2025.$$$]]]',
+    },
+  };
+
+  const normalized = normalizeArticleResult(article);
+
+  assert.equal(normalized.answer_text?.includes("REACTCOMPONENT"), false);
+  assert.match(normalized.answer_text ?? "", /^Real answer body\./);
+  assert.match(normalized.answer_text ?? "", /### References/);
+  assert.equal(normalized.citations.length, 1);
 });
 
 test("formatCitations cleans up raw OpenEvidence formatting and builds bibliography", () => {
