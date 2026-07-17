@@ -24,6 +24,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Removed legacy `npm run login`, `npm run login:browser`, and storage-state import flows from the package scripts and user docs.
 - Removed unused legacy login entrypoints and local marketing/scratch artifacts from the repository.
 
+### Fixed
+- Browser launch now drives Chrome's modern headless mode via an explicit `--headless=new` flag instead of the Playwright-injected legacy `--headless`, fixing session-launch failures on Chrome 150+ environments (#23, thanks @itamarlssf-commits).
+
 ## [0.2.1] - 2026-06-01
 
 ### Changed
