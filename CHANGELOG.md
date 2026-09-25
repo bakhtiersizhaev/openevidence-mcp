@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.2.2] - 2026-09-25
+
+### Fixed
+- Removed the unused required `YOUR_API_KEY` secret from MCP Registry metadata (#25).
+- Made the existing test command compatible with Node.js 20 by listing test files explicitly.
+
+### Documentation
+- Clarified browser-session authentication and the absence of an API-key requirement on the website and in setup guidance.
+
+### Release scope
+- Registry metadata release only: `server.json` version is 0.2.2 and still references the existing npm package `openevidence-mcp@0.2.1`.
+- No runtime source, dependency, browser-session, or MCP tool behavior changes. The separate 0.3.0 pull request is not included.
+
 ## [0.2.0] - 2026-05-31
 
 ### Added

@@ -27,3 +27,7 @@ Thumbs.db
 .tmp_bin/
 npm-profile/
 scratch/
+
+# Local release utilities and publisher credentials
+.claude_temp_scripts/
+.mcpregistry_*

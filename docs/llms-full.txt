@@ -1,5 +1,7 @@
 # OpenEvidence MCP - Full Machine Context
 
+No API key is required. Authenticate once with `npm run login:session`; the server reuses your local browser profile. Registry metadata version 0.2.2 continues to use the existing npm package 0.2.1.
+
 Project: OpenEvidence MCP  
 Repository: https://github.com/bakhtiersizhaev/openevidence-mcp  
 License: Apache-2.0 + NOTICE

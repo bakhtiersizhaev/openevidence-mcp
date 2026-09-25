@@ -1,5 +1,7 @@
 # OpenEvidence MCP (Unofficial)
 
+No API key is required. Authenticate once with `npm run login:session`; the server reuses your local browser profile. Registry metadata version 0.2.2 continues to use the existing npm package 0.2.1.
+
 OpenEvidence MCP is an unofficial Model Context Protocol server that connects OpenEvidence to Codex, Claude Code, Claude Desktop, Cursor, Cline, Continue, and other MCP-compatible clients through your own authenticated browser session.
 
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-2d72d9)](https://www.apache.org/licenses/LICENSE-2.0)

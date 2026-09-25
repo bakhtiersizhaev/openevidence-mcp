@@ -1,5 +1,7 @@
 # OpenEvidence MCP
 
+No API key is required. Authenticate once with `npm run login:session`; the server reuses your local browser profile. Registry metadata version 0.2.2 continues to use the existing npm package 0.2.1.
+
 > Unofficial open-source MCP server for OpenEvidence.
 
 Important: this project is not affiliated with OpenEvidence, does not provide medical advice, and does not bypass authentication or access controls. It uses the user's own authenticated browser session.
